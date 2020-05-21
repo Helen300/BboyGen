@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
+import {Link} from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 
@@ -8,26 +9,28 @@ const CustomLayout = (props) => {
 
     <Layout className="layout">
     <Header>
-      <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
+      <div className="logo"
+      style={{ width: '120px', height: '31px', background: 'rgba(255, 255, 255, 0.2)', margin: '16px 24px 16px 0', float: 'left' }}/>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} style={{ float:'left' }}>
+        <Menu.Item key="1">Login</Menu.Item>
+        <Menu.Item key="2">List</Menu.Item>
+        <Menu.Item key="3">Generator</Menu.Item>
       </Menu>
     </Header>
     <Content style={{ padding: '0 50px' }}>
       <Breadcrumb style={{ margin: '16px 0' }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
+        {/* link is like an anchor tag, takes you to defined location'*/}
+        <Breadcrumb.Item><Link to='/'>Home</Link></Breadcrumb.Item>
+        <Breadcrumb.Item><Link>List</Link></Breadcrumb.Item>
+        <Breadcrumb.Item><Link>App</Link></Breadcrumb.Item>
       </Breadcrumb>
-        <div className="site-layout-content">
+        <div className="site-layout-content"
+        style={{ background: '#fff', padding: '24px', minHeight: '280px' }}>
           {props.children}
         </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
   </Layout>
-  
   );
 
 }

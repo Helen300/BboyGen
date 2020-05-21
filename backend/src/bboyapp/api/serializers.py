@@ -5,4 +5,4 @@ from bboyapp.models import Move
 class MoveSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Move
-		fields = ('name')
+		fields = ('id', 'name')
