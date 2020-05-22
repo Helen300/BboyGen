@@ -3,9 +3,16 @@ import { Form, Input, Button} from 'antd';
 
 class CustomForm extends React.Component {
 
+  checkwork(event) {
+    event.preventDefault();
+    console.log('working');
+
+  }
+
   handleFormSubmit = (event) => {
     // so it doesn't submit and reload 
-    event.preventDefault();
+    // event.preventDefault();
+    console.log(event.target.elements.move.value);
     const name = event.target.elements.move.value;
     const type = event.target.elements.type.value;
     console.log('submitting', name, type);
@@ -14,7 +21,7 @@ class CustomForm extends React.Component {
   render () {
     return (
       <div>
-        <Form onSubmit={console.log('submit'), this.handleFormSubmit}>
+        <Form onSubmit={this.checkwork}>
           <Form.Item label="Name of Move">
             <Input name="move" placeholder="Name your move" />
           </Form.Item>
