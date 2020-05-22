@@ -1,7 +1,8 @@
 import React from 'react';
-import Moves from '../components/Move';
 import axios from 'axios';
 
+import Moves from '../components/Move';
+import CustomForm from '../components/Form';
 
 class MoveList extends React.Component {
 
@@ -20,7 +21,13 @@ class MoveList extends React.Component {
 	}
 	render() {
 		return (
-			<Moves data={this.state.moves}/>
+			<div>
+				<Moves data={this.state.moves}/>
+				<br />
+				<h2>Create a Move</h2>
+				<CustomForm />
+			</div>
+
 
 		);
 	}
