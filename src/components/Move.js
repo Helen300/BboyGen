@@ -13,7 +13,7 @@ class Moves extends React.Component {
         <List.Item>
           <List.Item.Meta
             // goes to slash that link 
-            title={<a href={`/${item.id}`}>{item.name}</a>}
+            title={<a href={`/${item.id}/`}>{item.name}</a>}
             description={item.id}
           />
         </List.Item>

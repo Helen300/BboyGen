@@ -11,11 +11,11 @@ class CustomForm extends React.Component {
     console.log(values);
     const move = values['move'];
     const type = values['type'];
-  
-    //  console.log('Move: ', move, 'Type: ', type);
+
+    
     switch ( requestType ) {
       case 'post':
-        return axios.post('http://127.0.0.1:8000/api/', {
+        return axios.post('/api/', {
             name: move, 
         })
         .then(
@@ -24,7 +24,7 @@ class CustomForm extends React.Component {
           )
         .catch(error => console.err(error));
       case 'put':
-        return axios.put(`http://127.0.0.1:8000/api/${moveID}/`, {
+        return axios.put(`/api/${moveID}/`, {
             name: move, 
         })
         .then(res => console.log(res))

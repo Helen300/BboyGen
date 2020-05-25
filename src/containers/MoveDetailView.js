@@ -14,7 +14,7 @@ class MoveDetail extends React.Component {
 	handleDelete = (event) => {
 		const moveID = this.props.match.params.moveID;
 		console.log('deleting move with ID: ', moveID);
-		axios.delete(`http://127.0.0.1:8000/api/${moveID}/`)
+		axios.delete(`/api/${moveID}/`)
 		this.props.history.push('/');
 		// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
 	}
@@ -23,7 +23,7 @@ class MoveDetail extends React.Component {
 	componentDidMount() {
 		const moveID = this.props.match.params.moveID;
 		console.log('moveID', moveID)
-		axios.get(`http://127.0.0.1:8000/api/${moveID}/`)
+		axios.get(`/api/${moveID}/`)
 			.then(res => {
 				this.setState({
 					move: res.data,

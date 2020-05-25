@@ -13,7 +13,7 @@ class MoveList extends React.Component {
 
 	handler(newMoves) {
 		console.log('updating page with new moves');
-		axios.get('http://localhost:8000/api/')
+		axios.get('/api/')
 			.then(res => {
 				this.setState({
 					moves: res.data, 
@@ -23,7 +23,7 @@ class MoveList extends React.Component {
 	}
 	// called every time component is remounted 
 	componentDidMount() {
-		axios.get('http://localhost:8000/api/')
+		axios.get('/api/')
 			.then(res => {
 				this.setState({
 					moves: res.data, 
