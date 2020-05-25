@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 {
   "name": "bboyapp",
   "version": "0.1.0",
@@ -41,24 +41,3 @@
     ]
   }
 }
-=======
-{
-  "name": "bboyapp",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "antd": "^3.7.3",
-    "axios": "^0.18.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
-}
->>>>>>> 6eb476b46bc6dde461e59a3e9c2907c87480faa2
