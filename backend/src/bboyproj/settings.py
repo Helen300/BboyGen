@@ -37,12 +37,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django.contrib.sites',
+    'allauth', 
+    'allauth.account',
+    'allauth.socialaccount',
     'corsheaders',
+    # django rest framework auth 
+    # DEMO shows you all urls included and the views that take care of them
+    # if have time go through and see how its actually done 
+    'rest_auth',
+    'rest_auth.registration',
+    
     # django rest framework app 
     'rest_framework',
+    'rest_framework.authtoken',
+    
     'bboyapp',
 
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,9 +145,16 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # this allows any read, write access permission, unrestricted access
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'

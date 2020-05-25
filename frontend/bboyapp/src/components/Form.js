@@ -1,35 +1,53 @@
 import React from 'react';
+import axios from 'axios';
 import { Form, Input, Button} from 'antd';
+
 
 class CustomForm extends React.Component {
 
-  checkwork(event) {
-    event.preventDefault();
-    console.log('working');
 
-  }
-
-  handleFormSubmit = (event) => {
+  onFinish = (values, requestType, moveID, action, moves) => {
     // so it doesn't submit and reload 
-    // event.preventDefault();
-    console.log(event.target.elements.move.value);
-    const name = event.target.elements.move.value;
-    const type = event.target.elements.type.value;
-    console.log('submitting', name, type);
+    console.log(values);
+    const move = values['move'];
+    const type = values['type'];
+    //  console.log('Move: ', move, 'Type: ', type);
+    switch ( requestType ) {
+      case 'post':
+        return axios.post('http://127.0.0.1:8000/api/', {
+            name: move, 
+        })
+        .then(
+          res => console.log(res), 
+          action()
+          )
+        .catch(error => console.err(error));
+      case 'put':
+        return axios.put(`http://127.0.0.1:8000/api/${moveID}/`, {
+            name: move, 
+        })
+        .then(res => console.log(res))
+        .catch(error => console.err(error));
+
+
+    }
   };
 
   render () {
     return (
       <div>
-        <Form onSubmit={this.checkwork}>
-          <Form.Item label="Name of Move">
-            <Input name="move" placeholder="Name your move" />
+      {/* when form is done and gets submitted, onFinish gets called, 
+        passing in the values from the form */}
+        <Form onFinish={(values) => this.onFinish(values, this.props.requestType, this.props.moveID, this.props.action, this.props.moves)}>
+      {/* give form item a name */}
+          <Form.Item name="move" rules={[{ required: true }]} label="Name of Move">
+            <Input placeholder="Name your move" />
           </Form.Item>
-          <Form.Item label="Type of Move">
-            <Input name="type" placeholder="Choose your type of move" />
+          <Form.Item name="type" label="Type of Move">
+            <Input placeholder="Choose your type of move" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">Submit</Button>
+            <Button type="primary" htmlType="submit">{this.props.btnText}</Button>
           </Form.Item>
         </Form>
       </div>

@@ -1,0 +1,3 @@
+actions folder 
+action = something we want to take place, all things that can take place
+defines what actions can take place 
