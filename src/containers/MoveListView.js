@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import Moves from '../components/Move';
+import Moves from '../components/Moves';
 import CustomForm from '../components/Form';
 
 
