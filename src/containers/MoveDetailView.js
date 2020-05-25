@@ -21,7 +21,7 @@ class MoveDetail extends React.Component {
 	componentDidMount() {
 		const moveID = this.props.match.params.moveID;
 		console.log('moveID', moveID)
-		axios.get(`http://127.0.0.1:8000/api/${moveID}`)
+		axios.get(`http://127.0.0.1:8000/api/${moveID}/`)
 			.then(res => {
 				this.setState({
 					move: res.data,
