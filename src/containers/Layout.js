@@ -7,6 +7,7 @@ import * as actions from '../store/actions/auth';
 
 const { Header, Content, Footer } = Layout;
 
+
 class CustomLayout extends React.Component {
   render () {
     return (

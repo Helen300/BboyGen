@@ -11,6 +11,7 @@ class CustomForm extends React.Component {
     console.log(values);
     const move = values['move'];
     const type = values['type'];
+  
     //  console.log('Move: ', move, 'Type: ', type);
     switch ( requestType ) {
       case 'post':

@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { Card, Button } from 'antd';
 
+
+
 class MoveDetail extends React.Component {
 
 	state = {

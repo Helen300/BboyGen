@@ -8,6 +8,7 @@ import * as actions from './store/actions/auth';
 
 import CustomLayout from './containers/Layout';
 
+
 class App extends Component {
 
 	// calls dispatch below whenever rendered 
