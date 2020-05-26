@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Card, Button } from 'antd';
 
 
-
+// Should get rid of this 
 class MoveDetail extends React.Component {
 
 	state = {

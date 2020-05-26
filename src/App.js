@@ -42,6 +42,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		// anonymous function call 
+		// checks if they are logged in or not 
+		// authCheckState = checks if token stored + if past expiration date or not
 		onTryAutoSignup: () => dispatch(actions.authCheckState())
 	}
 }
