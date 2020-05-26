@@ -8,7 +8,6 @@ import CreateMove from '../components/CreateMove';
 
 
 
-
 class MoveList extends React.Component {
 	state = {
 		moves: [],
@@ -55,7 +54,7 @@ class MoveList extends React.Component {
 			<div>
 			<Row>
 		      <Col span={12}>
-		      	<Moves data={this.state.moves} />
+		  		<Moves data={this.state.moves} />
 		      </Col>
 		      <Col span={12}>
 		      	<CreateMove 

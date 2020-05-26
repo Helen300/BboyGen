@@ -1,5 +1,6 @@
 import React from 'react';
-import { List } from 'antd';
+import { List, Card } from 'antd';
+import Move from '../components/Move';
 
 // be wary of ` verus '
 class Moves extends React.Component {
@@ -11,9 +12,9 @@ class Moves extends React.Component {
       dataSource={this.props.data}
       renderItem={item => (
         <List.Item>
-          <List.Item.Meta
+          <Move
             // goes to slash that link 
-            title={<a href={`/moves/${item.id}/`}>{item.name}</a>}
+            move={item}
             //description={item.id}
           />
         </List.Item>
@@ -21,6 +22,7 @@ class Moves extends React.Component {
     />
     );
   }
-}
+} 
+
 
 export default Moves;
