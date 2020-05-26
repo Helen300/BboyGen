@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import { connect } from 'react-redux';
 import Moves from '../components/Moves';
 import CustomForm from '../components/Form';
 
@@ -21,15 +21,23 @@ class MoveList extends React.Component {
 				console.log('printing data', res.data);
 			}) 
 	}
-	// called every time component is remounted 
-	componentDidMount() {
-		axios.get('/api/')
-			.then(res => {
-				this.setState({
-					moves: res.data, 
-				});
-				console.log('printing data', res.data);
-			}) 
+	// when new props arrive, component rerenders
+	componentWillReceiveProps(newProps) {
+		console.log(newProps);
+		if (newProps.token) {
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: newProps.token
+			}
+			axios.get('/api/')
+				.then(res => {
+					this.setState({
+						moves: res.data, 
+					});
+					console.log('printing data', res.data);
+				}) 
+		}
+
 	}
 
 	render() {
@@ -48,4 +56,11 @@ class MoveList extends React.Component {
 
 }
 
-export default MoveList
+const mapStateToProps = state => {
+	return {
+		// whether or not token = null (isAuthenticated = False)
+		token: state.token
+	}
+}
+
+export default connect(mapStateToProps)(MoveList);

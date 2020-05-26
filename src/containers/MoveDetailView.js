@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { Card, Button } from 'antd';
 
 
@@ -11,26 +12,49 @@ class MoveDetail extends React.Component {
 
 	}
 
-	handleDelete = (event) => {
-		const moveID = this.props.match.params.moveID;
-		console.log('deleting move with ID: ', moveID);
-		axios.delete(`/api/${moveID}/`)
-		this.props.history.push('/');
-		// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
+	componentWillReceiveProps(newProps) {
+		console.log(newProps);
+		// get new token 
+		if (newProps.token) {
+			// set Headers
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: newProps.token
+			}
+			const moveID = this.props.match.params.moveID;
+			console.log('moveID', moveID)
+			// create request 
+			axios.get(`/api/${moveID}/`)
+				.then(res => {
+					this.setState({
+						move: res.data,
+						moveID: moveID
+					});
+				}) 
+		}
+
 	}
 
-	// called every time component is remounted 
-	componentDidMount() {
-		const moveID = this.props.match.params.moveID;
-		console.log('moveID', moveID)
-		axios.get(`/api/${moveID}/`)
-			.then(res => {
-				this.setState({
-					move: res.data,
-					moveID: moveID
-				});
-			}) 
+	handleDelete = (event) => {
+		if (this.props.token !== null) {
+			const moveID = this.props.match.params.moveID;
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: this.props.token
+			}
+			console.log('deleting move with ID: ', moveID);
+			axios.delete(`/api/${moveID}/`)
+			this.props.history.push('/');
+
+		}
+		else {
+			// show some message 
+		}
+	
+	// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
 	}
+
+
 
 	render() {
 		return (
@@ -49,4 +73,11 @@ class MoveDetail extends React.Component {
 
 }
 
-export default MoveDetail
+const mapStateToProps = state => {
+	return {
+		// whether or not token = null (isAuthenticated = False)
+		token: state.token
+	}
+}
+
+export default connect(mapStateToProps)(MoveDetail);
