@@ -11,13 +11,14 @@ class Moves extends React.Component {
       itemLayout="horizontal"
       dataSource={this.props.data}
       renderItem={item => (
-        <List.Item>
+  
           <Move
             // goes to slash that link 
             move={item}
             //description={item.id}
           />
-        </List.Item>
+
+   
       )}
     />
     );

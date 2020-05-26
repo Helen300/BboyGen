@@ -6,7 +6,7 @@ import Moves from '../components/Moves';
 import CustomForm from '../components/Form';
 import CreateMove from '../components/CreateMove';
 
-
+// contains List of Moves and Form to add moves 
 
 class MoveList extends React.Component {
 	state = {
@@ -54,6 +54,7 @@ class MoveList extends React.Component {
 			<div>
 			<Row>
 		      <Col span={12}>
+
 		  		<Moves data={this.state.moves} />
 		      </Col>
 		      <Col span={12}>

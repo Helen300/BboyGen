@@ -96,9 +96,17 @@ WSGI_APPLICATION = 'bboyproj.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+     #   'ENGINE': 'django.db.backends.sqlite3',
+      #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #}
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'da9qfomjk63grq',  # *** change the name if you change the db name
+        'USER': 'dmuqranwsnqxst',
+        'PASSWORD': 'a59143b1a8f5053a81ab038a18e3c577718b23c662fa987d214a6691d480269e',
+        'HOST': 'ec2-35-171-31-33.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
