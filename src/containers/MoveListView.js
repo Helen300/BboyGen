@@ -1,8 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Row, Col } from 'antd';
 import Moves from '../components/Moves';
 import CustomForm from '../components/Form';
+import CreateMove from '../components/CreateMove';
+
+
 
 
 class MoveList extends React.Component {
@@ -10,6 +14,12 @@ class MoveList extends React.Component {
 		moves: [],
 	}
 
+	updateMoves(newMoves) {
+		console.log('updating state');
+		this.setState({
+			moves: newMoves,
+		});
+	}
 
 	handler(newMoves) {
 		console.log('updating page with new moves');
@@ -43,13 +53,25 @@ class MoveList extends React.Component {
 	render() {
 		return (
 			<div>
-				<Moves data={this.state.moves}/>
-				<br />
-				<h2>Create a Move</h2>
-				<CustomForm 
-					requestType="post"
-					moveID={null}
-					btnText="Create" moves={this.state.moves} action={this.handler.bind(this)}/>
+			<Row>
+		      <Col span={12}>
+		      	<Moves data={this.state.moves} />
+		      </Col>
+		      <Col span={12}>
+		      	<CreateMove 
+		      		requestType="post" 
+		      		btnText="Create" 
+		      		action={this.updateMoves.bind(this)}
+		      		currMoves ={this.state.moves}
+		      	/>
+		      </Col>
+		    </Row>
+			<br />
+			{/* <h2>Create a Move</h2> */}
+			<CustomForm 
+				requestType="post"
+				moveID={null}
+				btnText="Create" moves={this.state.moves} action={this.handler.bind(this)}/>
 			</div>
 		);
 	}
