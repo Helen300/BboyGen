@@ -58,7 +58,7 @@ export const authLogin = (username, password) => {
 		// an alert that we can look at 
 		dispatch(authStart());
 		// log the user in at this URL
-		axios.post('http://127.0.0.1:8000/rest-auth/login/', {
+		axios.post('/rest-auth/login/', {
 			// the data that gets posted 
 			username: username, 
 			password: password
@@ -91,7 +91,7 @@ export const authSignup = (username, email, password1, password2) => {
 		// an alert that we can look at 
 		dispatch(authStart());
 		// post to this URL 
-		axios.post('http://127.0.0.1:8000/rest-auth/registration/', {
+		axios.post('/rest-auth/registration/', {
 			// the data that gets posted 
 			username: username, 
 			email: email, 
