@@ -1,15 +1,17 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from bboyapp.models import Move 
-from .serializers import MoveSerializer
+from bboyapp.models import Move, UserProfile
+from .serializers import MoveSerializer, UserProfileSerializer
 
 
 class MoveViewSet(viewsets.ModelViewSet):
 	queryset = Move.objects.all()
 	serializer_class = MoveSerializer
 
-
+class UserProfileViewSet(viewsets.ModelViewSet):
+	queryset = UserProfile.objects.all()
+	serializer_class = UserProfileSerializer
 
 
 # from rest_framework.generics import (

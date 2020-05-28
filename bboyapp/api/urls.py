@@ -1,10 +1,11 @@
 from bboyapp.api.views import MoveViewSet
+from bboyapp.api.views import UserProfileViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'', MoveViewSet, basename='moves')
+router.register(r'', UserProfileViewSet, basename='user')
 urlpatterns = router.urls
-print(urlpatterns)
 
 # from django.urls import path
 
