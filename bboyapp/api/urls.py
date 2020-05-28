@@ -3,8 +3,8 @@ from bboyapp.api.views import UserProfileViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'', MoveViewSet, basename='moves')
-router.register(r'', UserProfileViewSet, basename='user')
+router.register(r'moves', MoveViewSet, basename='moves')
+router.register(r'userprofiles', UserProfileViewSet, basename='user')
 urlpatterns = router.urls
 
 # from django.urls import path

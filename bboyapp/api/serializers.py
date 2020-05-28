@@ -10,5 +10,5 @@ class MoveSerializer(serializers.ModelSerializer):
 # from JSON to model 
 class UserProfileSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = UserProfile,
+		model = UserProfile
 		fields = ('username', 'email', 'moves_list')

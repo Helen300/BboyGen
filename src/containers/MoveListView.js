@@ -22,7 +22,7 @@ class MoveList extends React.Component {
 
 	handler(newMoves) {
 		console.log('updating page with new moves');
-		axios.get('/api/')
+		axios.get('/api/moves/')
 			.then(res => {
 				this.setState({
 					moves: res.data, 
@@ -38,11 +38,12 @@ class MoveList extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: newProps.token
 			}
-			axios.get('/api/')
+			axios.get('/api/moves/')
 				.then(res => {
 					this.setState({
 						moves: res.data, 
 					});
+					console.log('getting in list and trying to print');
 					console.log('printing data', res.data);
 				}) 
 		}

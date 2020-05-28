@@ -90,15 +90,7 @@ export const authSignup = (username, email, password1, password2) => {
 	return dispatch => {
 		// an alert that we can look at 
 		dispatch(authStart());
-
-		// create user model in django
-		axios.post('/api/user-list/', {
-			// the data that gets posted 
-			username: username, 
-			email: email,
-			moves_list: []
-		})
-
+	
 		// post to this URL 
 		axios.post('/rest-auth/registration/', {
 			// the data that gets posted 
@@ -119,7 +111,15 @@ export const authSignup = (username, email, password1, password2) => {
 			// successful login
 			dispatch(authSuccess(token));
 			dispatch(checkAuthTimeout(3600))
-
+				// create user model in django
+			console.log(typeof username);
+			console.log(typeof email);
+			axios.post('/api/userprofiles/', {
+				// the data that gets posted 
+				username: username, 
+				email: email,
+				moves_list: [],
+			})
 		})
 		.catch(err => {
 			dispatch(authFail(err))

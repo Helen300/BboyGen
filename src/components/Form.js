@@ -20,7 +20,7 @@ class CustomForm extends React.Component {
 
     switch ( requestType ) {
       case 'post':
-        return axios.post('/api/', {
+        return axios.post('/api/moves/', {
             name: move, 
         })
         .then(
@@ -29,7 +29,7 @@ class CustomForm extends React.Component {
           )
         .catch(error => console.err(error));
       case 'put':
-        return axios.put(`/api/${moveID}/`, {
+        return axios.put(`/api/moves/${moveID}/`, {
             name: move, 
         })
         .then(res => console.log(res))
