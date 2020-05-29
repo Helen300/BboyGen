@@ -33,6 +33,7 @@ class MoveList extends React.Component {
 	// when new props arrive, component rerenders
 	componentWillReceiveProps(newProps) {
 		console.log(newProps);
+		console.log('username$$$$', localStorage.getItem('username'));
 		if (newProps.token) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -83,6 +84,7 @@ const mapStateToProps = state => {
 	return {
 		// whether or not token = null (isAuthenticated = False)
 		token: state.token
+
 	}
 }
 
