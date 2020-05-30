@@ -4,7 +4,7 @@ from django.contrib.postgres.fields import JSONField
 # Create your models here.
 
 class UserProfile(models.Model):
-	username = models.CharField(max_length=50)
+	username = models.CharField(max_length=50, primary_key=True)
 	email = models.CharField(max_length=50)
 	moves_list = JSONField(null=True, blank=True)
 

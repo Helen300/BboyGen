@@ -6,18 +6,38 @@ import Moves from '../components/Moves';
 import CustomForm from '../components/Form';
 import CreateMove from '../components/CreateMove';
 
+import 'antd/dist/antd.css';
+import { Input } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
+const { Search } = Input;
+
 // contains List of Moves and Form to add moves 
 
 class MoveList extends React.Component {
 	state = {
-		moves: [],
+		moves_list: [],
 	}
 
-	updateMoves(newMoves) {
-		console.log('updating state');
+	addMove(newMove) {
+		console.log('updating database and state');
+		var newList = this.state.moves_list.push({
+			"name" : newMove,
+			"description": ""
+		})
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		apiUrl = apiUrl.concat('/update-moves/')
 		this.setState({
-			moves: newMoves,
+			moves_list: newList,
 		});
+		axios.post(apiUrl, {
+              username: localStorage.getItem("username"),
+              moves_list: this.state.moves_list 
+          })
+          .then(
+          res => console.log(res), 
+          )
+          .catch(error => console.err(error));
 	}
 
 	handler(newMoves) {
@@ -25,7 +45,7 @@ class MoveList extends React.Component {
 		axios.get('/api/moves/')
 			.then(res => {
 				this.setState({
-					moves: res.data, 
+					moves_list: res.data, 
 				});
 				console.log('printing data', res.data);
 			}) 
@@ -42,7 +62,7 @@ class MoveList extends React.Component {
 			axios.get('/api/moves/')
 				.then(res => {
 					this.setState({
-						moves: res.data, 
+						moves_list: res.data, 
 					});
 					console.log('getting in list and trying to print');
 					console.log('printing data', res.data);
@@ -53,28 +73,7 @@ class MoveList extends React.Component {
 
 	render() {
 		return (
-			<div>
-			<Row>
-		      <Col span={12}>
-
-		  		<Moves data={this.state.moves} />
-		      </Col>
-		      <Col span={12}>
-		      	<CreateMove 
-		      		requestType="post" 
-		      		btnText="Create" 
-		      		action={this.updateMoves.bind(this)}
-		      		currMoves ={this.state.moves}
-		      	/>
-		      </Col>
-		    </Row>
-			<br />
-			{/* <h2>Create a Move</h2> */}
-			<CustomForm 
-				requestType="post"
-				moveID={null}
-				btnText="Create" moves={this.state.moves} action={this.handler.bind(this)}/>
-			</div>
+			<Search placeholder="Add Move" onSearch={value => this.addMove(value)} enterButton={<PlusOutlined />} />
 		);
 	}
 

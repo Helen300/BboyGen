@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from bboyapp.models import Move, UserProfile
 from .serializers import MoveSerializer, UserProfileSerializer
@@ -13,6 +14,15 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 	queryset = UserProfile.objects.all()
 	serializer_class = UserProfileSerializer
 
+	@action(methods=['post'], detail=True, url_path='update-moves', url_name='update_moves')
+	def updateMoves(self, request, *args, **kwargs):
+		print("$$$$")
+		print(request.data)
+		print("$$$$")
+		current_user = UserProfile.objects.get(pk=request.data.get("username"))
+		current_user.moves_list = request.data.get("moves_list")
+		current_user.save()
+		return Response()
 
 # from rest_framework.generics import (
 # 	ListAPIView, 
