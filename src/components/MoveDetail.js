@@ -15,7 +15,9 @@ class MoveDetail extends React.Component {
 	componentWillReceiveProps(newProps) {
 		console.log(newProps);
 		// get new token 
-		if (newProps.token) {
+		// comment out this block for now, its broken
+		if (false) {
+//		if (newProps.token) {
 			// set Headers
 			axios.defaults.headers = {
 				"Content-Type": "application/json",

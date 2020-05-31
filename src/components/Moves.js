@@ -17,8 +17,6 @@ class Moves extends React.Component {
             move={item}
             //description={item.id}
           />
-
-   
       )}
     />
     );
