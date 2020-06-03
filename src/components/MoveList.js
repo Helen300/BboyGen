@@ -68,6 +68,7 @@ class MoveList extends React.Component {
 				   
 				    <Option value="toprock">Toprock</Option>
 				    <Option value="footwork">Footwork</Option>
+				    <Option value="freezes">Freezes</Option>
 				    <Option value="power">Power</Option>
 				  </Select>
 

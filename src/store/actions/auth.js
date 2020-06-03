@@ -92,7 +92,7 @@ export const authSignup = (username, email, password1, password2) => {
 	return dispatch => {
 		// an alert that we can look at 
 		dispatch(authStart());
-	
+
 		// post to this URL 
 		axios.post('/rest-auth/registration/', {
 			// the data that gets posted 

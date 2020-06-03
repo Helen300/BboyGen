@@ -17,11 +17,14 @@ const { TabPane } = Tabs;
 class MoveListView extends React.Component {
 	state = {
 		moves_list: [],
+		filtered_moves:[], 
 		selected_move: null,
-		selected_move_idx: -1
+		selected_move_idx: -1,
+		current_tab: 1,
 	}
 
 	addMove(newMove, type) {
+		console.log('current tab is : ', this.state.current_tab);
 		console.log(type);
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
@@ -32,14 +35,17 @@ class MoveListView extends React.Component {
 			apiUrl = apiUrl.concat('/update-moves/')
 			var newList = this.state.moves_list.concat([{
 						"name" : newMove,
-						"description": ""
+						"description": "",
+						"type" : type,
 					}])
 			this.setState({ 
-				moves_list: newList
+				moves_list: newList,
+			
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              moves_list: newList
+	              moves_list: newList,
+	
 	          })
 	          .then(res => {
 	          })
@@ -79,7 +85,7 @@ class MoveListView extends React.Component {
 
 	select_move = (move_idx) => {
 		this.setState({ 
-			selected_move: this.state.moves_list[move_idx],
+			selected_move: this.state.filtered_moves[move_idx],
 			selected_move_idx: move_idx
 		})
 	}
@@ -130,7 +136,8 @@ class MoveListView extends React.Component {
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					moves_list: res.data.moves_list
+					moves_list: res.data.moves_list,
+					filtered_moves: res.data.moves_list, 
 				});
 			})
 	        .catch(error => console.error(error));
@@ -138,9 +145,52 @@ class MoveListView extends React.Component {
 
 	}
 
+
+	tabsChange = (key) => {
+
+		console.log('key: ', key, typeof key);
+		const checkType = (key) => {
+
+			switch ( key ) {
+      		case '2':
+      			return 'toprock'
+      		case '3':
+      			return 'footwork'
+      		case '4':
+      			return'freezes'
+      		case '5':
+      			return 'power'
+      		}	
+		}
+
+
+		const filterType = (item) => {
+
+			const type = checkType(key);
+			console.log('type: ', type);
+			console.log('type to check filtering for ', type);
+			return item.type == type;
+
+		}
+		var filtered_moves = this.state.moves_list
+		if (key != '1') {
+			console.log('other', key);
+			filtered_moves = this.state.moves_list.filter(filterType);
+		}
+		
+		console.log(filtered_moves);
+		this.setState({
+			filtered_moves: filtered_moves, 
+			selected_move: null,
+			selected_move_idx: -1,
+			current_tab: key,
+		});
+
+	}
+
 	render() {
 		return (
-			<Tabs defaultActiveKey="1" onChange={console.log(this.key)}>
+			<Tabs defaultActiveKey="1" onChange={(key) => this.tabsChange(key)}>
 				<TabPane tab="All" key="1">
 		  			<Row>
 		  			<Col span={8}>
@@ -165,7 +215,7 @@ class MoveListView extends React.Component {
 			  			<MoveList 
 					    	addMove={this.addMove.bind(this)} 
 					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
+					    	moves_list={this.state.filtered_moves} 
 					    	select_move={this.select_move.bind(this)}
 				    	/>
 				    </Col>
@@ -184,7 +234,7 @@ class MoveListView extends React.Component {
 			  			<MoveList 
 					    	addMove={this.addMove.bind(this)} 
 					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
+					    	moves_list={this.state.filtered_moves} 
 					    	select_move={this.select_move.bind(this)}
 				    	/>
 				    </Col>
@@ -197,13 +247,32 @@ class MoveListView extends React.Component {
 			    	</Row>
 			 	</TabPane>
 
-		  		<TabPane tab="Power" key="4">
+			 	<TabPane tab="Freezes" key="4">
 		  			<Row>
 		  			<Col span={8}>
 			  			<MoveList 
 					    	addMove={this.addMove.bind(this)} 
 					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
+					    	moves_list={this.state.filtered_moves} 
+					    	select_move={this.select_move.bind(this)}
+				    	/>
+				    </Col>
+				   	<Col span={16}>
+					   	<MoveDetail 
+					    	move={this.state.selected_move} 
+					    	updateDescription={this.updateDescription.bind(this)}
+				    	/>
+			    	</Col>
+			    	</Row>
+			 	</TabPane>
+
+		  		<TabPane tab="Power" key="5">
+		  			<Row>
+		  			<Col span={8}>
+			  			<MoveList 
+					    	addMove={this.addMove.bind(this)} 
+					    	deleteMove={this.deleteMove.bind(this)} 
+					    	moves_list={this.state.filtered_moves} 
 					    	select_move={this.select_move.bind(this)}
 				    	/>
 				    </Col>
