@@ -82,7 +82,9 @@ class MoveListView extends React.Component {
 
 	updateDescription() {
 		var new_description = $("#move-description").val()
+		console.info("^^^^")
 		console.info(new_description)
+		console.info("^^^^")
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -93,6 +95,10 @@ class MoveListView extends React.Component {
 			// make copy of array
 			var newList = this.state.moves_list.slice()
 			newList[this.state.selected_move_idx].description = new_description
+			this.setState({
+				moves_list: newList,
+				selected_move: newList[this.state.selected_move_idx]
+			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
 	              moves_list: newList

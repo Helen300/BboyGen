@@ -17,12 +17,15 @@ class MoveDetail extends React.Component {
 				</div>
 			);
 		} else {
+			console.info("####")
+			console.info(this.props.move.description)
+			console.info("####")
 			return (
 				// since we need to return one div
 				<div>
 				<TextArea id="move-description" 
 						  rows={4} 
-						  defaultValue={this.props.move.description} 
+						  value={this.props.move.description} 
 						  onChange={() => this.props.updateDescription()}
 			    />
 				</div>
