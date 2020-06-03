@@ -8,7 +8,7 @@ class Move extends React.Component {
 
   render() {
     return(
-		<Card hoverable style={{ width: 240 }}>
+		<Card hoverable style={{ width: 240 }} onClick={() => this.props.select_move(this.props.move_idx)}>
 	    <Meta title={<div>{this.props.move.name} <CloseOutlined onClick={() => this.props.handle_delete(this.props.move_idx)}/></div>} />
 	  	</Card> 
  	)}

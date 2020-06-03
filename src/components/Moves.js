@@ -17,6 +17,7 @@ class Moves extends React.Component {
             move={item}
             move_idx={idx}
             handle_delete={this.props.handle_delete}
+            select_move={this.props.select_move}
             //description={item.id}
           />
       )}
