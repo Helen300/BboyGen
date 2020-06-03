@@ -1,15 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
 
 import $ from 'jquery';
 
 import 'antd/dist/antd.css';
-import { Input } from 'antd';
+import { Row, Col } from 'antd';
+import { Tabs } from 'antd';
+// import { Input } from 'antd';
 // contains List of Moves and Form to add moves 
+
+const { TabPane } = Tabs;
 
 class MoveListView extends React.Component {
 	state = {
@@ -18,7 +21,8 @@ class MoveListView extends React.Component {
 		selected_move_idx: -1
 	}
 
-	addMove(newMove) {
+	addMove(newMove, type) {
+		console.log(type);
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -136,24 +140,83 @@ class MoveListView extends React.Component {
 
 	render() {
 		return (
-			<table>
-			  <tr>
-			    <td>
-			    	<MoveList 
-				    	addMove={this.addMove.bind(this)} 
-				    	deleteMove={this.deleteMove.bind(this)} 
-				    	moves_list={this.state.moves_list} 
-				    	select_move={this.select_move.bind(this)}
-			    	/>
-			    </td>
-			    <td>
-			    	<MoveDetail 
-				    	move={this.state.selected_move} 
-				    	updateDescription={this.updateDescription.bind(this)}
-			    	/>
-			    </td>
-			  </tr>
-			</table>
+			<Tabs defaultActiveKey="1" onChange={console.log(this.key)}>
+				<TabPane tab="All" key="1">
+		  			<Row>
+		  			<Col span={8}>
+			  			<MoveList 
+					    	addMove={this.addMove.bind(this)} 
+					    	deleteMove={this.deleteMove.bind(this)} 
+					    	moves_list={this.state.moves_list} 
+					    	select_move={this.select_move.bind(this)}
+				    	/>
+				    </Col>
+				   	<Col span={16}>
+					   	<MoveDetail 
+					    	move={this.state.selected_move} 
+					    	updateDescription={this.updateDescription.bind(this)}
+				    	/>
+			    	</Col>
+			    	</Row>
+			 	</TabPane>
+		  		<TabPane tab="Toprock" key="2">
+		  			<Row>
+		  			<Col span={8}>
+			  			<MoveList 
+					    	addMove={this.addMove.bind(this)} 
+					    	deleteMove={this.deleteMove.bind(this)} 
+					    	moves_list={this.state.moves_list} 
+					    	select_move={this.select_move.bind(this)}
+				    	/>
+				    </Col>
+				   	<Col span={16}>
+					   	<MoveDetail 
+					    	move={this.state.selected_move} 
+					    	updateDescription={this.updateDescription.bind(this)}
+				    	/>
+			    	</Col>
+			    	</Row>
+			 	</TabPane>
+
+		  		<TabPane tab="Footwork" key="3">
+		  			<Row>
+		  			<Col span={8}>
+			  			<MoveList 
+					    	addMove={this.addMove.bind(this)} 
+					    	deleteMove={this.deleteMove.bind(this)} 
+					    	moves_list={this.state.moves_list} 
+					    	select_move={this.select_move.bind(this)}
+				    	/>
+				    </Col>
+				   	<Col span={16}>
+					   	<MoveDetail 
+					    	move={this.state.selected_move} 
+					    	updateDescription={this.updateDescription.bind(this)}
+				    	/>
+			    	</Col>
+			    	</Row>
+			 	</TabPane>
+
+		  		<TabPane tab="Power" key="4">
+		  			<Row>
+		  			<Col span={8}>
+			  			<MoveList 
+					    	addMove={this.addMove.bind(this)} 
+					    	deleteMove={this.deleteMove.bind(this)} 
+					    	moves_list={this.state.moves_list} 
+					    	select_move={this.select_move.bind(this)}
+				    	/>
+				    </Col>
+				   	<Col span={16}>
+					   	<MoveDetail 
+					    	move={this.state.selected_move} 
+					    	updateDescription={this.updateDescription.bind(this)}
+				    	/>
+			    	</Col>
+			    	</Row>
+			 	</TabPane>
+			</Tabs>
+
 		);
 	}
 

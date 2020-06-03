@@ -1,12 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { Card, Button } from 'antd';
 import { Input } from 'antd';
 
 const { TextArea } = Input;
 
-// Should get rid of this 
+
+// for all moves, there exists one moveDetail div that gets updated 
 class MoveDetail extends React.Component {
 
 	render() {
@@ -23,6 +22,7 @@ class MoveDetail extends React.Component {
 			return (
 				// since we need to return one div
 				<div>
+				<div style={{ backgroundColor: "#df7366", color: "white",  width:100, padding: 7}}>{this.props.move.name}</div>
 				<TextArea id="move-description" 
 						  rows={4} 
 						  value={this.props.move.description} 

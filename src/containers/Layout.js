@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
