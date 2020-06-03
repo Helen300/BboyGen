@@ -68,7 +68,7 @@ export const authLogin = (username, password) => {
 		.then(res => {
 			// we get a key back 
 			const token = res.data.key;
-			const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+			const expirationDate = new Date(new Date().getTime() + 3600 * 24000);
 			// these are packages in the browser already 
 			// can't just store it in the application, must store it in something that persists
 			localStorage.setItem('token', token);
@@ -105,7 +105,7 @@ export const authSignup = (username, email, password1, password2) => {
 		.then(res => {
 			// we get a key back 
 			const token = res.data.key;
-			const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+			const expirationDate = new Date(new Date().getTime() + 3600 * 24000);
 			// these are packages in the browser already 
 			// can't just store it in the application, must store it in something that persists
 			localStorage.setItem('token', token);
@@ -146,7 +146,7 @@ export const authCheckState = () => {
 			}
 			else {
 				dispatch(authSuccess(token));
-				dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+				dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 24000));
 			}
 		}
 	}
