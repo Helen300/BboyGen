@@ -14,25 +14,34 @@ class CustomLayout extends React.Component {
 
       <Layout className="layout">
       <Header>
-        <div className="logo"
-        style={{ width: '120px', height: '31px', background: 'rgba(255, 255, 255, 0.2)', margin: '16px 24px 16px 0', float: 'left' }}/>
+      
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} style={{ float:'left' }}>
-         {
+        {
             // if authenticated = true we show logout 
             this.props.isAuthenticated ? 
-
-             <Menu.Item key="1" onClick={this.props.logout}>
-              Logout
+            <Menu.Item key="0" disabled style={{color:"white"}}>
+              Hello, {localStorage.getItem('username')}
             </Menu.Item>
-
             :
+            null
+        }
 
-            // else not authenticated 
+       {
+          // if authenticated = true we show logout 
+          this.props.isAuthenticated ? 
 
-            <Menu.Item key="1">
-              <Link to="/login/">Login</Link>
-            </Menu.Item>
-         }
+           <Menu.Item key="1" onClick={this.props.logout}>
+            Logout
+          </Menu.Item>
+
+          :
+
+          // else not authenticated 
+
+          <Menu.Item key="1">
+            <Link to="/login/">Login</Link>
+          </Menu.Item>
+       }
 
           <Menu.Item key="2"><Link to="/">List</Link></Menu.Item>
           <Menu.Item key="3"><Link to="/">Generator</Link></Menu.Item>
@@ -46,7 +55,7 @@ class CustomLayout extends React.Component {
           <Breadcrumb.Item><Link>App</Link></Breadcrumb.Item>
         </Breadcrumb> */}
           <div className="site-layout-content"
-          style={{ background: '#fff', padding: '24px', minHeight: '280px' }}>
+          style={{ background: '#fff', padding: '24px', minHeight: '50em' }}>
             {/* class based takes this. */}
             {this.props.children}
           </div>

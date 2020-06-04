@@ -13,14 +13,14 @@ import { Tabs } from 'antd';
 // contains List of Moves and Form to add moves 
 
 const { TabPane } = Tabs;
-const tabNames = []
+const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 
 class MoveListView extends React.Component {
 	state = {
 		moves_list: [],
 		selected_move: null,
 		selected_move_idx: -1,
-		current_tab: '1',
+		current_tab: tabNames[0],
 	}
 
 	addMove(newMove, type) {
@@ -55,7 +55,7 @@ class MoveListView extends React.Component {
 	}
 
 	deleteMove = (move_idx) => {
-		console.log('current_tab ', this.state.current_tab);
+		console.log('deleting...');
 		// simply creating headers 
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
@@ -88,6 +88,7 @@ class MoveListView extends React.Component {
 	}
 
 	select_move = (move_idx) => {
+		console.log('selecting');
 		this.setState({ 
 			selected_move: this.state.moves_list[move_idx],
 			selected_move_idx: move_idx
@@ -150,6 +151,7 @@ class MoveListView extends React.Component {
 
 
 	tabsChange = (key) => {
+		console.log('changing tabs to ', key);
 		this.setState({ 
 			selected_move: null,
 			selected_move_idx: -1,
@@ -159,10 +161,10 @@ class MoveListView extends React.Component {
 
 	render() {
 		return (
-			<Tabs defaultActiveKey="1" onChange={(key) => this.tabsChange(key)}>
-				<TabPane tab="All" key="1">
-					<Row>
-		  			<Col span={8}>
+			<Row>
+			<Col span={10}>
+			<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
+				<TabPane tab={tabNames[0]} key={tabNames[0]}>
 			  			<MoveList 
 					    	addMove={this.addMove.bind(this)} 
 					    	deleteMove={this.deleteMove.bind(this)} 
@@ -170,96 +172,56 @@ class MoveListView extends React.Component {
 					    	select_move={this.select_move.bind(this)}
 					    	current_tab={this.state.current_tab}
 				    	/>
-				   </Col>
-				   	<Col span={16}>
-					   	<MoveDetail 
-					    	move={this.state.selected_move} 
-					    	updateDescription={this.updateDescription.bind(this)}
-				    	/>
-			    	</Col>
-			    	</Row>
 			 	</TabPane>
-		  		<TabPane tab="Toprock" key="2">
-		  			<Row>
-		  			<Col span={8}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
-					    	select_move={this.select_move.bind(this)}
-					    	current_tab={this.state.current_tab}
-				    	/>
-				    </Col>
-				   	<Col span={16}>
-					   	<MoveDetail 
-					    	move={this.state.selected_move} 
-					    	updateDescription={this.updateDescription.bind(this)}
-				    	/>
-			    	</Col>
-			    	</Row>
+		  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
+		  			<MoveList 
+				    	addMove={this.addMove.bind(this)} 
+				    	deleteMove={this.deleteMove.bind(this)} 
+				    	moves_list={this.state.moves_list} 
+				    	select_move={this.select_move.bind(this)}
+				    	current_tab={this.state.current_tab}
+			    	/>
 			 	</TabPane>
 
-		  		<TabPane tab="Footwork" key="3">
-		  			<Row>
-		  			<Col span={8}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
-					    	select_move={this.select_move.bind(this)}
-					    	current_tab={this.state.current_tab}
-				    	/>
-				    </Col>
-				   	<Col span={16}>
-					   	<MoveDetail 
-					    	move={this.state.selected_move} 
-					    	updateDescription={this.updateDescription.bind(this)}
-				    	/>
-			    	</Col>
-			    	</Row>
+		  		<TabPane tab={tabNames[2]} key={tabNames[2]}>
+		  			<MoveList 
+				    	addMove={this.addMove.bind(this)} 
+				    	deleteMove={this.deleteMove.bind(this)} 
+				    	moves_list={this.state.moves_list} 
+				    	select_move={this.select_move.bind(this)}
+				    	current_tab={this.state.current_tab}
+			    	/>
 			 	</TabPane>
 
-			 	<TabPane tab="Freezes" key="4">
-		  			<Row>
-		  			<Col span={8}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
-					    	select_move={this.select_move.bind(this)}
-					    	current_tab={this.state.current_tab}
-				    	/>
-				    </Col>
-				   	<Col span={16}>
-					   	<MoveDetail 
-					    	move={this.state.selected_move} 
-					    	updateDescription={this.updateDescription.bind(this)}
-				    	/>
-			    	</Col>
-			    	</Row>
+			 	<TabPane tab={tabNames[3]} key={tabNames[3]}>
+		  			<MoveList 
+				    	addMove={this.addMove.bind(this)} 
+				    	deleteMove={this.deleteMove.bind(this)} 
+				    	moves_list={this.state.moves_list} 
+				    	select_move={this.select_move.bind(this)}
+				    	current_tab={this.state.current_tab}
+			    	/>
 			 	</TabPane>
 
 
-		  		<TabPane tab="Power" key="5">
-		  			<Row>
-		  			<Col span={8}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
-					    	select_move={this.select_move.bind(this)}
-					    	current_tab={this.state.current_tab}
-				    	/>
-				    </Col>
-				   	<Col span={16}>
-					   	<MoveDetail 
-					    	move={this.state.selected_move} 
-					    	updateDescription={this.updateDescription.bind(this)}
-				    	/>
-			    	</Col>
-			    	</Row>
+		  		<TabPane tab={tabNames[4]} key={tabNames[4]}>
+		  			<MoveList 
+				    	addMove={this.addMove.bind(this)} 
+				    	deleteMove={this.deleteMove.bind(this)} 
+				    	moves_list={this.state.moves_list} 
+				    	select_move={this.select_move.bind(this)}
+				    	current_tab={this.state.current_tab}
+			    	/>
 			 	</TabPane>
 			</Tabs>
+			</Col>
+			<Col span={14} style={{marginTop:62}}>
+			   	<MoveDetail 
+			    	move={this.state.selected_move} 
+			    	updateDescription={this.updateDescription.bind(this)}
+		    	/>
+			</Col>
+			</Row>
 
 		);
 	}
