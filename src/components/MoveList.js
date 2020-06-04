@@ -77,6 +77,7 @@ class MoveList extends React.Component {
 				    onFocus={this.onFocus}
 				    onBlur={this.onBlur}
 				    onSearch={this.onSearch}
+				    defaultValue="Toprock"
 				    filterOption={(input, option) =>
 				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 				    }

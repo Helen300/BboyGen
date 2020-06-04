@@ -23,7 +23,7 @@ class MoveDetail extends React.Component {
 				// since we need to return one div
 				<div>
 				<h3> Move Description </h3>
-				<div style={{ backgroundColor: "#df7366", color: "white",  width:100, padding: 7}}>{this.props.move.name}</div>
+				<div style={{ backgroundColor: "#939BCB", color: "white",  width:100, padding: 7}}>{this.props.move.name}</div>
 				<TextArea id="moveDescription" 
 						  rows={4} 
 						  value={this.props.move.description} 

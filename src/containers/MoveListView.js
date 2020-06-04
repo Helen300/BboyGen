@@ -19,6 +19,7 @@ class MoveListView extends React.Component {
 	state = {
 		movesList: [],
 		selectedMove: null,
+		selectedCard: null, 
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
 	}
@@ -70,6 +71,7 @@ class MoveListView extends React.Component {
 			this.setState({ 
 				movesList: newList,
 				selectedMove: null,
+				selectedCard: null,
 				selectedMoveIdx: -1,
 			})
 			axios.post(apiUrl, {
@@ -87,11 +89,23 @@ class MoveListView extends React.Component {
 	// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
 	}
 
-	selectMove = (moveIdx) => {
+	selectMove = (moveIdx, card) => {
+		if (this.state.selectedCard != null) {
+			this.state.selectedCard.setState({
+				isActive: false,
+			}); 
+		}
 		console.log('selecting');
 		this.setState({ 
 			selectedMove: this.state.movesList[moveIdx],
+			selectedCard: card,
 			selectedMoveIdx: moveIdx
+		});
+		console.log('card ', card);
+		console.log('isActive ', card.state.isActive);
+		card.setState({
+			isActive: true,
+
 		})
 	}
 
@@ -151,10 +165,15 @@ class MoveListView extends React.Component {
 
 	tabsChange = (key) => {
 		console.log('changing tabs to ', key);
+		var card = this.state.selectedCard;
 		this.setState({ 
 			selectedMove: null,
+			selectedCard: null,
 			selectedMoveIdx: -1,
 			currentTab: key,
+		})
+		card.setState({
+			isActive: false,
 		})
 	}
 
