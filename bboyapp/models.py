@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import JSONField
 class UserProfile(models.Model):
 	username = models.CharField(max_length=50, primary_key=True)
 	email = models.CharField(max_length=50)
-	moves_list = JSONField(null=True, blank=True)
+	movesList = JSONField(null=True, blank=True)
 
 class Move(models.Model):
 	name = models.CharField(max_length=100)

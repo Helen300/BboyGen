@@ -2,11 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Moves from './Moves';
 
+import $ from 'jquery';
 
 import 'antd/dist/antd.css';
 import { Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
+import { Alert, Row } from 'antd';
+
 
 const { Search } = Input;
 const { Option } = Select;
@@ -43,18 +46,31 @@ class MoveList extends React.Component {
 	}
 
 	addMove = (value) => {
-		this.props.addMove(value, this.state.type);
+		if (this.state.type == null) {
+			console.log('must select a type of move');
+			return;
+		}
+		console.log('changing to empty string');
+		console.log(document.getElementById('addMoveInput'));
+		document.getElementById('addMoveInput').value = "";
+		$('#addMoveInput').val(null);
+		var selected = this.state.type;
+		console.log(document.getElementById('selectType'));
+		$('#selectType').val(null);
+		document.getElementById('selectType').value = null;
+		this.props.addMove(value, selected);
 	}
 
 
 	render() {
 		return (
 			<div>
-				<Moves data={this.props.moves_list} handle_delete={this.props.deleteMove} select_move={this.props.select_move}/>
-
+				<Moves data={this.props.movesList} currentTab={this.props.currentTab} handleDelete={this.props.deleteMove} selectMove={this.props.selectMove}/>
+				<Row>
 				  <Select
+				  	id="selectType"
 				    showSearch
-				    style={{ width: 180, display:'inline-block' }}
+				    style={{ width: 180, display:'inline-block', marginRight:10, marginTop: 10 }}
 				    placeholder="Select Move Type"
 				    optionFilterProp="children"
 				    onChange={this.onChange}
@@ -66,13 +82,14 @@ class MoveList extends React.Component {
 				    }
 				  >
 				   
-				    <Option value="toprock">Toprock</Option>
-				    <Option value="footwork">Footwork</Option>
-				    <Option value="power">Power</Option>
+				    <Option value="Toprock">Toprock</Option>
+				    <Option value="Footwork">Footwork</Option>
+				    <Option value="Freezes">Freezes</Option>
+				    <Option value="Power">Power</Option>
 				  </Select>
 
-		  		<Search style={{ width: 300, display:'inline-block' }} placeholder="Add Move" onSearch={this.addMove} enterButton={<PlusOutlined />} />
-	
+		  		<Search id="addMoveInput" style={{ width: 300, display:'inline-block', marginTop: 10 }} placeholder="Add Move" onSearch={this.addMove} enterButton={<PlusOutlined />} />
+				</Row>
 			</div>
 		);
 	}

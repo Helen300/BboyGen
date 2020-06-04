@@ -14,14 +14,14 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 	queryset = UserProfile.objects.all()
 	serializer_class = UserProfileSerializer
 
-	@action(methods=['post'], detail=True, url_path='update-moves', url_name='update_moves')
+	@action(methods=['post'], detail=True, url_path='updateMoves', url_name='updateMoves')
 	def updateMoves(self, request, *args, **kwargs):
 		print("$$$$")
 		print(request.data)
 		print("$$$$")
-		current_user = UserProfile.objects.get(pk=request.data.get("username"))
-		current_user.moves_list = request.data.get("moves_list")
-		current_user.save()
+		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser.movesList = request.data.get("movesList")
+		currentUser.save()
 		return Response()
 
 # from rest_framework.generics import (

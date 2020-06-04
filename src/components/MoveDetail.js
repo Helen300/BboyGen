@@ -22,8 +22,9 @@ class MoveDetail extends React.Component {
 			return (
 				// since we need to return one div
 				<div>
+				<h3> Move Description </h3>
 				<div style={{ backgroundColor: "#df7366", color: "white",  width:100, padding: 7}}>{this.props.move.name}</div>
-				<TextArea id="move-description" 
+				<TextArea id="moveDescription" 
 						  rows={4} 
 						  value={this.props.move.description} 
 						  onChange={() => this.props.updateDescription()}

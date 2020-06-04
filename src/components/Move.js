@@ -9,11 +9,15 @@ class Move extends React.Component {
 
 
 	render() {
-		return(
-			<Card hoverable style={{ width: 300 }} onClick={() => this.props.select_move(this.props.move_idx)}>
-			<Meta title={<div>{this.props.move.name} <DeleteOutlined style={{ float: 'right' }} onClick={() => this.props.handle_delete(this.props.move_idx)}/></div>} />
-	  		</Card> 
- 	)}
+		if (this.props.shouldRender) {
+			return(
+				<Card hoverable style={{ width: 300 }} onClick={() => this.props.selectMove(this.props.moveIdx)}>
+				<Meta title={<div>{this.props.move.name} <DeleteOutlined style={{ float: 'right' }} onClick={() => this.props.handleDelete(this.props.moveIdx)}/></div>} />
+		  		</Card> 
+	 		)
+ 		}
+ 		return(null)
+ 	}
 }
 
 export default Move;
