@@ -50,7 +50,7 @@ class MoveList extends React.Component {
 	render() {
 		return (
 			<div>
-				<Moves data={this.props.moves_list} handle_delete={this.props.deleteMove} select_move={this.props.select_move}/>
+				<Moves data={this.props.moves_list} current_tab={this.props.current_tab} handle_delete={this.props.deleteMove} select_move={this.props.select_move}/>
 
 				  <Select
 				    showSearch
@@ -68,6 +68,7 @@ class MoveList extends React.Component {
 				   
 				    <Option value="toprock">Toprock</Option>
 				    <Option value="footwork">Footwork</Option>
+				    <Option value="freezes">Freezes</Option>
 				    <Option value="power">Power</Option>
 				  </Select>
 
