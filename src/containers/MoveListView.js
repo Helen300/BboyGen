@@ -39,11 +39,11 @@ class MoveListView extends React.Component {
 						"type": type,
 					}])
 			this.setState({ 
-				movesList: newList
+				movesList: newList,
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              movesList: newList
+	              movesList: newList,
 	          })
 	          .then(res => {
 	          })
@@ -143,13 +143,9 @@ class MoveListView extends React.Component {
 				this.setState({
 					movesList: res.data.movesList
 				});
-				console.log('getting moves list is ' + this.state.movesList);
-				console.log(res.data.movesList);
-
 			})
 	        .catch(error => console.error(error));
 			}
-
 	}
 
 
@@ -218,7 +214,7 @@ class MoveListView extends React.Component {
 			 	</TabPane>
 			</Tabs>
 			</Col>
-			<Col span={14} style={{marginTop:62}}>
+			<Col span={14} >
 			   	<MoveDetail 
 			    	move={this.state.selectedMove} 
 			    	updateDescription={this.updateDescription.bind(this)}
