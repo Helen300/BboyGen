@@ -65,7 +65,7 @@ class MoveList extends React.Component {
 	render() {
 		return (
 			<div>
-				<Moves data={this.props.moves_list} current_tab={this.props.current_tab} handle_delete={this.props.deleteMove} select_move={this.props.select_move}/>
+				<Moves data={this.props.movesList} currentTab={this.props.currentTab} handleDelete={this.props.deleteMove} selectMove={this.props.selectMove}/>
 				<Row>
 				  <Select
 				  	id="selectType"

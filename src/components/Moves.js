@@ -9,7 +9,7 @@ class Moves extends React.Component {
 
     // console.log(' in move filter item is', item);
     // RETURNS EITHER ALL, TOPROCK, FOOTWORK, FREEZES, POWER...
-    const key = this.props.current_tab;
+    const key = this.props.currentTab;
     if (key == 'All') {
       return true
     }
@@ -29,9 +29,9 @@ class Moves extends React.Component {
          <Move
           // goes to slash that link 
           move={item}
-          move_idx={idx}
-          handle_delete={this.props.handle_delete}
-          select_move={this.props.select_move}
+          moveIdx={idx}
+          handleDelete={this.props.handleDelete}
+          selectMove={this.props.selectMove}
           shouldRender={this.moveFilter(item)}
           //description={item.id}
      

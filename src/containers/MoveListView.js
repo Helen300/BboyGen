@@ -17,14 +17,14 @@ const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 
 class MoveListView extends React.Component {
 	state = {
-		moves_list: [],
-		selected_move: null,
-		selected_move_idx: -1,
-		current_tab: tabNames[0],
+		movesList: [],
+		selectedMove: null,
+		selectedMoveIdx: -1,
+		currentTab: tabNames[0],
 	}
 
 	addMove(newMove, type) {
-		console.log('current_tab ', this.state.current_tab);
+		console.log('currentTab ', this.state.currentTab);
 		console.log(type);
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
@@ -33,17 +33,17 @@ class MoveListView extends React.Component {
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/update-moves/')
-			var newList = this.state.moves_list.concat([{
+			var newList = this.state.movesList.concat([{
 						"name" : newMove,
 						"description": "", 
 						"type": type,
 					}])
 			this.setState({ 
-				moves_list: newList
+				movesList: newList
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              moves_list: newList
+	              movesList: newList
 	          })
 	          .then(res => {
 	          })
@@ -54,7 +54,7 @@ class MoveListView extends React.Component {
 	      }
 	}
 
-	deleteMove = (move_idx) => {
+	deleteMove = (moveIdx) => {
 		console.log('deleting...');
 		// simply creating headers 
 		if (this.props.token !== null) {
@@ -66,15 +66,15 @@ class MoveListView extends React.Component {
 			apiUrl = apiUrl.concat('/update-moves/')
 
 			// generating a new list and updating it 
-			var newList = this.state.moves_list.slice(0, move_idx).concat(this.state.moves_list.slice(move_idx + 1))
+			var newList = this.state.movesList.slice(0, moveIdx).concat(this.state.movesList.slice(moveIdx + 1))
 			this.setState({ 
-				moves_list: newList,
-				selected_move: null,
-				selected_move_idx: -1,
+				movesList: newList,
+				selectedMove: null,
+				selectedMoveIdx: -1,
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              moves_list: newList
+	              movesList: newList
 	          })
 	          .then(res => {
 	          })
@@ -87,18 +87,18 @@ class MoveListView extends React.Component {
 	// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
 	}
 
-	select_move = (move_idx) => {
+	selectMove = (moveIdx) => {
 		console.log('selecting');
 		this.setState({ 
-			selected_move: this.state.moves_list[move_idx],
-			selected_move_idx: move_idx
+			selectedMove: this.state.movesList[moveIdx],
+			selectedMoveIdx: moveIdx
 		})
 	}
 
 	updateDescription() {
-		var new_description = $("#move-description").val()
+		var newDescription = $("#moveDescription").val()
 		console.info("^^^^")
-		console.info(new_description)
+		console.info(newDescription)
 		console.info("^^^^")
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
@@ -108,15 +108,15 @@ class MoveListView extends React.Component {
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/update-moves/')
 			// make copy of array
-			var newList = this.state.moves_list.slice()
-			newList[this.state.selected_move_idx].description = new_description
+			var newList = this.state.movesList.slice()
+			newList[this.state.selectedMoveIdx].description = newDescription
 			this.setState({
-				moves_list: newList,
-				selected_move: newList[this.state.selected_move_idx]
+				movesList: newList,
+				selectedMove: newList[this.state.selectedMoveIdx]
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              moves_list: newList
+	              movesList: newList
 	          })
 	          .then(res => {
 	          })
@@ -141,8 +141,11 @@ class MoveListView extends React.Component {
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					moves_list: res.data.moves_list
+					movesList: res.data.movesList
 				});
+				console.log('getting moves list is ' + this.state.movesList);
+				console.log(res.data.moves_list);
+
 			})
 	        .catch(error => console.error(error));
 			}
@@ -153,9 +156,9 @@ class MoveListView extends React.Component {
 	tabsChange = (key) => {
 		console.log('changing tabs to ', key);
 		this.setState({ 
-			selected_move: null,
-			selected_move_idx: -1,
-			current_tab: key,
+			selectedMove: null,
+			selectedMoveIdx: -1,
+			currentTab: key,
 		})
 	}
 
@@ -168,18 +171,18 @@ class MoveListView extends React.Component {
 			  			<MoveList 
 					    	addMove={this.addMove.bind(this)} 
 					    	deleteMove={this.deleteMove.bind(this)} 
-					    	moves_list={this.state.moves_list} 
-					    	select_move={this.select_move.bind(this)}
-					    	current_tab={this.state.current_tab}
+					    	movesList={this.state.movesList} 
+					    	selectMove={this.selectMove.bind(this)}
+					    	currentTab={this.state.currentTab}
 				    	/>
 			 	</TabPane>
 		  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
 		  			<MoveList 
 				    	addMove={this.addMove.bind(this)} 
 				    	deleteMove={this.deleteMove.bind(this)} 
-				    	moves_list={this.state.moves_list} 
-				    	select_move={this.select_move.bind(this)}
-				    	current_tab={this.state.current_tab}
+				    	movesList={this.state.movesList} 
+				    	selectMove={this.selectMove.bind(this)}
+				    	currentTab={this.state.currentTab}
 			    	/>
 			 	</TabPane>
 
@@ -187,9 +190,9 @@ class MoveListView extends React.Component {
 		  			<MoveList 
 				    	addMove={this.addMove.bind(this)} 
 				    	deleteMove={this.deleteMove.bind(this)} 
-				    	moves_list={this.state.moves_list} 
-				    	select_move={this.select_move.bind(this)}
-				    	current_tab={this.state.current_tab}
+				    	movesList={this.state.movesList} 
+				    	selectMove={this.selectMove.bind(this)}
+				    	currentTab={this.state.currentTab}
 			    	/>
 			 	</TabPane>
 
@@ -197,9 +200,9 @@ class MoveListView extends React.Component {
 		  			<MoveList 
 				    	addMove={this.addMove.bind(this)} 
 				    	deleteMove={this.deleteMove.bind(this)} 
-				    	moves_list={this.state.moves_list} 
-				    	select_move={this.select_move.bind(this)}
-				    	current_tab={this.state.current_tab}
+				    	movesList={this.state.movesList} 
+				    	selectMove={this.selectMove.bind(this)}
+				    	currentTab={this.state.currentTab}
 			    	/>
 			 	</TabPane>
 
@@ -208,16 +211,16 @@ class MoveListView extends React.Component {
 		  			<MoveList 
 				    	addMove={this.addMove.bind(this)} 
 				    	deleteMove={this.deleteMove.bind(this)} 
-				    	moves_list={this.state.moves_list} 
-				    	select_move={this.select_move.bind(this)}
-				    	current_tab={this.state.current_tab}
+				    	movesList={this.state.movesList} 
+				    	selectMove={this.selectMove.bind(this)}
+				    	currentTab={this.state.currentTab}
 			    	/>
 			 	</TabPane>
 			</Tabs>
 			</Col>
 			<Col span={14} style={{marginTop:62}}>
 			   	<MoveDetail 
-			    	move={this.state.selected_move} 
+			    	move={this.state.selectedMove} 
 			    	updateDescription={this.updateDescription.bind(this)}
 		    	/>
 			</Col>

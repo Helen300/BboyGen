@@ -20,7 +20,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 		print(request.data)
 		print("$$$$")
 		current_user = UserProfile.objects.get(pk=request.data.get("username"))
-		current_user.moves_list = request.data.get("moves_list")
+		current_user.moves_list = request.data.get("movesList")
 		current_user.save()
 		return Response()
 
