@@ -19,9 +19,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 		print("$$$$")
 		print(request.data)
 		print("$$$$")
-		current_user = UserProfile.objects.get(pk=request.data.get("username"))
-		current_user.movesList = request.data.get("movesList")
-		current_user.save()
+		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser.movesList = request.data.get("movesList")
+		currentUser.save()
 		return Response()
 
 # from rest_framework.generics import (
