@@ -32,7 +32,7 @@ class MoveListView extends React.Component {
 				Authorization: this.props.token
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/update-moves/')
+			apiUrl = apiUrl.concat('/updateMoves/')
 			var newList = this.state.movesList.concat([{
 						"name" : newMove,
 						"description": "", 
@@ -63,7 +63,7 @@ class MoveListView extends React.Component {
 				Authorization: this.props.token
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/update-moves/')
+			apiUrl = apiUrl.concat('/updateMoves/')
 
 			// generating a new list and updating it 
 			var newList = this.state.movesList.slice(0, moveIdx).concat(this.state.movesList.slice(moveIdx + 1))
@@ -106,7 +106,7 @@ class MoveListView extends React.Component {
 				Authorization: this.props.token
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/update-moves/')
+			apiUrl = apiUrl.concat('/updateMoves/')
 			// make copy of array
 			var newList = this.state.movesList.slice()
 			newList[this.state.selectedMoveIdx].description = newDescription
@@ -144,7 +144,7 @@ class MoveListView extends React.Component {
 					movesList: res.data.movesList
 				});
 				console.log('getting moves list is ' + this.state.movesList);
-				console.log(res.data.moves_list);
+				console.log(res.data.movesList);
 
 			})
 	        .catch(error => console.error(error));

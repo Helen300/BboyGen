@@ -14,7 +14,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 	queryset = UserProfile.objects.all()
 	serializer_class = UserProfileSerializer
 
-	@action(methods=['post'], detail=True, url_path='update-moves', url_name='update_moves')
+	@action(methods=['post'], detail=True, url_path='updateMoves', url_name='updateMoves')
 	def updateMoves(self, request, *args, **kwargs):
 		print("$$$$")
 		print(request.data)
