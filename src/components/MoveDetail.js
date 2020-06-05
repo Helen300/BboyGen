@@ -24,6 +24,13 @@ class MoveDetail extends React.Component {
 				<div>
 				<h3> Move Description </h3>
 				<div style={{ backgroundColor: "#939BCB", color: "white",  width:100, padding: 7}}>{this.props.move.name}</div>
+				{
+					this.props.currentTab == 'All' ?
+					<div>Type: {this.props.move.type}</div>
+					:
+					null
+
+				}
 				<TextArea id="moveDescription" 
 						  rows={4} 
 						  value={this.props.move.description} 

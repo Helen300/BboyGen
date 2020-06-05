@@ -3,17 +3,20 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
+import MoveInput from '../components/MoveInput';
 
 import $ from 'jquery';
 
 import 'antd/dist/antd.css';
-import { Row, Col } from 'antd';
-import { Tabs } from 'antd';
+import { Row, Col, Tabs } from 'antd';
+
+
 // import { Input } from 'antd';
 // contains List of Moves and Form to add moves 
 
 const { TabPane } = Tabs;
 const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
+
 
 class MoveListView extends React.Component {
 	state = {
@@ -25,7 +28,10 @@ class MoveListView extends React.Component {
 
 	addMove(newMove, type) {
 		console.log('currentTab ', this.state.currentTab);
-		console.log(type);
+		console.log('adding move of type ', type);
+		/* console.log(this.state.selectedMoveType);
+		var inputMove = this.state.inputValue;
+		var type = this.state.selectedMoveType; */ 
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -34,7 +40,8 @@ class MoveListView extends React.Component {
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/updateMoves/')
 			var newList = this.state.movesList.concat([{
-						"name" : newMove,
+						// "name" : inputMove,
+						"name": newMove,
 						"description": "", 
 						"type": type,
 					}])
@@ -70,7 +77,6 @@ class MoveListView extends React.Component {
 			this.setState({ 
 				movesList: newList,
 				selectedMove: null,
-				selectedCard: null,
 				selectedMoveIdx: -1,
 			})
 			axios.post(apiUrl, {
@@ -155,7 +161,9 @@ class MoveListView extends React.Component {
 			selectedMoveIdx: -1,
 			currentTab: key,
 		})
+
 	}
+
 
 	render() {
 		return (
@@ -217,11 +225,15 @@ class MoveListView extends React.Component {
 			    	/>
 			 	</TabPane>
 			</Tabs>
+			<MoveInput 
+				addMove={this.addMove.bind(this)} 
+				currentTab={this.state.currentTab} />
 			</Col>
 			<Col span={14} >
 			   	<MoveDetail 
 			    	move={this.state.selectedMove} 
 			    	updateDescription={this.updateDescription.bind(this)}
+			    	currentTab={this.state.currentTab}
 		    	/>
 			</Col>
 			</Row>
