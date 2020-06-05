@@ -7,13 +7,18 @@ import MoveList from '../components/MoveList';
 import $ from 'jquery';
 
 import 'antd/dist/antd.css';
-import { Row, Col } from 'antd';
-import { Tabs } from 'antd';
+import { Row, Col, Tabs, Select, Input } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
+
 // import { Input } from 'antd';
 // contains List of Moves and Form to add moves 
 
 const { TabPane } = Tabs;
+const { Search } = Input;
+const { Option } = Select;
 const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
+
 
 class MoveListView extends React.Component {
 	state = {
@@ -21,11 +26,15 @@ class MoveListView extends React.Component {
 		selectedMove: null,
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
+		selectedMoveType: "Toprock",
+		inputValue: ''
 	}
 
-	addMove(newMove, type) {
+	addMove() {
 		console.log('currentTab ', this.state.currentTab);
-		console.log(type);
+		console.log(this.state.selectedMoveType);
+		var inputMove = this.state.inputValue;
+		var type = this.state.selectedMoveType;
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -34,7 +43,7 @@ class MoveListView extends React.Component {
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/updateMoves/')
 			var newList = this.state.movesList.concat([{
-						"name" : newMove,
+						"name" : inputMove,
 						"description": "", 
 						"type": type,
 					}])
@@ -52,6 +61,9 @@ class MoveListView extends React.Component {
 	      else {
 
 	      }
+	      this.setState({
+			inputValue: ''
+		  })
 	}
 
 	deleteMove = (moveIdx) => {
@@ -157,6 +169,34 @@ class MoveListView extends React.Component {
 		})
 	}
 
+
+	onTypeChange = (value) => {
+		this.setState({ selectedMoveType: value });
+	}
+
+	onTypeBlur = () => {
+	  console.log('blur');
+
+	}
+
+	onTypeFocus = () => {
+	  console.log('focus');
+
+	}
+
+	onTypeSearch = (val) => {
+	  console.log('search:', val);
+	 
+	}
+
+	updateInput = () => {
+		this.setState({
+			inputValue: $("#addMoveInput").val()
+		})
+	}
+
+
+
 	render() {
 		return (
 			<Row>
@@ -217,6 +257,38 @@ class MoveListView extends React.Component {
 			    	/>
 			 	</TabPane>
 			</Tabs>
+				<Row>
+				  <Select
+				    showSearch
+				    style={{ width: 180, display:'inline-block', marginRight:10, marginTop: 10 }}
+				    placeholder="Select Move Type"
+				    optionFilterProp="children"
+				    onChange={this.onTypeChange}
+				    onFocus={this.onTypeFocus}
+				    onBlur={this.onTypeBlur}
+				    onSearch={this.onTypeSearch}
+				    defaultValue="Toprock"
+				    filterOption={(input, option) =>
+				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+				    }
+				  >
+				    <Option value="Toprock">Toprock</Option>
+				    <Option value="Footwork">Footwork</Option>
+				    <Option value="Freezes">Freezes</Option>
+				    <Option value="Power">Power</Option>
+				  </Select>
+
+		  		<Search 
+		  			id="addMoveInput" 
+		  			style={{ width: 300, display:'inline-block', marginTop: 10 }} 
+		  			value={this.state.inputValue} 
+		  			onChange={this.updateInput} 
+		  			placeholder="Add Move" 
+		  			onSearch={(value) => this.addMove()} 
+		  			refresh={this.state.refresh} 
+		  			enterButton={<PlusOutlined />} 
+		  		/>
+				</Row>
 			</Col>
 			<Col span={14} >
 			   	<MoveDetail 
