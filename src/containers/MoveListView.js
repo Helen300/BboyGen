@@ -19,7 +19,6 @@ class MoveListView extends React.Component {
 	state = {
 		movesList: [],
 		selectedMove: null,
-		selectedCard: null, 
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
 	}
@@ -89,24 +88,11 @@ class MoveListView extends React.Component {
 	// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
 	}
 
-	selectMove = (moveIdx, card) => {
-		if (this.state.selectedCard != null) {
-			this.state.selectedCard.setState({
-				isActive: false,
-			}); 
-		}
-		console.log('selecting');
+	selectMove = (moveIdx) => {
 		this.setState({ 
 			selectedMove: this.state.movesList[moveIdx],
-			selectedCard: card,
 			selectedMoveIdx: moveIdx
 		});
-		console.log('card ', card);
-		console.log('isActive ', card.state.isActive);
-		card.setState({
-			isActive: true,
-
-		})
 	}
 
 	updateDescription() {
@@ -164,16 +150,10 @@ class MoveListView extends React.Component {
 
 
 	tabsChange = (key) => {
-		console.log('changing tabs to ', key);
-		var card = this.state.selectedCard;
 		this.setState({ 
 			selectedMove: null,
-			selectedCard: null,
 			selectedMoveIdx: -1,
 			currentTab: key,
-		})
-		card.setState({
-			isActive: false,
 		})
 	}
 
@@ -189,6 +169,7 @@ class MoveListView extends React.Component {
 					    	movesList={this.state.movesList} 
 					    	selectMove={this.selectMove.bind(this)}
 					    	currentTab={this.state.currentTab}
+					    	selectedMoveIdx={this.state.selectedMoveIdx}
 				    	/>
 			 	</TabPane>
 		  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
@@ -198,6 +179,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 
@@ -208,6 +190,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 
@@ -218,6 +201,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 
@@ -229,6 +213,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 			</Tabs>

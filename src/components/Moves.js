@@ -33,6 +33,7 @@ class Moves extends React.Component {
           handleDelete={this.props.handleDelete}
           selectMove={this.props.selectMove}
           shouldRender={this.moveFilter(item)}
+          selectedMoveIdx={this.props.selectedMoveIdx}
           //description={item.id}
      
         />
