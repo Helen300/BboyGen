@@ -3,20 +3,18 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
+import MoveInput from '../components/MoveInput';
 
 import $ from 'jquery';
 
 import 'antd/dist/antd.css';
-import { Row, Col, Tabs, Select, Input } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Tabs } from 'antd';
 
 
 // import { Input } from 'antd';
 // contains List of Moves and Form to add moves 
 
 const { TabPane } = Tabs;
-const { Search } = Input;
-const { Option } = Select;
 const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 
 
@@ -26,15 +24,14 @@ class MoveListView extends React.Component {
 		selectedMove: null,
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
-		selectedMoveType: "Toprock",
-		inputValue: ''
 	}
 
-	addMove() {
+	addMove(newMove, type) {
 		console.log('currentTab ', this.state.currentTab);
-		console.log(this.state.selectedMoveType);
+		console.log('adding move of type ', type);
+		/* console.log(this.state.selectedMoveType);
 		var inputMove = this.state.inputValue;
-		var type = this.state.selectedMoveType;
+		var type = this.state.selectedMoveType; */ 
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -43,7 +40,8 @@ class MoveListView extends React.Component {
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/updateMoves/')
 			var newList = this.state.movesList.concat([{
-						"name" : inputMove,
+						// "name" : inputMove,
+						"name": newMove,
 						"description": "", 
 						"type": type,
 					}])
@@ -61,9 +59,6 @@ class MoveListView extends React.Component {
 	      else {
 
 	      }
-	      this.setState({
-			inputValue: ''
-		  })
 	}
 
 	deleteMove = (moveIdx) => {
@@ -82,7 +77,6 @@ class MoveListView extends React.Component {
 			this.setState({ 
 				movesList: newList,
 				selectedMove: null,
-				selectedCard: null,
 				selectedMoveIdx: -1,
 			})
 			axios.post(apiUrl, {
@@ -167,34 +161,8 @@ class MoveListView extends React.Component {
 			selectedMoveIdx: -1,
 			currentTab: key,
 		})
-	}
-
-
-	onTypeChange = (value) => {
-		this.setState({ selectedMoveType: value });
-	}
-
-	onTypeBlur = () => {
-	  console.log('blur');
 
 	}
-
-	onTypeFocus = () => {
-	  console.log('focus');
-
-	}
-
-	onTypeSearch = (val) => {
-	  console.log('search:', val);
-	 
-	}
-
-	updateInput = () => {
-		this.setState({
-			inputValue: $("#addMoveInput").val()
-		})
-	}
-
 
 
 	render() {
@@ -257,43 +225,15 @@ class MoveListView extends React.Component {
 			    	/>
 			 	</TabPane>
 			</Tabs>
-				<Row>
-				  <Select
-				    showSearch
-				    style={{ width: 180, display:'inline-block', marginRight:10, marginTop: 10 }}
-				    placeholder="Select Move Type"
-				    optionFilterProp="children"
-				    onChange={this.onTypeChange}
-				    onFocus={this.onTypeFocus}
-				    onBlur={this.onTypeBlur}
-				    onSearch={this.onTypeSearch}
-				    defaultValue="Toprock"
-				    filterOption={(input, option) =>
-				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-				    }
-				  >
-				    <Option value="Toprock">Toprock</Option>
-				    <Option value="Footwork">Footwork</Option>
-				    <Option value="Freezes">Freezes</Option>
-				    <Option value="Power">Power</Option>
-				  </Select>
-
-		  		<Search 
-		  			id="addMoveInput" 
-		  			style={{ width: 300, display:'inline-block', marginTop: 10 }} 
-		  			value={this.state.inputValue} 
-		  			onChange={this.updateInput} 
-		  			placeholder="Add Move" 
-		  			onSearch={(value) => this.addMove()} 
-		  			refresh={this.state.refresh} 
-		  			enterButton={<PlusOutlined />} 
-		  		/>
-				</Row>
+			<MoveInput 
+				addMove={this.addMove.bind(this)} 
+				currentTab={this.state.currentTab} />
 			</Col>
 			<Col span={14} >
 			   	<MoveDetail 
 			    	move={this.state.selectedMove} 
 			    	updateDescription={this.updateDescription.bind(this)}
+			    	currentTab={this.state.currentTab}
 		    	/>
 			</Col>
 			</Row>
