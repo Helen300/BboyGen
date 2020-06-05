@@ -20,6 +20,7 @@ const { Option } = Select;
 class MoveList extends React.Component {
 	state = {
 		type: null,
+		inputValue: ''
 	}
 
 	onChange = (value) => {
@@ -45,20 +46,21 @@ class MoveList extends React.Component {
 	 
 	}
 
+	updateInput = () => {
+		this.setState({
+			inputValue: $("#addMoveInput").val()
+		})
+	}
+
 	addMove = (value) => {
 		if (this.state.type == null) {
 			console.log('must select a type of move');
 			return;
 		}
-		console.log('changing to empty string');
-		console.log(document.getElementById('addMoveInput'));
-		document.getElementById('addMoveInput').value = "";
-		$('#addMoveInput').val(null);
-		var selected = this.state.type;
-		console.log(document.getElementById('selectType'));
-		$('#selectType').val(null);
-		document.getElementById('selectType').value = null;
-		this.props.addMove(value, selected);
+		this.setState({
+			inputValue: ''
+		})
+		this.props.addMove(value, this.state.type);
 	}
 
 
@@ -88,7 +90,7 @@ class MoveList extends React.Component {
 				    <Option value="Power">Power</Option>
 				  </Select>
 
-		  		<Search id="addMoveInput" style={{ width: 300, display:'inline-block', marginTop: 10 }} placeholder="Add Move" onSearch={this.addMove} enterButton={<PlusOutlined />} />
+		  		<Search id="addMoveInput" style={{ width: 300, display:'inline-block', marginTop: 10 }} value={this.state.inputValue} onChange={this.updateInput} placeholder="Add Move" onSearch={(value) => this.addMove(value)} refresh={this.state.refresh} enterButton={<PlusOutlined />} />
 				</Row>
 			</div>
 		);
