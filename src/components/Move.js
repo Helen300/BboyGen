@@ -23,6 +23,7 @@ class Move extends React.Component {
 			return "#939BCB";
 		}
 		return null;
+	}
 
 	handleDelete(e) {
 		e.stopPropagation()
