@@ -70,6 +70,7 @@ class MoveListView extends React.Component {
 			this.setState({ 
 				movesList: newList,
 				selectedMove: null,
+				selectedCard: null,
 				selectedMoveIdx: -1,
 			})
 			axios.post(apiUrl, {
@@ -88,11 +89,10 @@ class MoveListView extends React.Component {
 	}
 
 	selectMove = (moveIdx) => {
-		console.log('selecting');
 		this.setState({ 
 			selectedMove: this.state.movesList[moveIdx],
 			selectedMoveIdx: moveIdx
-		})
+		});
 	}
 
 	updateDescription() {
@@ -150,7 +150,6 @@ class MoveListView extends React.Component {
 
 
 	tabsChange = (key) => {
-		console.log('changing tabs to ', key);
 		this.setState({ 
 			selectedMove: null,
 			selectedMoveIdx: -1,
@@ -170,6 +169,7 @@ class MoveListView extends React.Component {
 					    	movesList={this.state.movesList} 
 					    	selectMove={this.selectMove.bind(this)}
 					    	currentTab={this.state.currentTab}
+					    	selectedMoveIdx={this.state.selectedMoveIdx}
 				    	/>
 			 	</TabPane>
 		  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
@@ -179,6 +179,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 
@@ -189,6 +190,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 
@@ -199,6 +201,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 
@@ -210,6 +213,7 @@ class MoveListView extends React.Component {
 				    	movesList={this.state.movesList} 
 				    	selectMove={this.selectMove.bind(this)}
 				    	currentTab={this.state.currentTab}
+				    	selectedMoveIdx={this.state.selectedMoveIdx}
 			    	/>
 			 	</TabPane>
 			</Tabs>

@@ -67,7 +67,13 @@ class MoveList extends React.Component {
 	render() {
 		return (
 			<div>
-				<Moves data={this.props.movesList} currentTab={this.props.currentTab} handleDelete={this.props.deleteMove} selectMove={this.props.selectMove}/>
+				<Moves 
+					data={this.props.movesList} 
+					currentTab={this.props.currentTab} 
+					handleDelete={this.props.deleteMove} 
+					selectMove={this.props.selectMove}
+					selectedMoveIdx={this.props.selectedMoveIdx}
+				/>
 				<Row>
 				  <Select
 				  	id="selectType"
@@ -79,6 +85,7 @@ class MoveList extends React.Component {
 				    onFocus={this.onFocus}
 				    onBlur={this.onBlur}
 				    onSearch={this.onSearch}
+				    defaultValue="Toprock"
 				    filterOption={(input, option) =>
 				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 				    }
