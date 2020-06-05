@@ -30,7 +30,7 @@ class Moves extends React.Component {
           // goes to slash that link 
           move={item}
           moveIdx={idx}
-          handleDelete={this.props.handleDelete}
+          deleteMove={this.props.deleteMove}
           selectMove={this.props.selectMove}
           shouldRender={this.moveFilter(item)}
           selectedMoveIdx={this.props.selectedMoveIdx}

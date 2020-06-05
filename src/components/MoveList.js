@@ -19,7 +19,7 @@ const { Option } = Select;
 
 class MoveList extends React.Component {
 	state = {
-		type: null,
+		type: 'Toprock',
 		inputValue: ''
 	}
 
@@ -70,7 +70,7 @@ class MoveList extends React.Component {
 				<Moves 
 					data={this.props.movesList} 
 					currentTab={this.props.currentTab} 
-					handleDelete={this.props.deleteMove} 
+					deleteMove={this.props.deleteMove} 
 					selectMove={this.props.selectMove}
 					selectedMoveIdx={this.props.selectedMoveIdx}
 				/>
@@ -85,7 +85,6 @@ class MoveList extends React.Component {
 				    onFocus={this.onFocus}
 				    onBlur={this.onBlur}
 				    onSearch={this.onSearch}
-				    defaultValue="Toprock"
 				    filterOption={(input, option) =>
 				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 				    }
