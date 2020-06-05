@@ -10,15 +10,13 @@ import $ from 'jquery';
 // contains List of Moves and Form to add moves 
 
 class MoveList extends React.Component {
-
-
 	render() {
 		return (
 			<div>
 				<Moves 
 					data={this.props.movesList} 
 					currentTab={this.props.currentTab} 
-					handleDelete={this.props.deleteMove} 
+					deleteMove={this.props.deleteMove} 
 					selectMove={this.props.selectMove}
 					selectedMoveIdx={this.props.selectedMoveIdx}
 				/>

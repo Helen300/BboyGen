@@ -66,7 +66,6 @@ class MoveInput extends React.Component {
 		console.log('SELECTED CHNAGEEED' , $('#selectType').val()); */
 	}
 
-
 	render() {
 		return (
 			<div>

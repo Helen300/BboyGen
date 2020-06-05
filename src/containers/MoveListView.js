@@ -21,11 +21,10 @@ const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 class MoveListView extends React.Component {
 	state = {
 		movesList: [],
-		selectedMove: null,
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
 	}
-
+	
 	addMove(newMove, type) {
 		console.log('currentTab ', this.state.currentTab);
 		console.log('adding move of type ', type);
@@ -74,11 +73,23 @@ class MoveListView extends React.Component {
 
 			// generating a new list and updating it 
 			var newList = this.state.movesList.slice(0, moveIdx).concat(this.state.movesList.slice(moveIdx + 1))
-			this.setState({ 
-				movesList: newList,
-				selectedMove: null,
-				selectedMoveIdx: -1,
-			})
+			// if less, then selected move should shift down, if greater, selected move doesnt shift anywhere
+			if(moveIdx < this.state.selectedMoveIdx) {
+				this.setState({ 
+					movesList: newList,
+					selectedMoveIdx: this.state.selectedMoveIdx - 1,
+				})
+			}
+			if(moveIdx == this.state.selectedMoveIdx) {
+				this.setState({ 
+					movesList: newList,
+					selectedMoveIdx: -1,
+				})
+			} else {
+				this.setState({ 
+					movesList: newList,
+				})
+			}
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
 	              movesList: newList
@@ -95,10 +106,16 @@ class MoveListView extends React.Component {
 	}
 
 	selectMove = (moveIdx) => {
-		this.setState({ 
-			selectedMove: this.state.movesList[moveIdx],
-			selectedMoveIdx: moveIdx
-		});
+		// unselect the move if it is selected again
+		if(moveIdx == this.state.selectedMoveIdx) {
+			this.setState({ 
+				selectedMoveIdx: -1
+			});
+		} else {
+			this.setState({ 
+				selectedMoveIdx: moveIdx
+			});
+		}
 	}
 
 	updateDescription() {
@@ -118,7 +135,6 @@ class MoveListView extends React.Component {
 			newList[this.state.selectedMoveIdx].description = newDescription
 			this.setState({
 				movesList: newList,
-				selectedMove: newList[this.state.selectedMoveIdx]
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
@@ -157,7 +173,6 @@ class MoveListView extends React.Component {
 
 	tabsChange = (key) => {
 		this.setState({ 
-			selectedMove: null,
 			selectedMoveIdx: -1,
 			currentTab: key,
 		})
@@ -231,7 +246,7 @@ class MoveListView extends React.Component {
 			</Col>
 			<Col span={14} >
 			   	<MoveDetail 
-			    	move={this.state.selectedMove} 
+			    	move={this.state.movesList[this.state.selectedMoveIdx]} 
 			    	updateDescription={this.updateDescription.bind(this)}
 			    	currentTab={this.state.currentTab}
 		    	/>
