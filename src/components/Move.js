@@ -23,13 +23,17 @@ class Move extends React.Component {
 			return "#939BCB";
 		}
 		return null;
+
+	handleDelete(e) {
+		e.stopPropagation()
+		this.props.handleDelete(this.props.moveIdx)
 	}
 
 	render() {
 		if (this.props.shouldRender) {
 			return(
 				<Card hoverable style={{ width: 300, backgroundColor:this.determineBackgroundColor() }} onClick={() => this.props.selectMove(this.props.moveIdx)}>
-				<Meta title={<div style={{color:this.determineColor() }}>{this.props.move.name} <DeleteOutlined style={{ float: 'right', color:this.determineColor() }} onClick={() => this.props.handleDelete(this.props.moveIdx)}/></div>} />
+				<Meta title={<div style={{color:this.determineColor() }}>{this.props.move.name} <DeleteOutlined style={{ float: 'right', color:this.determineColor() }} onClick={(e) => this.handleDelete(e)}/></div>} />
 		  		</Card> 
 	 		)
  		}
