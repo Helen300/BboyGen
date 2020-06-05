@@ -44,10 +44,8 @@ class MoveInput extends React.Component {
 		})
 	}
 
-	addMove = (value) => {
+	addMove = () => {
 		var inputValue = this.state.inputValue;
-		console.log('++++++value passed in is ', value);
-		console.log('inputValue in state currently is ', inputValue);
 		this.setState({
 			inputValue: ''
 		})
@@ -58,16 +56,14 @@ class MoveInput extends React.Component {
 		console.log('updating default move');
 		console.log('newwwww pROPSSS', newProps);
 		var type = newProps.currentTab;
-		if (newProps.currentTab == 'All') {
-			type = "Toprock";
+		if (newProps.currentTab != 'All') {
+			this.onTypeChange(type);
 		}
 		/*this.setState({
 			selectedMoveType: type,
 		})
 		$('#selectType').val(type);
 		console.log('SELECTED CHNAGEEED' , $('#selectType').val()); */
-		this.onTypeChange(type);
-	
 	}
 
 
@@ -103,7 +99,7 @@ class MoveInput extends React.Component {
 						value={this.state.inputValue} 
 						onChange={this.updateInput} 
 						placeholder="Add Move" 
-						onSearch={(value) => this.addMove()} 
+						onSearch={() => this.addMove()} 
 						refresh={this.state.refresh} 
 						enterButton={<PlusOutlined />} 
 					/>
