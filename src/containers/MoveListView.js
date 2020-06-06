@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import 'antd/dist/antd.css';
 import { Row, Col, Tabs } from 'antd';
-import "../css/containers/MoveListView.css"
+import "../css/containers/MoveListView.css";
 
 
 // import { Input } from 'antd';

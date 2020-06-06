@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
 import "../css/components/Move.css"
+import { Draggable } from 'react-beautiful-dnd';
 
 // what does the Meta do? 
 const { Meta } = Card;
@@ -21,15 +22,36 @@ class Move extends React.Component {
 		if (this.props.shouldRender) {
 			if(this.isSelected()) {
 				return(
-					<Card hoverable className="SelectedCard" onClick={() => this.props.selectMove(this.props.moveIdx)}>
-					<Meta title={<div className="SelectedTitle">{this.props.move.name} <DeleteOutlined className="SelectedDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
-			  		</Card> 
+					<Draggable draggableId={this.props.moveIdx} index={this.props.moveIdx}>
+					{(provided) => (
+						<Card 
+							{...provided.draggableProps}
+							{...provided.dragHandleProps}
+							innerRef={provided.innerRef}
+							hoverable 
+							className="SelectedCard" 
+							onClick={() => this.props.selectMove(this.props.moveIdx)}
+						>
+							<Meta title={<div className="SelectedTitle">{this.props.move.name} <DeleteOutlined className="SelectedDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
+				  		</Card> 
+					)}
+					</Draggable>
 		 		)
 			} else {
 				return(
-					<Card hoverable className="NormalCard" onClick={() => this.props.selectMove(this.props.moveIdx)}>
-					<Meta title={<div className="NormalTitle">{this.props.move.name} <DeleteOutlined className="NormalDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
-			  		</Card> 
+					<Draggable draggableId={this.props.moveIdx} index={this.props.moveIdx}>
+					{(provided) => (
+						<Card 
+							{...provided.draggableProps}
+							{...provided.dragHandleProps}
+							innerRef={provided.innerRef}
+							hoverable 
+							className="NormalCard" 
+							onClick={() => this.props.selectMove(this.props.moveIdx)}>
+							<Meta title={<div className="NormalTitle">{this.props.move.name} <DeleteOutlined className="NormalDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
+				  		</Card> 
+			  		)}
+			  		</Draggable>
 		 		)
 			}
  		}
