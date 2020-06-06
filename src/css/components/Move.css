@@ -1,0 +1,27 @@
+.NormalCard {
+	width: 95%;
+	background-color: white;
+}
+
+.NormalTitle {
+	color: #939BCB;
+}
+
+.NormalDelete {
+	float: right;
+	color: #939BCB;
+}
+
+.SelectedCard {
+	width: 95%;
+	background-color: #939BCB;
+}
+
+.SelectedTitle {
+	color: white;
+}
+
+.SelectedDelete {
+	float: right;
+	color: white;
+}
