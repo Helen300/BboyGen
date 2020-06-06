@@ -5,7 +5,7 @@ import { Row, Col, Select, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import $ from 'jquery';
-
+import "../css/components/MoveInput.css"
 
 const { Search } = Input;
 const { Option } = Select;
@@ -69,11 +69,9 @@ class MoveInput extends React.Component {
 	render() {
 		return (
 			<div>
-			<Row>
 				  <Select
 				  	id="selectType"
 				    showSearch
-				    style={{ width: 180, display:'inline-block', marginRight:10, marginTop: 10 }}
 				    placeholder="Select Move Type"
 				    optionFilterProp="children"
 				    onChange={this.onTypeChange}
@@ -85,6 +83,7 @@ class MoveInput extends React.Component {
 				    filterOption={(input, option) =>
 				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 				    }
+				    className="SelectType"
 				  >
 				    <Option value="Toprock">Toprock</Option>
 				    <Option value="Footwork">Footwork</Option>
@@ -94,15 +93,14 @@ class MoveInput extends React.Component {
 
 					<Search 
 						id="addMoveInput" 
-						style={{ width: 300, display:'inline-block', marginTop: 10 }} 
 						value={this.state.inputValue} 
 						onChange={this.updateInput} 
 						placeholder="Add Move" 
 						onSearch={() => this.addMove()} 
 						refresh={this.state.refresh} 
 						enterButton={<PlusOutlined />} 
+						className="InputMove"
 					/>
-			</Row>
 			</div>
 
 	)}
