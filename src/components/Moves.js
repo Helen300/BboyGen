@@ -10,12 +10,10 @@ class Moves extends React.Component {
     // console.log(' in move filter item is', item);
     // RETURNS EITHER ALL, TOPROCK, FOOTWORK, FREEZES, POWER...
     const key = this.props.currentTab;
-    if (key == 'All') {
+    if (key === 'All') {
       return true
     }
 
-    // console.log('item type', item.type == key);
-    // console.log('=== ', item.type === key);
     return item.type === key
   }
 

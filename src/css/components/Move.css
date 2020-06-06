@@ -1,20 +1,28 @@
 .NormalCard {
-	width: 95%;
+	width: 98%;
+	height: 98%;
 	background-color: white;
+	border-radius: 0.3em;
+	margin: 1%;
+	float:center;
 }
 
 .NormalTitle {
-	color: #939BCB;
+	color: #5f6bb2;
 }
 
 .NormalDelete {
 	float: right;
-	color: #939BCB;
+	color: #5f6bb2;
 }
 
 .SelectedCard {
-	width: 95%;
+	width: 98%;
+	height: 98%;
 	background-color: #939BCB;
+	border-radius: 0.3em;
+	margin: 1%;
+	float:center;
 }
 
 .SelectedTitle {

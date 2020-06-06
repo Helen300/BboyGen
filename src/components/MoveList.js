@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Moves from './Moves';
 
-import $ from 'jquery';
-
 // import 'antd/dist/antd.css';
+
+import "../css/components/MoveList.css"
 
 
 // contains List of Moves and Form to add moves 
@@ -12,7 +12,7 @@ import $ from 'jquery';
 class MoveList extends React.Component {
 	render() {
 		return (
-			<div>
+			<div class="MoveListDiv">
 				<Moves 
 					data={this.props.movesList} 
 					currentTab={this.props.currentTab} 
