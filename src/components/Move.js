@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
+import "../css/components/Move.css"
 
 // what does the Meta do? 
 const { Meta } = Card;
@@ -11,20 +12,6 @@ class Move extends React.Component {
 		return this.props.moveIdx == this.props.selectedMoveIdx
 	}
 
-	determineColor() {
-		if (this.isSelected()) {
-			return "white";
-		}
-		return null;
-	}
-
-	determineBackgroundColor() {
-		if (this.isSelected()) {
-			return "#939BCB";
-		}
-		return null;
-	}
-
 	deleteMove(e) {
 		e.stopPropagation()
 		this.props.deleteMove(this.props.moveIdx)
@@ -32,11 +19,19 @@ class Move extends React.Component {
 
 	render() {
 		if (this.props.shouldRender) {
-			return(
-				<Card hoverable style={{ width: 300, backgroundColor:this.determineBackgroundColor() }} onClick={() => this.props.selectMove(this.props.moveIdx)}>
-				<Meta title={<div style={{color:this.determineColor() }}>{this.props.move.name} <DeleteOutlined style={{ float: 'right', color:this.determineColor() }} onClick={(e) => this.deleteMove(e)}/></div>} />
-		  		</Card> 
-	 		)
+			if(this.isSelected()) {
+				return(
+					<Card hoverable className="SelectedCard" onClick={() => this.props.selectMove(this.props.moveIdx)}>
+					<Meta title={<div className="SelectedTitle">{this.props.move.name} <DeleteOutlined className="SelectedDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
+			  		</Card> 
+		 		)
+			} else {
+				return(
+					<Card hoverable className="NormalCard" onClick={() => this.props.selectMove(this.props.moveIdx)}>
+					<Meta title={<div className="NormalTitle">{this.props.move.name} <DeleteOutlined className="NormalDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
+			  		</Card> 
+		 		)
+			}
  		}
  		return(null)
  	}

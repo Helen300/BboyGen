@@ -9,8 +9,11 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.2.4",
     "axios": "^0.19.2",
+    "bootstrap": "^4.5.0",
     "dayjs": "^1.8.27",
     "jquery": "^3.5.1",
+    "npm-watch": "^0.6.0",
+    "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -25,7 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "watch": "npm-watch"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +49,13 @@
   "engines": {
     "node": "12.16.3",
     "npm": "6.14.5"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx,css"
+    }
   }
 }
