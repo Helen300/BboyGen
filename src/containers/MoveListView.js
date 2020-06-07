@@ -9,8 +9,9 @@ import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import 'antd/dist/antd.css';
-import { Row, Col, Tabs } from 'antd';
-import "../css/containers/MoveListView.css";
+
+import { Tabs } from 'antd';
+import "../css/containers/MoveListView.css"
 import { DragDropContext } from 'react-beautiful-dnd';
 
 
@@ -59,11 +60,6 @@ class MoveListView extends React.Component {
 	};
 	
 	addMove(newMove, type) {
-		console.log('currentTab ', this.state.currentTab);
-		console.log('adding move of type ', type);
-		/* console.log(this.state.selectedMoveType);
-		var inputMove = this.state.inputValue;
-		var type = this.state.selectedMoveType; */ 
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -94,7 +90,6 @@ class MoveListView extends React.Component {
 	}
 
 	deleteMove = (moveIdx) => {
-		console.log('deleting...');
 		// simply creating headers 
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
@@ -113,7 +108,7 @@ class MoveListView extends React.Component {
 					selectedMoveIdx: this.state.selectedMoveIdx - 1,
 				})
 			}
-			if(moveIdx == this.state.selectedMoveIdx) {
+			if(moveIdx === this.state.selectedMoveIdx) {
 				this.setState({ 
 					movesList: newList,
 					selectedMoveIdx: -1,
@@ -140,7 +135,7 @@ class MoveListView extends React.Component {
 
 	selectMove = (moveIdx) => {
 		// unselect the move if it is selected again
-		if(moveIdx == this.state.selectedMoveIdx) {
+		if(moveIdx === this.state.selectedMoveIdx) {
 			this.setState({ 
 				selectedMoveIdx: -1
 			});
@@ -153,9 +148,6 @@ class MoveListView extends React.Component {
 
 	updateDescription() {
 		var newDescription = $("#moveDescription").val()
-		console.info("^^^^")
-		console.info(newDescription)
-		console.info("^^^^")
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -184,8 +176,6 @@ class MoveListView extends React.Component {
 
 	// when new props arrive, component rerenders
 	componentWillReceiveProps(newProps) {
-		console.log(newProps);
-		console.log('username$$$$', localStorage.getItem('username'));
 		if (newProps.token) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -215,8 +205,8 @@ class MoveListView extends React.Component {
 
 	render() {
 		return (
-				<div className="row">
-					<div className="col-md-4">
+				<div className="row h-100">
+					<div className="col-md-4 h-100">
 						<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 							<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
 						  			<MoveList 

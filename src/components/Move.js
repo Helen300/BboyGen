@@ -10,7 +10,7 @@ const { Meta } = Card;
 class Move extends React.Component {
 
 	isSelected() {
-		return this.props.moveIdx == this.props.selectedMoveIdx
+		return this.props.moveIdx === this.props.selectedMoveIdx
 	}
 
 	deleteMove(e) {

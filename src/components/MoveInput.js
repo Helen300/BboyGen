@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'antd/dist/antd.css';
-import { Row, Col, Select, Input } from 'antd';
+import { Select, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import $ from 'jquery';
@@ -53,22 +53,15 @@ class MoveInput extends React.Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		console.log('updating default move');
-		console.log('newwwww pROPSSS', newProps);
 		var type = newProps.currentTab;
-		if (newProps.currentTab != 'All') {
+		if (newProps.currentTab !== 'All') {
 			this.onTypeChange(type);
 		}
-		/*this.setState({
-			selectedMoveType: type,
-		})
-		$('#selectType').val(type);
-		console.log('SELECTED CHNAGEEED' , $('#selectType').val()); */
 	}
 
 	render() {
 		return (
-			<div>
+			<div className="MoveInput">
 				  <Select
 				  	id="selectType"
 				    showSearch
@@ -98,7 +91,7 @@ class MoveInput extends React.Component {
 						placeholder="Add Move" 
 						onSearch={() => this.addMove()} 
 						refresh={this.state.refresh} 
-						enterButton={<PlusOutlined />} 
+						enterButton={<center><PlusOutlined /></center>} 
 						className="InputMove"
 					/>
 			</div>

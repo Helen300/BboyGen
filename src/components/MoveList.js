@@ -8,6 +8,8 @@ import { Droppable } from 'react-beautiful-dnd';
 
 // import 'antd/dist/antd.css';
 
+import "../css/components/MoveList.css"
+
 
 // contains List of Moves and Form to add moves 
 
@@ -34,6 +36,7 @@ class MoveList extends React.Component {
 					<div
 						ref={provided.innerRef}
 						{...provided.droppableProps}
+						class="MoveListDiv"
 					>
 					{
 						this.props.movesList.map((move, idx) => 
