@@ -7,7 +7,6 @@ import 'antd/dist/antd.css';
 import * as actions from './store/actions/auth';
 
 import CustomLayout from './containers/Layout';
-import { DragDropContext } from 'react-beautiful-dnd';
 
 class App extends Component {
 
@@ -16,20 +15,15 @@ class App extends Component {
 		this.props.onTryAutoSignup(); 
 	}
 
-	onDragEnd = result => {
-	};
-
 	render() {
 		return (
 		    <div>
-		    <DragDropContext onDragEnd={this.onDragEnd}>
 			    <Router> 
 					{/* passes isAuthenticated down to CustomLayout component */}
 				    <CustomLayout {...this.props}>
 				    	<BaseRouter />
 				    </CustomLayout>
 				</Router>
-			</DragDropContext>
 		    </div>
 		  );
 	}

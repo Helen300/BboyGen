@@ -20,43 +20,32 @@ class Move extends React.Component {
 
 	render() {
 		if (this.props.shouldRender) {
-			if(this.isSelected()) {
 				return(
-					<Draggable draggableId={this.props.moveIdx} index={this.props.moveIdx}>
-					{(provided) => (
-						<Card 
+					<Draggable draggableId={String(this.props.moveIdx)} index={this.props.moveIdx}>
+					{provided => (
+						<div 
+							ref={provided.innerRef}
 							{...provided.draggableProps}
 							{...provided.dragHandleProps}
-							innerRef={provided.innerRef}
-							hoverable 
-							className="SelectedCard"
-							onClick={() => this.props.selectMove(this.props.moveIdx)}
 						>
-							<Meta title={<div className="SelectedTitle">{this.props.move.name} <DeleteOutlined className="SelectedDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
-				  		</Card> 
+							<Card 
+								hoverable 
+								className={this.isSelected() ? "SelectedCard" : "NormalCard"}
+								onClick={() => this.props.selectMove(this.props.moveIdx)}
+							>
+								<Meta 
+									title={<div className={this.isSelected() ? "SelectedTitle" : "NormalTitle"}>
+												{this.props.move.name} <DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/>
+										   </div>} 
+								/>
+					  		</Card> 
+				  		</div>
 					)}
 					</Draggable>
 		 		)
-			} else {
-				return(
-					<Draggable draggableId={this.props.moveIdx} index={this.props.moveIdx}>
-					{(provided) => (
-						<Card 
-							{...provided.draggableProps}
-							{...provided.dragHandleProps}
-							innerRef={provided.innerRef}
-							hoverable 
-							className="NormalCard" 
-							onClick={() => this.props.selectMove(this.props.moveIdx)}
-						>
-							<Meta title={<div className="NormalTitle">{this.props.move.name} <DeleteOutlined className="NormalDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
-				  		</Card> 
-			  		)}
-			  		</Draggable>
-		 		)
-			}
+ 		} else {
+ 			return(null)
  		}
- 		return(null)
  	}
 }
 

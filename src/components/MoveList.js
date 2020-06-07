@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Moves from './Moves';
 import Move from '../components/Move';
 
 import $ from 'jquery';
@@ -23,9 +22,6 @@ class MoveList extends React.Component {
 
 	    // console.log('item type', item.type == key);
 	    // console.log('=== ', item.type === key);
-	    console.log("$#$#$#$")
-	    console.log(item.type === key)
-	    console.log("$#$#$#$")
 	    return item.type === key
 	  }
 
@@ -34,7 +30,7 @@ class MoveList extends React.Component {
 			<Droppable droppableId={this.props.currentTab}>
 				{provided => (
 					<div
-						innerRef={provided.innerRef}
+						ref={provided.innerRef}
 						{...provided.droppableProps}
 					>
 					{

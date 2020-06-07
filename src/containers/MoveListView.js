@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
 import { Row, Col, Tabs } from 'antd';
 import "../css/containers/MoveListView.css";
+import { DragDropContext } from 'react-beautiful-dnd';
 
 
 // import { Input } from 'antd';
@@ -26,6 +27,27 @@ class MoveListView extends React.Component {
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
 	}
+
+	onDragEnd = result => {
+		const { destination, source, draggableId } = result;
+		// if dropped outside of droppable area, do nothing
+		if(!destination) {
+			return;
+		}
+		// if dropped in the same area and index, do nothing
+		if(destination.droppableId === source.droppableId && destination.index === source.index) {
+			return;
+		}
+		// make a copy of list
+		var newList = this.state.movesList.slice()
+		// remove item
+		var movedItem = newList.splice(source.index, 1)
+		// add item
+		newList.splice(destination.index, 0, movedItem[0])
+		this.setState({
+			movesList: newList
+		})
+	};
 	
 	addMove(newMove, type) {
 		console.log('currentTab ', this.state.currentTab);
@@ -184,10 +206,21 @@ class MoveListView extends React.Component {
 
 	render() {
 		return (
-			<div className="row">
-				<div className="col-md-4">
-				<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
-					<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
+			<DragDropContext onDragEnd={this.onDragEnd}>
+				<div className="row">
+					<div className="col-md-4">
+					<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
+						<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
+					  			<MoveList 
+							    	addMove={this.addMove.bind(this)} 
+							    	deleteMove={this.deleteMove.bind(this)} 
+							    	movesList={this.state.movesList} 
+							    	selectMove={this.selectMove.bind(this)}
+							    	currentTab={this.state.currentTab}
+							    	selectedMoveIdx={this.state.selectedMoveIdx}
+						    	/>
+					 	</TabPane>
+				  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
 				  			<MoveList 
 						    	addMove={this.addMove.bind(this)} 
 						    	deleteMove={this.deleteMove.bind(this)} 
@@ -196,64 +229,55 @@ class MoveListView extends React.Component {
 						    	currentTab={this.state.currentTab}
 						    	selectedMoveIdx={this.state.selectedMoveIdx}
 					    	/>
-				 	</TabPane>
-			  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	movesList={this.state.movesList} 
-					    	selectMove={this.selectMove.bind(this)}
-					    	currentTab={this.state.currentTab}
-					    	selectedMoveIdx={this.state.selectedMoveIdx}
-				    	/>
-				 	</TabPane>
+					 	</TabPane>
 
-			  		<TabPane tab={tabNames[2]} key={tabNames[2]}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	movesList={this.state.movesList} 
-					    	selectMove={this.selectMove.bind(this)}
-					    	currentTab={this.state.currentTab}
-					    	selectedMoveIdx={this.state.selectedMoveIdx}
-				    	/>
-				 	</TabPane>
+				  		<TabPane tab={tabNames[2]} key={tabNames[2]}>
+				  			<MoveList 
+						    	addMove={this.addMove.bind(this)} 
+						    	deleteMove={this.deleteMove.bind(this)} 
+						    	movesList={this.state.movesList} 
+						    	selectMove={this.selectMove.bind(this)}
+						    	currentTab={this.state.currentTab}
+						    	selectedMoveIdx={this.state.selectedMoveIdx}
+					    	/>
+					 	</TabPane>
 
-				 	<TabPane tab={tabNames[3]} key={tabNames[3]}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	movesList={this.state.movesList} 
-					    	selectMove={this.selectMove.bind(this)}
-					    	currentTab={this.state.currentTab}
-					    	selectedMoveIdx={this.state.selectedMoveIdx}
-				    	/>
-				 	</TabPane>
+					 	<TabPane tab={tabNames[3]} key={tabNames[3]}>
+				  			<MoveList 
+						    	addMove={this.addMove.bind(this)} 
+						    	deleteMove={this.deleteMove.bind(this)} 
+						    	movesList={this.state.movesList} 
+						    	selectMove={this.selectMove.bind(this)}
+						    	currentTab={this.state.currentTab}
+						    	selectedMoveIdx={this.state.selectedMoveIdx}
+					    	/>
+					 	</TabPane>
 
 
-			  		<TabPane tab={tabNames[4]} key={tabNames[4]}>
-			  			<MoveList 
-					    	addMove={this.addMove.bind(this)} 
-					    	deleteMove={this.deleteMove.bind(this)} 
-					    	movesList={this.state.movesList} 
-					    	selectMove={this.selectMove.bind(this)}
+				  		<TabPane tab={tabNames[4]} key={tabNames[4]}>
+				  			<MoveList 
+						    	addMove={this.addMove.bind(this)} 
+						    	deleteMove={this.deleteMove.bind(this)} 
+						    	movesList={this.state.movesList} 
+						    	selectMove={this.selectMove.bind(this)}
+						    	currentTab={this.state.currentTab}
+						    	selectedMoveIdx={this.state.selectedMoveIdx}
+					    	/>
+					 	</TabPane>
+					</Tabs>
+					<MoveInput 
+						addMove={this.addMove.bind(this)} 
+						currentTab={this.state.currentTab} />
+					</div>
+					<div className="col-md-8">
+					   	<MoveDetail 
+					    	move={this.state.movesList[this.state.selectedMoveIdx]} 
+					    	updateDescription={this.updateDescription.bind(this)}
 					    	currentTab={this.state.currentTab}
-					    	selectedMoveIdx={this.state.selectedMoveIdx}
 				    	/>
-				 	</TabPane>
-				</Tabs>
-				<MoveInput 
-					addMove={this.addMove.bind(this)} 
-					currentTab={this.state.currentTab} />
+					</div>
 				</div>
-				<div className="col-md-8">
-				   	<MoveDetail 
-				    	move={this.state.movesList[this.state.selectedMoveIdx]} 
-				    	updateDescription={this.updateDescription.bind(this)}
-				    	currentTab={this.state.currentTab}
-			    	/>
-				</div>
-			</div>
+			</DragDropContext>
 		);
 	}
 
