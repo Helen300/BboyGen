@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Move from '../components/Move';
 
 import $ from 'jquery';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { Droppable } from 'react-beautiful-dnd';
 
 // import 'antd/dist/antd.css';
@@ -27,6 +28,7 @@ class MoveList extends React.Component {
 
 	render() {
 		return (
+			<DragDropContext onDragEnd={this.props.onDragEnd}>
 			<Droppable droppableId={this.props.currentTab}>
 				{provided => (
 					<div
@@ -51,6 +53,7 @@ class MoveList extends React.Component {
 					</div>
 				)}
 			</Droppable>
+			</DragDropContext>
 		);
 	}
 

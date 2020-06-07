@@ -206,7 +206,6 @@ class MoveListView extends React.Component {
 
 	render() {
 		return (
-			<DragDropContext onDragEnd={this.onDragEnd}>
 				<div className="row">
 					<div className="col-md-4">
 					<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
@@ -218,6 +217,7 @@ class MoveListView extends React.Component {
 							    	selectMove={this.selectMove.bind(this)}
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
+							    	onDragEnd={this.onDragEnd}
 						    	/>
 					 	</TabPane>
 				  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
@@ -228,6 +228,7 @@ class MoveListView extends React.Component {
 						    	selectMove={this.selectMove.bind(this)}
 						    	currentTab={this.state.currentTab}
 						    	selectedMoveIdx={this.state.selectedMoveIdx}
+						    	onDragEnd={this.onDragEnd}
 					    	/>
 					 	</TabPane>
 
@@ -239,6 +240,7 @@ class MoveListView extends React.Component {
 						    	selectMove={this.selectMove.bind(this)}
 						    	currentTab={this.state.currentTab}
 						    	selectedMoveIdx={this.state.selectedMoveIdx}
+						    	onDragEnd={this.onDragEnd}
 					    	/>
 					 	</TabPane>
 
@@ -250,6 +252,7 @@ class MoveListView extends React.Component {
 						    	selectMove={this.selectMove.bind(this)}
 						    	currentTab={this.state.currentTab}
 						    	selectedMoveIdx={this.state.selectedMoveIdx}
+						    	onDragEnd={this.onDragEnd}
 					    	/>
 					 	</TabPane>
 
@@ -262,6 +265,7 @@ class MoveListView extends React.Component {
 						    	selectMove={this.selectMove.bind(this)}
 						    	currentTab={this.state.currentTab}
 						    	selectedMoveIdx={this.state.selectedMoveIdx}
+						    	onDragEnd={this.onDragEnd}
 					    	/>
 					 	</TabPane>
 					</Tabs>
@@ -277,7 +281,7 @@ class MoveListView extends React.Component {
 				    	/>
 					</div>
 				</div>
-			</DragDropContext>
+
 		);
 	}
 
