@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
 import "../css/components/Move.css"
+import { Draggable } from 'react-beautiful-dnd';
 
 // what does the Meta do? 
 const { Meta } = Card;
@@ -19,21 +20,32 @@ class Move extends React.Component {
 
 	render() {
 		if (this.props.shouldRender) {
-			if(this.isSelected()) {
 				return(
-					<Card hoverable className="SelectedCard" onClick={() => this.props.selectMove(this.props.moveIdx)}>
-					<Meta title={<div className="SelectedTitle">{this.props.move.name} <DeleteOutlined className="SelectedDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
-			  		</Card> 
+					<Draggable draggableId={String(this.props.moveIdx)} index={this.props.moveIdx}>
+					{provided => (
+						<div 
+							ref={provided.innerRef}
+							{...provided.draggableProps}
+							{...provided.dragHandleProps}
+						>
+							<Card 
+								hoverable 
+								className={this.isSelected() ? "SelectedCard" : "NormalCard"}
+								onClick={() => this.props.selectMove(this.props.moveIdx)}
+							>
+								<Meta 
+									title={<div className={this.isSelected() ? "SelectedTitle" : "NormalTitle"}>
+												{this.props.move.name} <DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/>
+										   </div>} 
+								/>
+					  		</Card> 
+				  		</div>
+					)}
+					</Draggable>
 		 		)
-			} else {
-				return(
-					<Card hoverable className="NormalCard" onClick={() => this.props.selectMove(this.props.moveIdx)}>
-					<Meta title={<div className="NormalTitle">{this.props.move.name} <DeleteOutlined className="NormalDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
-			  		</Card> 
-		 		)
-			}
+ 		} else {
+ 			return(null)
  		}
- 		return(null)
  	}
 }
 

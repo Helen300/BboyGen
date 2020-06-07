@@ -8,7 +8,6 @@ import * as actions from './store/actions/auth';
 
 import CustomLayout from './containers/Layout';
 
-
 class App extends Component {
 
 	// calls dispatch below whenever rendered 
@@ -19,12 +18,12 @@ class App extends Component {
 	render() {
 		return (
 		    <div>
-		    <Router> 
-				{/* passes isAuthenticated down to CustomLayout component */}
-			    <CustomLayout {...this.props}>
-			    	<BaseRouter />
-			    </CustomLayout>
-			</Router>
+			    <Router> 
+					{/* passes isAuthenticated down to CustomLayout component */}
+				    <CustomLayout {...this.props}>
+				    	<BaseRouter />
+				    </CustomLayout>
+				</Router>
 		    </div>
 		  );
 	}
