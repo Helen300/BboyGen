@@ -1,5 +1,9 @@
 .MoveListDiv {
-	min-height:48vh;
 	background-color: #EDEDED;
-	border: 1em #F2B5AF;
+	/*no padding right bc scroll bar gives padding already
+	padding-bottom needs to be non-zero for some reason, for card
+	margin to take effect. Move has margin-bottom 1% already*/
+	padding-top: 1%;
+	padding-left: 1%;
+	padding-bottom: 0.1%;
 }

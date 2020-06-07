@@ -205,8 +205,8 @@ class MoveListView extends React.Component {
 
 	render() {
 		return (
-				<div className="row">
-					<div className="col-md-4">
+				<div className="row h-100">
+					<div className="col-md-4 h-100">
 						<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 							<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
 						  			<MoveList 
