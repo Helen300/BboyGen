@@ -22,7 +22,7 @@ class MoveDetail extends React.Component {
 			return (
 				// since we need to return one div
 				<div>
-				<h4 className="MoveDescrip">Move Description</h4>
+				<h4 className="MoveDescription">Move Description</h4>
 				<div className="MoveName">Name of Move: {this.props.move.name}</div>
 				{
 					this.props.currentTab === 'All' ?
