@@ -23,25 +23,38 @@ class MoveList extends React.Component {
 
 	    // console.log('item type', item.type == key);
 	    // console.log('=== ', item.type === key);
+	    console.log("$#$#$#$")
+	    console.log(item.type === key)
+	    console.log("$#$#$#$")
 	    return item.type === key
 	  }
+
 	render() {
 		return (
-			<div>
-				{this.props.movesList.map((move, idx) => 
-					<Move
-			          // goes to slash that link 
-			          move={move}
-			          moveIdx={idx}
-			          deleteMove={this.props.deleteMove}
-			          selectMove={this.props.selectMove}
-			          shouldRender={this.moveFilter(move)}
-			          selectedMoveIdx={this.props.selectedMoveIdx}
-			          //description={item.id}
-			     
-			        />
+			<Droppable droppableId={this.props.currentTab}>
+				{provided => (
+					<div
+						innerRef={provided.innerRef}
+						{...provided.droppableProps}
+					>
+					{
+						this.props.movesList.map((move, idx) => 
+							<Move
+					          // goes to slash that link 
+					          move={move}
+					          moveIdx={idx}
+					          deleteMove={this.props.deleteMove}
+					          selectMove={this.props.selectMove}
+					          shouldRender={this.moveFilter(move)}
+					          selectedMoveIdx={this.props.selectedMoveIdx}
+					          //description={item.id}
+					        />
+						)
+					}
+					{provided.placeholder}
+					</div>
 				)}
-			</div>
+			</Droppable>
 		);
 	}
 

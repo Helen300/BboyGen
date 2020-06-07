@@ -29,7 +29,7 @@ class Move extends React.Component {
 							{...provided.dragHandleProps}
 							innerRef={provided.innerRef}
 							hoverable 
-							className="SelectedCard" 
+							className="SelectedCard"
 							onClick={() => this.props.selectMove(this.props.moveIdx)}
 						>
 							<Meta title={<div className="SelectedTitle">{this.props.move.name} <DeleteOutlined className="SelectedDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
@@ -47,7 +47,8 @@ class Move extends React.Component {
 							innerRef={provided.innerRef}
 							hoverable 
 							className="NormalCard" 
-							onClick={() => this.props.selectMove(this.props.moveIdx)}>
+							onClick={() => this.props.selectMove(this.props.moveIdx)}
+						>
 							<Meta title={<div className="NormalTitle">{this.props.move.name} <DeleteOutlined className="NormalDelete" onClick={(e) => this.deleteMove(e)}/></div>} />
 				  		</Card> 
 			  		)}
