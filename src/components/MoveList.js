@@ -48,6 +48,7 @@ class MoveList extends React.Component {
 					          selectMove={this.props.selectMove}
 					          shouldRender={this.moveFilter(move)}
 					          selectedMoveIdx={this.props.selectedMoveIdx}
+					          toggleReverse={this.props.toggleReverse}
 					          //description={item.id}
 					        />
 						)
