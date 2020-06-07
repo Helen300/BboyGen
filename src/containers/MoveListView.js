@@ -90,6 +90,7 @@ class MoveListView extends React.Component {
 						"name": newMove,
 						"description": "", 
 						"type": type,
+						"reverse": false
 					}])
 			this.setState({ 
 				movesList: newList,
@@ -164,6 +165,34 @@ class MoveListView extends React.Component {
 		}
 	}
 
+	toggleReverse = (moveIdx) => {
+		if (this.props.token !== null) {
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: this.props.token
+			}
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			apiUrl = apiUrl.concat('/updateMoves/')
+
+			// generating a new list and updating it 
+			var newList = this.state.movesList.slice()
+			newList[moveIdx].reverse = !newList[moveIdx].reverse
+			this.setState({ 
+				movesList: newList,
+			})
+			axios.post(apiUrl, {
+	              username: localStorage.getItem("username"),
+	              movesList: newList
+	          })
+	          .then(res => {
+	          })
+	          .catch(error => console.error(error));
+		}
+		else {
+			// show some message 
+		}
+	}
+
 	updateDescription() {
 		var newDescription = $("#moveDescription").val()
 		if (this.props.token !== null) {
@@ -235,7 +264,7 @@ class MoveListView extends React.Component {
 								    	currentTab={this.state.currentTab}
 								    	selectedMoveIdx={this.state.selectedMoveIdx}
 								    	onDragEnd={this.onDragEnd}
-
+								    	toggleReverse={this.toggleReverse}
 							    	/>
 						 	</TabPane>
 					  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
@@ -247,6 +276,7 @@ class MoveListView extends React.Component {
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
 							    	onDragEnd={this.onDragEnd}
+							    	toggleReverse={this.toggleReverse}
 						    	/>
 						 	</TabPane>
 
@@ -259,6 +289,7 @@ class MoveListView extends React.Component {
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
 							    	onDragEnd={this.onDragEnd}
+							    	toggleReverse={this.toggleReverse}
 						    	/>
 						 	</TabPane>
 
@@ -271,6 +302,7 @@ class MoveListView extends React.Component {
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
 							    	onDragEnd={this.onDragEnd}
+							    	toggleReverse={this.toggleReverse}
 						    	/>
 						 	</TabPane>
 
@@ -284,6 +316,7 @@ class MoveListView extends React.Component {
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
 							    	onDragEnd={this.onDragEnd}
+							    	toggleReverse={this.toggleReverse}
 						    	/>
 						 	</TabPane>
 						</Tabs>

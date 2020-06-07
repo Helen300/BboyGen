@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, ReloadOutlined } from '@ant-design/icons'
 import "../css/components/Move.css"
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -16,6 +16,27 @@ class Move extends React.Component {
 	deleteMove(e) {
 		e.stopPropagation()
 		this.props.deleteMove(this.props.moveIdx)
+	}
+
+	toggleReverse(e) {
+		e.stopPropagation()
+		this.props.toggleReverse(this.props.moveIdx)
+	}
+
+	getReverseIconClass(reverse) {
+		var classList = ""
+		if(this.isSelected()) {
+			classList = "SelectedReverse"
+			if(reverse) {
+				classList = classList.concat(" SelectedToggledReverse")
+			}
+		} else {
+			classList = "NormalReverse"
+			if(reverse) {
+				classList = classList.concat(" ToggledReverse")
+			}
+		}
+		return classList
 	}
 
 	render() {
@@ -34,8 +55,8 @@ class Move extends React.Component {
 								onClick={() => this.props.selectMove(this.props.moveIdx)}
 							>
 								<Meta 
-									title={<div className={this.isSelected() ? "SelectedTitle" : "NormalTitle"}>
-												{this.props.move.name} <DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/>
+									title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>
+												{this.props.move.name} <DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> <ReloadOutlined className={this.getReverseIconClass(this.props.move.reverse)} onClick={(e) => this.toggleReverse(e)}/>
 										   </div>} 
 								/>
 					  		</Card> 

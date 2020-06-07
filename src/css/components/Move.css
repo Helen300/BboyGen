@@ -16,6 +16,18 @@
 	color: #5f6bb2;
 }
 
+.NormalReverse {
+	float: right;
+	color: #5f6bb2;
+	margin-right: 2%;
+}
+
+.ToggledReverse {
+	float: right;
+	color: orange;
+	margin-right: 2%;
+}
+
 .SelectedCard {
 	width: 98%;
 	height: 98%;
@@ -32,4 +44,16 @@
 .SelectedDelete {
 	float: right;
 	color: white;
+}
+
+.SelectedReverse {
+	float: right;
+	color: white;
+	margin-right: 2%;
+}
+
+.SelectedToggledReverse {
+	float: right;
+	color: lightblue;
+	margin-right: 2%;
 }

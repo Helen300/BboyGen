@@ -26,7 +26,10 @@ class MoveDetail extends React.Component {
 				<div className="MoveName">Name of Move: {this.props.move.name}</div>
 				{
 					this.props.currentTab === 'All' ?
-					<div>Type: {this.props.move.type}</div>
+					<div>
+						Type: {this.props.move.type} <br/>
+						Reverse Possible: {this.props.move.reverse ? "Yes" : "No"}
+					</div>
 					:
 					null
 
