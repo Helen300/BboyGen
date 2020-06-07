@@ -39,6 +39,24 @@ class MoveListView extends React.Component {
 		if(destination.droppableId === source.droppableId && destination.index === source.index) {
 			return;
 		}
+		// if move a card from behind selected card to in front of it or replacing it, update selectMoveIdx
+		if(source.index < this.state.selectedMoveIdx && destination.index >= this.state.selectedMoveIdx) {
+			this.setState({
+				selectedMoveIdx: this.state.selectedMoveIdx - 1
+			})
+		}
+		// if move a card from in front selected card to behind it or replacing it, update selectMoveIdx
+		if(source.index > this.state.selectedMoveIdx && destination.index <= this.state.selectedMoveIdx) {
+			this.setState({
+				selectedMoveIdx: this.state.selectedMoveIdx + 1
+			})
+		}
+		// if we move the selected card
+		if(this.state.selectedMoveIdx == source.index) {
+			this.setState({
+				selectedMoveIdx: destination.index
+			})
+		}
 		// make a copy of list
 		var newList = this.state.movesList.slice()
 		// remove item
@@ -217,6 +235,7 @@ class MoveListView extends React.Component {
 								    	currentTab={this.state.currentTab}
 								    	selectedMoveIdx={this.state.selectedMoveIdx}
 								    	onDragEnd={this.onDragEnd}
+
 							    	/>
 						 	</TabPane>
 					  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
