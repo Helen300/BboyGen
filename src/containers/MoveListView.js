@@ -282,19 +282,21 @@ class MoveListView extends React.Component {
 					<div className="col-md-4 h-100">
 						<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 							<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
-						  			<MoveList 
-								    	addMove={this.addMove.bind(this)} 
-								    	deleteMove={this.deleteMove.bind(this)} 
-								    	moveList={this.state.moveList} 
-								    	selectMove={this.selectMove.bind(this)}
-								    	currentTab={this.state.currentTab}
-								    	selectedMoveIdx={this.state.selectedMoveIdx}
-								    	onDragEnd={this.onDragEnd}
-								    	toggleReverse={this.toggleReverse}
+					  			<MoveList
+						  			renderMoves={true}
+							    	addMove={this.addMove.bind(this)} 
+							    	deleteMove={this.deleteMove.bind(this)} 
+							    	moveList={this.state.moveList} 
+							    	selectMove={this.selectMove.bind(this)}
+							    	currentTab={this.state.currentTab}
+							    	selectedMoveIdx={this.state.selectedMoveIdx}
+							    	onDragEnd={this.onDragEnd}
+							    	toggleReverse={this.toggleReverse}
 							    	/>
 						 	</TabPane>
 					  		<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
-					  			<MoveList 
+					  			<MoveList
+					  				renderMoves={true}
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
 							    	moveList={this.state.moveList} 
@@ -307,7 +309,8 @@ class MoveListView extends React.Component {
 						 	</TabPane>
 
 					  		<TabPane className="TabPane" tab={tabNames[2]} key={tabNames[2]}>
-					  			<MoveList 
+					  			<MoveList
+					  				renderMoves={true}
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
 							    	moveList={this.state.moveList} 
@@ -321,6 +324,7 @@ class MoveListView extends React.Component {
 
 						 	<TabPane className="TabPane" tab={tabNames[3]} key={tabNames[3]}>
 					  			<MoveList 
+					  				renderMoves={true}
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
 							    	moveList={this.state.moveList} 
@@ -335,6 +339,7 @@ class MoveListView extends React.Component {
 
 					  		<TabPane className="TabPane" tab={tabNames[4]} key={tabNames[4]}>
 					  			<MoveList 
+					  				renderMoves={true}
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
 							    	moveList={this.state.moveList} 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Move from '../components/Move';
+import MoveSet from '../components/MoveSet';
 
 import $ from 'jquery';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -29,6 +30,7 @@ class MoveList extends React.Component {
 	  }
 
 	render() {
+		if (this.props.renderMoves) {
 		return (
 			<DragDropContext onDragEnd={this.props.onDragEnd}>
 			<Droppable droppableId={this.props.currentTab}>
@@ -60,7 +62,40 @@ class MoveList extends React.Component {
 			</DragDropContext>
 		);
 	}
+		else {
+			return (
+				<DragDropContext onDragEnd={this.props.onDragEnd}>
+				<Droppable droppableId={this.props.currentTab}>
+				{provided => (
+					<div
+						ref={provided.innerRef}
+						{...provided.droppableProps}
+						class="MoveListDiv"
+					>
+					{
+						this.props.setList.map((set, idx) => 
+							<MoveSet
+					          // goes to slash that link 
+					          set={set}
+					          setIdx={idx}
+					          deleteSet={this.props.deleteSet}
+					          selectSet={this.props.selectSet}
+					          // shouldRender={this.moveFilter(move)}
+					          selectedSetIdx={this.props.selectedSetIdx}
+					          // toggleReverse={this.props.toggleReverse}
+					          //description={item.id}
+					        />
+						)
+					}
+					{provided.placeholder}
+					</div>
+				)}
+			</Droppable>
+			</DragDropContext>
+			);
+		}
 
+	}
 }
 
 const mapStateToProps = state => {

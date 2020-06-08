@@ -18,12 +18,22 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 	def updateMoves(self, request, *args, **kwargs):
 		print("$$$$")
 		print(request.data)
-		print("$$$$")
+		print("$$$$MOVES")
 		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
 		currentUser.moveList = request.data.get("moveList")
 		currentUser.save()
 		return Response()
 
+	@action(methods=['post'], detail=True, url_path='updateSets', url_name='updateSets')
+	def updateSets(self, request, *args, **kwargs): 
+		print("####")
+		print(request.data)
+		print("####SETS")
+		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser.setList = request.data.get("setList")
+		currentUser.save()
+		return Response()
+		
 # from rest_framework.generics import (
 # 	ListAPIView, 
 # 	RetrieveAPIView, 
