@@ -39,7 +39,7 @@ class MoveList extends React.Component {
 						class="MoveListDiv"
 					>
 					{
-						this.props.movesList.map((move, idx) => 
+						this.props.moveList.map((move, idx) => 
 							<Move
 					          // goes to slash that link 
 					          move={move}

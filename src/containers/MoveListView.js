@@ -12,7 +12,7 @@ import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
 import "../css/containers/MoveListView.css"
-import { DragDropContext } from 'react-beautiful-dnd';
+
 
 
 // import { Input } from 'antd';
@@ -24,7 +24,7 @@ const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 
 class MoveListView extends React.Component {
 	state = {
-		movesList: [],
+		moveList: [],
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
 	}
@@ -52,25 +52,25 @@ class MoveListView extends React.Component {
 			})
 		}
 		// if we move the selected card
-		if(this.state.selectedMoveIdx == source.index) {
+		if(this.state.selectedMoveIdx === source.index) {
 			this.setState({
 				selectedMoveIdx: destination.index
 			})
 		}
 		// make a copy of list
-		var newList = this.state.movesList.slice()
+		var newList = this.state.moveList.slice()
 		// remove item
 		var movedItem = newList.splice(source.index, 1)
 		// add item
 		newList.splice(destination.index, 0, movedItem[0])
 		this.setState({
-			movesList: newList
+			moveList: newList
 		})
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 		apiUrl = apiUrl.concat('/updateMoves/')
 		axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              movesList: newList,
+	              moveList: newList,
 	          })
 	          .then(res => {
 	          })
@@ -85,7 +85,7 @@ class MoveListView extends React.Component {
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/updateMoves/')
-			var newList = this.state.movesList.concat([{
+			var newList = this.state.moveList.concat([{
 						// "name" : inputMove,
 						"name": newMove,
 						"description": "", 
@@ -93,11 +93,11 @@ class MoveListView extends React.Component {
 						"reverse": false
 					}])
 			this.setState({ 
-				movesList: newList,
+				moveList: newList,
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              movesList: newList,
+	              moveList: newList,
 	          })
 	          .then(res => {
 	          })
@@ -119,27 +119,27 @@ class MoveListView extends React.Component {
 			apiUrl = apiUrl.concat('/updateMoves/')
 
 			// generating a new list and updating it 
-			var newList = this.state.movesList.slice(0, moveIdx).concat(this.state.movesList.slice(moveIdx + 1))
+			var newList = this.state.moveList.slice(0, moveIdx).concat(this.state.moveList.slice(moveIdx + 1))
 			// if less, then selected move should shift down, if greater, selected move doesnt shift anywhere
 			if(moveIdx < this.state.selectedMoveIdx) {
 				this.setState({ 
-					movesList: newList,
+					moveList: newList,
 					selectedMoveIdx: this.state.selectedMoveIdx - 1,
 				})
 			}
 			if(moveIdx === this.state.selectedMoveIdx) {
 				this.setState({ 
-					movesList: newList,
+					moveList: newList,
 					selectedMoveIdx: -1,
 				})
 			} else {
 				this.setState({ 
-					movesList: newList,
+					moveList: newList,
 				})
 			}
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              movesList: newList
+	              moveList: newList
 	          })
 	          .then(res => {
 	          })
@@ -175,14 +175,14 @@ class MoveListView extends React.Component {
 			apiUrl = apiUrl.concat('/updateMoves/')
 
 			// generating a new list and updating it 
-			var newList = this.state.movesList.slice()
+			var newList = this.state.moveList.slice()
 			newList[moveIdx].reverse = !newList[moveIdx].reverse
 			this.setState({ 
-				movesList: newList,
+				moveList: newList,
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              movesList: newList
+	              moveList: newList
 	          })
 	          .then(res => {
 	          })
@@ -203,14 +203,14 @@ class MoveListView extends React.Component {
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/updateMoves/')
 			// make copy of array
-			var newList = this.state.movesList.slice()
+			var newList = this.state.moveList.slice()
 			newList[this.state.selectedMoveIdx].description = newDescription
 			this.setState({
-				movesList: newList,
+				moveList: newList,
 			})
 			axios.post(apiUrl, {
 	              username: localStorage.getItem("username"),
-	              movesList: newList
+	              moveList: newList
 	          })
 	          .then(res => {
 	          })
@@ -233,7 +233,7 @@ class MoveListView extends React.Component {
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					movesList: res.data.movesList
+					moveList: res.data.moveList
 				});
 			})
 	        .catch(error => console.error(error));
@@ -259,7 +259,7 @@ class MoveListView extends React.Component {
 						  			<MoveList 
 								    	addMove={this.addMove.bind(this)} 
 								    	deleteMove={this.deleteMove.bind(this)} 
-								    	movesList={this.state.movesList} 
+								    	moveList={this.state.moveList} 
 								    	selectMove={this.selectMove.bind(this)}
 								    	currentTab={this.state.currentTab}
 								    	selectedMoveIdx={this.state.selectedMoveIdx}
@@ -267,11 +267,11 @@ class MoveListView extends React.Component {
 								    	toggleReverse={this.toggleReverse}
 							    	/>
 						 	</TabPane>
-					  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
+					  		<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
 					  			<MoveList 
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
+							    	moveList={this.state.moveList} 
 							    	selectMove={this.selectMove.bind(this)}
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
@@ -280,11 +280,11 @@ class MoveListView extends React.Component {
 						    	/>
 						 	</TabPane>
 
-					  		<TabPane tab={tabNames[2]} key={tabNames[2]}>
+					  		<TabPane className="TabPane" tab={tabNames[2]} key={tabNames[2]}>
 					  			<MoveList 
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
+							    	moveList={this.state.moveList} 
 							    	selectMove={this.selectMove.bind(this)}
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
@@ -293,11 +293,11 @@ class MoveListView extends React.Component {
 						    	/>
 						 	</TabPane>
 
-						 	<TabPane tab={tabNames[3]} key={tabNames[3]}>
+						 	<TabPane className="TabPane" tab={tabNames[3]} key={tabNames[3]}>
 					  			<MoveList 
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
+							    	moveList={this.state.moveList} 
 							    	selectMove={this.selectMove.bind(this)}
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
@@ -307,11 +307,11 @@ class MoveListView extends React.Component {
 						 	</TabPane>
 
 
-					  		<TabPane tab={tabNames[4]} key={tabNames[4]}>
+					  		<TabPane className="TabPane" tab={tabNames[4]} key={tabNames[4]}>
 					  			<MoveList 
 							    	addMove={this.addMove.bind(this)} 
 							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
+							    	moveList={this.state.moveList} 
 							    	selectMove={this.selectMove.bind(this)}
 							    	currentTab={this.state.currentTab}
 							    	selectedMoveIdx={this.state.selectedMoveIdx}
@@ -326,7 +326,7 @@ class MoveListView extends React.Component {
 						</div>
 						<div className="col-md-8">
 						   	<MoveDetail 
-						    	move={this.state.movesList[this.state.selectedMoveIdx]} 
+						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
 						    	updateDescription={this.updateDescription.bind(this)}
 						    	currentTab={this.state.currentTab}
 					    	/>
