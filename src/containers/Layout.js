@@ -48,12 +48,6 @@ class CustomLayout extends React.Component {
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>
-        {/* <Breadcrumb style={{ margin: '16px 0' }}>
-         /* link is like an anchor tag, takes you to defined location'
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item><Link>List</Link></Breadcrumb.Item>
-          <Breadcrumb.Item><Link>App</Link></Breadcrumb.Item>
-        </Breadcrumb> */}
           <div className="site-layout-content"
           style={{ background: '#fff', padding: '24px', minHeight: '50em' }}>
             {/* class based takes this. */}

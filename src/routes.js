@@ -10,7 +10,7 @@ const BaseRouter = () => (
 		{/* for the path localhost/ displays MoveList */}
 		<Route exact path='/' component={MoveListView} />
 		{/* : defines a parameter */}
-		<Route exact path='/gen' component={GeneratorView} />
+		<Route exact path='/gen/' component={GeneratorView} />
 		<Route exact path='/login/' component={Login} />
 		<Route exact path='/signup/' component={Signup} />
 	</div>

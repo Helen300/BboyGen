@@ -221,6 +221,32 @@ class MoveListView extends React.Component {
 	      }
 	}
 
+
+	updateName() {
+		var newName = $("#moveName").val()
+		if (this.props.token !== null) {
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: this.props.token
+			}
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			apiUrl = apiUrl.concat('/updateMoves/')
+			// make copy of array
+			var newList = this.state.moveList.slice()
+			newList[this.state.selectedMoveIdx].name = newName;
+			this.setState({
+				moveList: newList,
+			})
+			axios.post(apiUrl, {
+	              username: localStorage.getItem("username"),
+	              moveList: newList
+	          })
+	          .then(res => {
+	          })
+	          .catch(error => console.error(error));
+	      }
+	}
+
 	// when new props arrive, component rerenders
 	componentWillReceiveProps(newProps) {
 		if (newProps.token) {
@@ -327,6 +353,7 @@ class MoveListView extends React.Component {
 						<div className="col-md-8">
 						   	<MoveDetail 
 						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
+						    	updateName={this.updateName.bind(this)}
 						    	updateDescription={this.updateDescription.bind(this)}
 						    	currentTab={this.state.currentTab}
 					    	/>

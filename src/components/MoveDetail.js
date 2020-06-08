@@ -8,6 +8,7 @@ const { TextArea } = Input;
 
 
 
+
 // for all moves, there exists one moveDetail div that gets updated 
 class MoveDetail extends React.Component {
 
@@ -23,15 +24,22 @@ class MoveDetail extends React.Component {
 				// since we need to return one div
 				<div>
 				<h4 className="MoveDescription">Move Description</h4>
-				<div className="MoveName">Name of Move: {this.props.move.name}</div>
+				<div className="MoveName">Name of Move: 
+					<TextArea id="moveName"
+							  rows={1}
+							  value={this.props.move.name}
+							  onChange={() => this.props.updateName()}
+					/> 
+				</div>
+			
 				{
-					this.props.currentTab === 'All' ?
-					<div>
-						Type: {this.props.move.type} <br/>
-						Reverse Possible: {this.props.move.reverse ? "Yes" : "No"}
-					</div>
-					:
-					null
+				this.props.currentTab === 'All' ?
+				<div>
+					Type: {this.props.move.type} <br/>
+					Reverse Possible: {this.props.move.reverse ? "Yes" : "No"}
+				</div>
+				:
+				null
 
 				}
 				<TextArea id="moveDescription" 

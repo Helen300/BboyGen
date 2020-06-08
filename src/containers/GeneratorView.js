@@ -5,7 +5,7 @@ import MoveList from '../components/MoveList';
 import { Tabs } from 'antd';
 
 const { TabPane } = Tabs;
-const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
+const tabNames = ['All Sets', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 
 class GeneratorView extends React.Component {
 
@@ -21,7 +21,7 @@ class GeneratorView extends React.Component {
 				<div className="col-md-4 h-100">
 					<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 						<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
-							<MoveList />
+					
 						</TabPane>
 					</Tabs>
 				</div>
