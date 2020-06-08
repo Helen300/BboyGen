@@ -29,8 +29,43 @@ class MoveList extends React.Component {
 	    return item.type === key
 	  }
 
+	renderCards = (renderMoves) => {
+		if(renderMoves) {
+			return(
+				this.props.moveList.map((move, idx) => 
+					<Move
+			          // goes to slash that link 
+			          move={move}
+			          moveIdx={idx}
+			          deleteMove={this.props.deleteMove}
+			          selectMove={this.props.selectMove}
+			          shouldRender={this.moveFilter(move)}
+			          selectedMoveIdx={this.props.selectedMoveIdx}
+			          toggleReverse={this.props.toggleReverse}
+			          //description={item.id}
+			        />
+				)
+			)
+		} else {
+			return(
+				this.props.setList.map((set, idx) => 
+					<MoveSet
+			          // goes to slash that link 
+			          set={set}
+			          setIdx={idx}
+			          deleteSet={this.props.deleteSet}
+			          selectSet={this.props.selectSet}
+			          // shouldRender={this.moveFilter(move)}
+			          selectedSetIdx={this.props.selectedSetIdx}
+			          // toggleReverse={this.props.toggleReverse}
+			          //description={item.id}
+			        />
+				)
+			)
+		}
+	}
+
 	render() {
-		if (this.props.renderMoves) {
 		return (
 			<DragDropContext onDragEnd={this.props.onDragEnd}>
 			<Droppable droppableId={this.props.currentTab}>
@@ -41,19 +76,7 @@ class MoveList extends React.Component {
 						class="MoveListDiv"
 					>
 					{
-						this.props.moveList.map((move, idx) => 
-							<Move
-					          // goes to slash that link 
-					          move={move}
-					          moveIdx={idx}
-					          deleteMove={this.props.deleteMove}
-					          selectMove={this.props.selectMove}
-					          shouldRender={this.moveFilter(move)}
-					          selectedMoveIdx={this.props.selectedMoveIdx}
-					          toggleReverse={this.props.toggleReverse}
-					          //description={item.id}
-					        />
-						)
+						this.renderCards(this.props.renderMoves)						
 					}
 					{provided.placeholder}
 					</div>
@@ -61,40 +84,6 @@ class MoveList extends React.Component {
 			</Droppable>
 			</DragDropContext>
 		);
-	}
-		else {
-			return (
-				<DragDropContext onDragEnd={this.props.onDragEnd}>
-				<Droppable droppableId={this.props.currentTab}>
-				{provided => (
-					<div
-						ref={provided.innerRef}
-						{...provided.droppableProps}
-						class="MoveListDiv"
-					>
-					{
-						this.props.setList.map((set, idx) => 
-							<MoveSet
-					          // goes to slash that link 
-					          set={set}
-					          setIdx={idx}
-					          deleteSet={this.props.deleteSet}
-					          selectSet={this.props.selectSet}
-					          // shouldRender={this.moveFilter(move)}
-					          selectedSetIdx={this.props.selectedSetIdx}
-					          // toggleReverse={this.props.toggleReverse}
-					          //description={item.id}
-					        />
-						)
-					}
-					{provided.placeholder}
-					</div>
-				)}
-			</Droppable>
-			</DragDropContext>
-			);
-		}
-
 	}
 }
 
