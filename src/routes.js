@@ -4,6 +4,7 @@ import MoveListView from './containers/MoveListView';
 import GeneratorView from './containers/GeneratorView';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
+import Landing from './containers/Landing';
 
 class BaseRouter extends React.Component {
 
@@ -28,14 +29,14 @@ class BaseRouter extends React.Component {
 					this.props.isAuthenticated ?
 					<Route exact path='/' component={MoveListView} />
 					:
-					<Route exact path='/' component={Login} />
+					<Route exact path='/' component={Landing} />
 
 				}
 				{/*<Route exact path='/' component={this.loginPage()} /> */}
 
 				{/* : defines a parameter */}
 				<Route exact path='/gen/' component={GeneratorView} />
-				{/*<Route exact path='/login/' component={Login} /> */}
+				<Route exact path='/login/' component={Login} />
 				<Route exact path='/signup/' component={Signup} />
 			</div>
 

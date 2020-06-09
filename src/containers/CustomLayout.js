@@ -11,28 +11,6 @@ const { Header, Content, Footer } = Layout;
 
 class CustomLayout extends React.Component {
 
-  state = {
-      activeTab: ["1"],
-  }
-
- /* componentWillReceiveProps(newProps) {
-    console.log('~~~~~', newProps.isAuthenticated);
-    if (newProps.isAuthenticated) {
-      this.setState({
-        activeTab: ["2"],
-      })
-    $('#itemList').click();
-    document.getElementsByClassName('ant-menu-item-selected')[0].click();
-
-    }
-    else {
-      this.setState({
-        activeTab: ["1"],
-      })
-    }
-
-  } */
-
 
   render () {
     return (
@@ -40,57 +18,26 @@ class CustomLayout extends React.Component {
       <Layout className="layout">
       <Header>
       
-        <Menu id="Menu" theme="dark" mode="horizontal" defaultSelectedKeys={["2"]} style={{ float:'left' }}>
+        <Menu id="Menu" theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
         {
             // if authenticated = true we show logout 
             this.props.isAuthenticated ? 
-            <Menu.Item key="0" disabled style={{color:"white"}}>
+            [<Menu.Item key="0" disabled style={{color:"white"}}>
               Hello, {localStorage.getItem('username')}
-            </Menu.Item>
-            :
-            null
-        }
-
-       {
-          // if authenticated = true we show logout 
-          this.props.isAuthenticated ? 
-
-           <Menu.Item key="1" onClick={this.props.logout}>
-            Logout
-          </Menu.Item>
-
-          :
-
-          // else not authenticated 
-
-          <Menu.Item key="1" >
-            <Link to="/login/">Login</Link>
-          </Menu.Item>
-       }
-
-
-       {
-          // if authenticated = true we show logout 
-          this.props.isAuthenticated ? 
-
+            </Menu.Item>,
+            <Menu.Item key="1" onClick={this.props.logout} style={{ float:'right' }}>
+              Logout
+            </Menu.Item>,
             <Menu.Item key="2">
               <Link to="/">List</Link>
+            </Menu.Item>,
+            <Menu.Item key="3">
+              <Link to="/gen/">Generator</Link>
+            </Menu.Item>]
+            :
+            <Menu.Item key="1" style={{ float:'right' }}>
+              <Link to="/login/">Login</Link>
             </Menu.Item>
-
-          :
-
-          null
-        }
-
-        {
-          // if authenticated = true we show logout 
-          this.props.isAuthenticated ? 
-
-            <Menu.Item key="3" onClick={() => this.setState({activeTab:["3"]})}><Link to="/gen/">Generator</Link></Menu.Item>
-
-          :
-
-          null
         }
 
         </Menu>
