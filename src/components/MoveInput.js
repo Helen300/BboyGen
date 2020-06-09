@@ -45,11 +45,18 @@ class MoveInput extends React.Component {
 	}
 
 	addMove = () => {
-		var inputValue = this.state.inputValue;
+		var newMove = this.state.inputValue;
 		this.setState({
 			inputValue: ''
 		})
-		this.props.addMove(inputValue, this.state.selectedMoveType)
+		var newList = this.props.moveList.concat([{
+					// "name" : inputMove,
+					"name": newMove,
+					"description": "", 
+					"type": this.state.selectedMoveType,
+					"reverse": false
+				}])
+		this.props.updateMoveList(newList)
 	}
 
 	componentWillReceiveProps(newProps) {

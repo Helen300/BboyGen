@@ -119,7 +119,7 @@ export const authSignup = (username, email, password1, password2) => {
 				// the data that gets posted 
 				username: username, 
 				email: email,
-				movesList: [],
+				moveList: [],
 			})
 		})
 		.catch(err => {

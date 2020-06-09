@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import MoveDetail from '../components/MoveDetail';
-import MoveList from '../components/MoveList';
+import CardList from '../components/CardList';
 import MoveInput from '../components/MoveInput';
 
 import $ from 'jquery';
@@ -12,7 +12,7 @@ import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
 import "../css/containers/MoveListView.css"
-import { DragDropContext } from 'react-beautiful-dnd';
+
 
 
 // import { Input } from 'antd';
@@ -24,60 +24,21 @@ const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
 
 class MoveListView extends React.Component {
 	state = {
-		movesList: [],
+		moveList: [],
 		selectedMoveIdx: -1,
 		currentTab: tabNames[0],
 	}
 
-	onDragEnd = result => {
-		const { destination, source, draggableId } = result;
-		// if dropped outside of droppable area, do nothing
-		if(!destination) {
-			return;
-		}
-		// if dropped in the same area and index, do nothing
-		if(destination.droppableId === source.droppableId && destination.index === source.index) {
-			return;
-		}
-		// if move a card from behind selected card to in front of it or replacing it, update selectMoveIdx
-		if(source.index < this.state.selectedMoveIdx && destination.index >= this.state.selectedMoveIdx) {
-			this.setState({
-				selectedMoveIdx: this.state.selectedMoveIdx - 1
-			})
-		}
-		// if move a card from in front selected card to behind it or replacing it, update selectMoveIdx
-		if(source.index > this.state.selectedMoveIdx && destination.index <= this.state.selectedMoveIdx) {
-			this.setState({
-				selectedMoveIdx: this.state.selectedMoveIdx + 1
-			})
-		}
-		// if we move the selected card
-		if(this.state.selectedMoveIdx == source.index) {
-			this.setState({
-				selectedMoveIdx: destination.index
-			})
-		}
-		// make a copy of list
-		var newList = this.state.movesList.slice()
-		// remove item
-		var movedItem = newList.splice(source.index, 1)
-		// add item
-		newList.splice(destination.index, 0, movedItem[0])
+	updateSelectedMoveIdx(newIdx) {
 		this.setState({
-			movesList: newList
+			selectedMoveIdx: newIdx
 		})
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-		apiUrl = apiUrl.concat('/updateMoves/')
-		axios.post(apiUrl, {
-	              username: localStorage.getItem("username"),
-	              movesList: newList,
-	          })
-	          .then(res => {
-	          })
-	          .catch(error => console.error(error));
-	};
-	
-	addMove(newMove, type) {
+	}
+
+	updateMoveList(newList) {
+		this.setState({
+			moveList: newList
+		})
 		if (this.props.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
@@ -85,140 +46,14 @@ class MoveListView extends React.Component {
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/updateMoves/')
-			var newList = this.state.movesList.concat([{
-						// "name" : inputMove,
-						"name": newMove,
-						"description": "", 
-						"type": type,
-						"reverse": false
-					}])
-			this.setState({ 
-				movesList: newList,
-			})
 			axios.post(apiUrl, {
-	              username: localStorage.getItem("username"),
-	              movesList: newList,
-	          })
-	          .then(res => {
-	          })
-	          .catch(error => console.error(error));
-	      }
-	      else {
-
-	      }
-	}
-
-	deleteMove = (moveIdx) => {
-		// simply creating headers 
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateMoves/')
-
-			// generating a new list and updating it 
-			var newList = this.state.movesList.slice(0, moveIdx).concat(this.state.movesList.slice(moveIdx + 1))
-			// if less, then selected move should shift down, if greater, selected move doesnt shift anywhere
-			if(moveIdx < this.state.selectedMoveIdx) {
-				this.setState({ 
-					movesList: newList,
-					selectedMoveIdx: this.state.selectedMoveIdx - 1,
-				})
-			}
-			if(moveIdx === this.state.selectedMoveIdx) {
-				this.setState({ 
-					movesList: newList,
-					selectedMoveIdx: -1,
-				})
-			} else {
-				this.setState({ 
-					movesList: newList,
-				})
-			}
-			axios.post(apiUrl, {
-	              username: localStorage.getItem("username"),
-	              movesList: newList
-	          })
-	          .then(res => {
-	          })
-	          .catch(error => console.error(error));
+		              username: localStorage.getItem("username"),
+		              moveList: newList,
+		          })
+		          .then(res => {
+		          })
+		          .catch(error => console.error(error));
 		}
-		else {
-			// show some message 
-		}
-	
-	// THIS DOESN'T ACTUALLY REFRESH THE PAGE 
-	}
-
-	selectMove = (moveIdx) => {
-		// unselect the move if it is selected again
-		if(moveIdx === this.state.selectedMoveIdx) {
-			this.setState({ 
-				selectedMoveIdx: -1
-			});
-		} else {
-			this.setState({ 
-				selectedMoveIdx: moveIdx
-			});
-		}
-	}
-
-	toggleReverse = (moveIdx) => {
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateMoves/')
-
-			// generating a new list and updating it 
-			var newList = this.state.movesList.slice()
-			newList[moveIdx].reverse = !newList[moveIdx].reverse
-			this.setState({ 
-				movesList: newList,
-			})
-			axios.post(apiUrl, {
-	              username: localStorage.getItem("username"),
-	              movesList: newList
-	          })
-	          .then(res => {
-	          })
-	          .catch(error => console.error(error));
-		}
-		else {
-			// show some message 
-		}
-	}
-
-	updateDescription() {
-		var newDescription = $("#moveDescription").val()
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateMoves/')
-			// make copy of array
-			var newList = this.state.movesList.slice()
-			newList[this.state.selectedMoveIdx].description = newDescription
-			this.setState({
-				movesList: newList,
-			})
-			axios.post(apiUrl, {
-	              username: localStorage.getItem("username"),
-	              movesList: newList
-	          })
-	          .then(res => {
-	          })
-	          .catch(error => console.error(error));
-	      }
-	      else {
-	      	
-	      }
 	}
 
 	// when new props arrive, component rerenders
@@ -233,7 +68,7 @@ class MoveListView extends React.Component {
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					movesList: res.data.movesList
+					moveList: res.data.moveList
 				});
 			})
 	        .catch(error => console.error(error));
@@ -256,79 +91,73 @@ class MoveListView extends React.Component {
 					<div className="col-md-4 h-100">
 						<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 							<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
-						  			<MoveList 
-								    	addMove={this.addMove.bind(this)} 
-								    	deleteMove={this.deleteMove.bind(this)} 
-								    	movesList={this.state.movesList} 
-								    	selectMove={this.selectMove.bind(this)}
-								    	currentTab={this.state.currentTab}
-								    	selectedMoveIdx={this.state.selectedMoveIdx}
-								    	onDragEnd={this.onDragEnd}
-								    	toggleReverse={this.toggleReverse}
+					  			<CardList
+						  			renderMoves={true}
+							    	cardList={this.state.moveList} 
+							    	currentTab={this.state.currentTab}
+							    	selectedIdx={this.state.selectedMoveIdx}
+							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 							    	/>
 						 	</TabPane>
-					  		<TabPane tab={tabNames[1]} key={tabNames[1]}>
-					  			<MoveList 
-							    	addMove={this.addMove.bind(this)} 
-							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
-							    	selectMove={this.selectMove.bind(this)}
+					  		<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
+					  			<CardList
+					  				renderMoves={true}
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
-							    	selectedMoveIdx={this.state.selectedMoveIdx}
-							    	onDragEnd={this.onDragEnd}
-							    	toggleReverse={this.toggleReverse}
+							    	selectedIdx={this.state.selectedMoveIdx}
+							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 
-					  		<TabPane tab={tabNames[2]} key={tabNames[2]}>
-					  			<MoveList 
-							    	addMove={this.addMove.bind(this)} 
-							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
-							    	selectMove={this.selectMove.bind(this)}
+					  		<TabPane className="TabPane" tab={tabNames[2]} key={tabNames[2]}>
+					  			<CardList
+					  				renderMoves={true}
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
-							    	selectedMoveIdx={this.state.selectedMoveIdx}
-							    	onDragEnd={this.onDragEnd}
-							    	toggleReverse={this.toggleReverse}
+							    	selectedIdx={this.state.selectedMoveIdx}
+							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 
-						 	<TabPane tab={tabNames[3]} key={tabNames[3]}>
-					  			<MoveList 
-							    	addMove={this.addMove.bind(this)} 
-							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
-							    	selectMove={this.selectMove.bind(this)}
+						 	<TabPane className="TabPane" tab={tabNames[3]} key={tabNames[3]}>
+					  			<CardList 
+					  				renderMoves={true}
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
-							    	selectedMoveIdx={this.state.selectedMoveIdx}
-							    	onDragEnd={this.onDragEnd}
-							    	toggleReverse={this.toggleReverse}
+							    	selectedIdx={this.state.selectedMoveIdx}
+							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 
 
-					  		<TabPane tab={tabNames[4]} key={tabNames[4]}>
-					  			<MoveList 
-							    	addMove={this.addMove.bind(this)} 
-							    	deleteMove={this.deleteMove.bind(this)} 
-							    	movesList={this.state.movesList} 
-							    	selectMove={this.selectMove.bind(this)}
+					  		<TabPane className="TabPane" tab={tabNames[4]} key={tabNames[4]}>
+					  			<CardList 
+					  				renderMoves={true}
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
-							    	selectedMoveIdx={this.state.selectedMoveIdx}
-							    	onDragEnd={this.onDragEnd}
-							    	toggleReverse={this.toggleReverse}
+							    	selectedIdx={this.state.selectedMoveIdx}
+							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 						</Tabs>
 						<MoveInput 
-							addMove={this.addMove.bind(this)} 
-							currentTab={this.state.currentTab} />
+							currentTab={this.state.currentTab} 
+							moveList={this.state.moveList}
+							updateMoveList={this.updateMoveList.bind(this)}
+						/>
 						</div>
 						<div className="col-md-8">
 						   	<MoveDetail 
-						    	move={this.state.movesList[this.state.selectedMoveIdx]} 
-						    	updateDescription={this.updateDescription.bind(this)}
+						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
+						    	moveList={this.state.moveList}
+						    	selectedMoveIdx={this.state.selectedMoveIdx}
 						    	currentTab={this.state.currentTab}
+						    	updateMoveList={this.updateMoveList.bind(this)}
 					    	/>
 					</div>
 				</div>
