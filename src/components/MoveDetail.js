@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import "../css/components/MoveDetail.css"
 import { Input } from 'antd';
+import axios from 'axios';
+import $ from 'jquery';
 
 const { TextArea } = Input;
 
@@ -11,6 +13,23 @@ const { TextArea } = Input;
 
 // for all moves, there exists one moveDetail div that gets updated 
 class MoveDetail extends React.Component {
+
+	updateDescription() {
+		var newDescription = $("#moveDescription").val()
+		// make copy of array
+		var newList = this.props.moveList.slice()
+		newList[this.props.selectedMoveIdx].description = newDescription
+		this.props.updateMoveList(newList);
+	}
+
+
+	updateName() {
+		var newName = $("#moveName").val()
+		// make copy of array
+		var newList = this.props.moveList.slice()
+		newList[this.props.selectedMoveIdx].name = newName;
+		this.props.updateMoveList(newList);
+	}
 
 	render() {
 		if (this.props.move == null) {
@@ -28,7 +47,7 @@ class MoveDetail extends React.Component {
 					<TextArea id="moveName"
 							  rows={1}
 							  value={this.props.move.name}
-							  onChange={() => this.props.updateName()}
+							  onChange={() => this.updateName()}
 					/> 
 				</div>
 			
@@ -45,7 +64,7 @@ class MoveDetail extends React.Component {
 				<TextArea id="moveDescription" 
 						  rows={4} 
 						  value={this.props.move.description} 
-						  onChange={() => this.props.updateDescription()}
+						  onChange={() => this.updateDescription()}
 			    />
 				</div>
 			);
