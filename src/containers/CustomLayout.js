@@ -4,18 +4,43 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
 
+import $ from 'jquery';
 
 const { Header, Content, Footer } = Layout;
 
 
 class CustomLayout extends React.Component {
+
+  state = {
+      activeTab: ["1"],
+  }
+
+ /* componentWillReceiveProps(newProps) {
+    console.log('~~~~~', newProps.isAuthenticated);
+    if (newProps.isAuthenticated) {
+      this.setState({
+        activeTab: ["2"],
+      })
+    $('#itemList').click();
+    document.getElementsByClassName('ant-menu-item-selected')[0].click();
+
+    }
+    else {
+      this.setState({
+        activeTab: ["1"],
+      })
+    }
+
+  } */
+
+
   render () {
     return (
 
       <Layout className="layout">
       <Header>
       
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} style={{ float:'left' }}>
+        <Menu id="Menu" theme="dark" mode="horizontal" defaultSelectedKeys={["2"]} style={{ float:'left' }}>
         {
             // if authenticated = true we show logout 
             this.props.isAuthenticated ? 
@@ -38,13 +63,36 @@ class CustomLayout extends React.Component {
 
           // else not authenticated 
 
-          <Menu.Item key="1">
+          <Menu.Item key="1" >
             <Link to="/login/">Login</Link>
           </Menu.Item>
        }
 
-          <Menu.Item key="2"><Link to="/">List</Link></Menu.Item>
-          <Menu.Item key="3"><Link to="/gen/">Generator</Link></Menu.Item>
+
+       {
+          // if authenticated = true we show logout 
+          this.props.isAuthenticated ? 
+
+            <Menu.Item key="2">
+              <Link to="/">List</Link>
+            </Menu.Item>
+
+          :
+
+          null
+        }
+
+        {
+          // if authenticated = true we show logout 
+          this.props.isAuthenticated ? 
+
+            <Menu.Item key="3" onClick={() => this.setState({activeTab:["3"]})}><Link to="/gen/">Generator</Link></Menu.Item>
+
+          :
+
+          null
+        }
+
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>
@@ -64,7 +112,9 @@ class CustomLayout extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(actions.logout())
+    logout: () => {
+      dispatch(actions.logout())
+    }
   }
 }
 
