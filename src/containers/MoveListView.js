@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import MoveDetail from '../components/MoveDetail';
-import MoveList from '../components/MoveList';
+import CardList from '../components/CardList';
 import MoveInput from '../components/MoveInput';
 
 import $ from 'jquery';
@@ -91,57 +91,57 @@ class MoveListView extends React.Component {
 					<div className="col-md-4 h-100">
 						<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 							<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
-					  			<MoveList
+					  			<CardList
 						  			renderMoves={true}
-							    	moveList={this.state.moveList} 
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
 							    	selectedIdx={this.state.selectedMoveIdx}
 							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateMoveList={this.updateMoveList.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 							    	/>
 						 	</TabPane>
 					  		<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
-					  			<MoveList
+					  			<CardList
 					  				renderMoves={true}
-							    	moveList={this.state.moveList} 
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
 							    	selectedIdx={this.state.selectedMoveIdx}
 							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateMoveList={this.updateMoveList.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 
 					  		<TabPane className="TabPane" tab={tabNames[2]} key={tabNames[2]}>
-					  			<MoveList
+					  			<CardList
 					  				renderMoves={true}
-							    	moveList={this.state.moveList} 
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
 							    	selectedIdx={this.state.selectedMoveIdx}
 							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateMoveList={this.updateMoveList.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 
 						 	<TabPane className="TabPane" tab={tabNames[3]} key={tabNames[3]}>
-					  			<MoveList 
+					  			<CardList 
 					  				renderMoves={true}
-							    	moveList={this.state.moveList} 
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
 							    	selectedIdx={this.state.selectedMoveIdx}
 							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateMoveList={this.updateMoveList.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 
 
 					  		<TabPane className="TabPane" tab={tabNames[4]} key={tabNames[4]}>
-					  			<MoveList 
+					  			<CardList 
 					  				renderMoves={true}
-							    	moveList={this.state.moveList} 
+							    	cardList={this.state.moveList} 
 							    	currentTab={this.state.currentTab}
 							    	selectedIdx={this.state.selectedMoveIdx}
 							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateMoveList={this.updateMoveList.bind(this)}
+							    	updateCardList={this.updateMoveList.bind(this)}
 						    	/>
 						 	</TabPane>
 						</Tabs>

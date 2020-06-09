@@ -9,12 +9,12 @@ import { Droppable } from 'react-beautiful-dnd';
 
 // import 'antd/dist/antd.css';
 
-import "../css/components/MoveList.css"
+import "../css/components/CardList.css"
 
 
 // contains List of Moves and Form to add moves 
 
-class MoveList extends React.Component {
+class CardList extends React.Component {
 	onDragEnd = result => {
 		const { destination, source, draggableId } = result;
 		// if dropped outside of droppable area, do nothing
@@ -38,17 +38,17 @@ class MoveList extends React.Component {
 			this.props.updateSelectedIdx(destination.index)
 		}
 		// make a copy of list
-		var newList = this.props.moveList.slice()
+		var newList = this.props.cardList.slice()
 		// remove item
 		var movedItem = newList.splice(source.index, 1)
 		// add item
 		newList.splice(destination.index, 0, movedItem[0])
-		this.props.updateMoveList(newList)
+		this.props.updateCardList(newList)
 	};
 
 	deleteCard = (cardIdx) => {
 		// generating a new list and removing item
-		var newList = this.props.moveList.slice()
+		var newList = this.props.cardList.slice()
 		newList.splice(cardIdx, 1)
 		// if less, then selected move should shift down, if greater, selected move doesnt shift anywhere
 		if(cardIdx < this.props.selectedIdx) {
@@ -57,14 +57,14 @@ class MoveList extends React.Component {
 		if(cardIdx === this.props.selectedIdx) {
 			this.props.updateSelectedIdx(-1)
 		}
-		this.props.updateMoveList(newList)
+		this.props.updateCardList(newList)
 	}
 
 	toggleIcon = (cardIdx) => {
 		// generating a new list and updating it 
-		var newList = this.props.moveList.slice()
+		var newList = this.props.cardList.slice()
 		newList[cardIdx].reverse = !newList[cardIdx].reverse
-		this.props.updateMoveList(newList)
+		this.props.updateCardList(newList)
 	}
 
 	selectCard = (moveIdx) => {
@@ -93,7 +93,7 @@ class MoveList extends React.Component {
 	renderCards = (renderMoves) => {
 		if(renderMoves) {
 			return(
-				this.props.moveList.map((move, idx) => 
+				this.props.cardList.map((move, idx) => 
 					<Move
 			          // goes to slash that link 
 			          move={move}
@@ -109,15 +109,15 @@ class MoveList extends React.Component {
 			)
 		} else {
 			return(
-				this.props.setList.map((set, idx) => 
+				this.props.cardList.map((set, idx) => 
 					<MoveSet
 			          // goes to slash that link 
 			          set={set}
 			          setIdx={idx}
-			          deleteSet={this.props.deleteSet}
-			          selectSet={this.props.selectSet}
+			          deleteSet={this.deleteCard}
+			          selectSet={this.selectCard}
 			          // shouldRender={this.moveFilter(move)}
-			          selectedSetIdx={this.props.selectedSetIdx}
+			          selectedSetIdx={this.props.selectedIdx}
 			          // toggleReverse={this.props.toggleReverse}
 			          //description={item.id}
 			        />
@@ -156,4 +156,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps)(MoveList);
+export default connect(mapStateToProps)(CardList);
