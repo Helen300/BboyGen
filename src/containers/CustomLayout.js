@@ -6,8 +6,9 @@ import * as actions from '../store/actions/auth';
 
 import $ from 'jquery';
 
+import { menuKeys } from "../constants"
+
 const { Header, Content, Footer } = Layout;
-const menuKeys = ['Greeting', 'Logout', 'List', 'Generator', 'Login'];
 
 class CustomLayout extends React.Component {
 

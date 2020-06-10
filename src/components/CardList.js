@@ -11,6 +11,8 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import "../css/components/CardList.css"
 
+import { cardTypes } from "../constants"
+
 
 // contains List of Moves and Form to add moves 
 
@@ -109,10 +111,10 @@ class CardList extends React.Component {
 			)
 		} else {
 			return(
-				this.props.cardList.map((set, idx) => 
+				this.props.cardList.map((moveSet, idx) => 
 					<MoveSet
 			          // goes to slash that link 
-			          set={set}
+			          moveSet={moveSet}
 			          setIdx={idx}
 			          deleteSet={this.deleteCard}
 			          selectSet={this.selectCard}
@@ -127,24 +129,28 @@ class CardList extends React.Component {
 	}
 
 	render() {
-		return (
-			<DragDropContext onDragEnd={this.onDragEnd}>
-			<Droppable droppableId={this.props.currentTab}>
-				{provided => (
-					<div
-						ref={provided.innerRef}
-						{...provided.droppableProps}
-						class="MoveListDiv"
-					>
-					{
-						this.renderCards(this.props.renderMoves)						
-					}
-					{provided.placeholder}
-					</div>
-				)}
-			</Droppable>
-			</DragDropContext>
-		);
+		if(this.props.enableDrag) {
+			return (
+				<DragDropContext onDragEnd={this.onDragEnd}>
+				<Droppable droppableId={this.props.currentTab}>
+					{provided => (
+						<div
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+							class="MoveListDiv"
+						>
+						{
+							this.renderCards(this.props.renderMoves)					
+						}
+						{provided.placeholder}
+						</div>
+					)}
+				</Droppable>
+				</DragDropContext>
+			);
+		} else {
+			return(this.renderCards(this.props.renderMoves))
+		}
 	}
 }
 
