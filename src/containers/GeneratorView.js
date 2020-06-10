@@ -52,6 +52,20 @@ class GeneratorView extends React.Component {
 			this.updateSetList(newList)
 	}
 
+	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
+
+	componentDidMount() {
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				setList: res.data.setList
+			});
+		})
+        .catch(error => console.error(error));
+	}
+
 
 	componentWillReceiveProps(newProps) {
 		if (newProps.token) {
@@ -68,7 +82,7 @@ class GeneratorView extends React.Component {
 				});
 			})
 	        .catch(error => console.error(error));
-			}
+		}
 	}
 
 
