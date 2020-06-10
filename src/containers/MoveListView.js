@@ -13,7 +13,7 @@ import 'antd/dist/antd.css';
 import { Tabs } from 'antd';
 import "../css/containers/Pane.css"
 
-import { tabNames } from "../constants"
+import { tabNames, cardTypes } from "../constants"
 
 
 
@@ -107,6 +107,7 @@ class MoveListView extends React.Component {
 							selectedMoveIdx={this.state.selectedMoveIdx}
 							currentTab={this.state.currentTab}
 							enableDrag={true}
+							cardType={cardTypes[0]}
 						/>
 						<MoveInput 
 							currentTab={this.state.currentTab} 

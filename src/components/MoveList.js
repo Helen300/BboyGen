@@ -23,12 +23,10 @@ const { TabPane } = Tabs;
 
 class MoveList extends React.Component {
 
-	componentDidMount() {
-		console.log(tabNames)
-	}
-
 	tabsChange = (key) => {
-		this.props.updateSelectedMoveIdx(-1)
+		if(this.props.updateSelectedMoveIdx) {
+			this.props.updateSelectedMoveIdx(-1)
+		}
 		this.props.updateSelectedTab(key)
 	}
 
@@ -38,7 +36,7 @@ class MoveList extends React.Component {
 			<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
 				<TabPane className="Pane" tab={tabNames[0]} key={tabNames[0]}>
 		  			<CardList
-			  			renderMoves={true}
+			  			cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
 				    	currentTab={this.props.currentTab}
 				    	selectedIdx={this.props.selectedMoveIdx}
@@ -49,7 +47,7 @@ class MoveList extends React.Component {
 			 	</TabPane>
 		  		<TabPane className="Pane" tab={tabNames[1]} key={tabNames[1]}>
 		  			<CardList
-		  				renderMoves={true}
+		  				cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
 				    	currentTab={this.props.currentTab}
 				    	selectedIdx={this.props.selectedMoveIdx}
@@ -61,7 +59,7 @@ class MoveList extends React.Component {
 
 		  		<TabPane className="Pane" tab={tabNames[2]} key={tabNames[2]}>
 		  			<CardList
-		  				renderMoves={true}
+		  				cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
 				    	currentTab={this.props.currentTab}
 				    	selectedIdx={this.props.selectedMoveIdx}
@@ -73,7 +71,7 @@ class MoveList extends React.Component {
 
 			 	<TabPane className="Pane" tab={tabNames[3]} key={tabNames[3]}>
 		  			<CardList 
-		  				renderMoves={true}
+		  				cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
 				    	currentTab={this.props.currentTab}
 				    	selectedIdx={this.props.selectedMoveIdx}
@@ -86,7 +84,7 @@ class MoveList extends React.Component {
 
 		  		<TabPane className="Pane" tab={tabNames[4]} key={tabNames[4]}>
 		  			<CardList 
-		  				renderMoves={true}
+		  				cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
 				    	currentTab={this.props.currentTab}
 				    	selectedIdx={this.props.selectedMoveIdx}

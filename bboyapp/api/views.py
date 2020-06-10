@@ -16,9 +16,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 	@action(methods=['post'], detail=True, url_path='updateMoves', url_name='updateMoves')
 	def updateMoves(self, request, *args, **kwargs):
-		print("$$$$")
-		print(request.data)
-		print("$$$$MOVES")
 		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
 		currentUser.moveList = request.data.get("moveList")
 		currentUser.save()
@@ -26,9 +23,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 	@action(methods=['post'], detail=True, url_path='updateSets', url_name='updateSets')
 	def updateSets(self, request, *args, **kwargs): 
-		print("####")
-		print(request.data)
-		print("####SETS")
 		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
 		currentUser.setList = request.data.get("setList")
 		currentUser.save()

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Move from '../components/Move';
+import MoveUndraggable from '../components/MoveUndraggable';
 import MoveSet from '../components/MoveSet';
 
 import $ from 'jquery';
@@ -92,8 +93,8 @@ class CardList extends React.Component {
 	    return item.type === key
 	  }
 
-	renderCards = (renderMoves) => {
-		if(renderMoves) {
+	renderCards = (cardType) => {
+		if(cardType === cardTypes[0]) {
 			return(
 				this.props.cardList.map((move, idx) => 
 					<Move
@@ -109,7 +110,7 @@ class CardList extends React.Component {
 			        />
 				)
 			)
-		} else {
+		} else if(cardType === cardTypes[1]){
 			return(
 				this.props.cardList.map((moveSet, idx) => 
 					<MoveSet
@@ -121,6 +122,17 @@ class CardList extends React.Component {
 			          // shouldRender={this.moveFilter(move)}
 			          selectedSetIdx={this.props.selectedIdx}
 			          // toggleReverse={this.props.toggleReverse}
+			          //description={item.id}
+			        />
+				)
+			)
+		} else if(cardType === cardTypes[2]) {
+			return(
+				this.props.cardList.map((move) => 
+					<MoveUndraggable
+			          // goes to slash that link 
+			          move={move}
+			          shouldRender={this.moveFilter(move)}
 			          //description={item.id}
 			        />
 				)
@@ -140,7 +152,7 @@ class CardList extends React.Component {
 							class="MoveListDiv"
 						>
 						{
-							this.renderCards(this.props.renderMoves)					
+							this.renderCards(this.props.cardType)					
 						}
 						{provided.placeholder}
 						</div>
@@ -149,7 +161,11 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
-			return(this.renderCards(this.props.renderMoves))
+			return(
+				<div class="MoveListDiv">
+					{this.renderCards(this.props.cardType)}
+				</div>
+			)
 		}
 	}
 }

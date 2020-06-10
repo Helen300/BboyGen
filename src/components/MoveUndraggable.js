@@ -6,32 +6,17 @@ import "../css/components/Move.css"
 const { Meta } = Card;
 
 class MoveUndraggable extends React.Component {
-	getReverseIconClass(reverse) {
-		var classList = ""
-		if(this.isSelected()) {
-			classList = "SelectedReverse"
-			if(reverse) {
-				classList = classList.concat(" SelectedToggledReverse")
-			}
-		} else {
-			classList = "NormalReverse"
-			if(reverse) {
-				classList = classList.concat(" ToggledReverse")
-			}
-		}
-		return classList
-	}
 
 	render() {
 		if (this.props.shouldRender) {
 				return(
 						<Card 
 							hoverable 
-							className="NormalCard"
+							className={"NormalCard"}
 							onClick={() => {}}
 						>
 							<Meta 
-								title={<div className="NormalTitle">
+								title={<div className={"NormalTitle"}>
 											{this.props.move.name}
 									   </div>} 
 							/>
@@ -43,4 +28,4 @@ class MoveUndraggable extends React.Component {
  	}
 }
 
-export default Move;
+export default MoveUndraggable;

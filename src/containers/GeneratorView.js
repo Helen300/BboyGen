@@ -6,7 +6,11 @@ import MoveList from '../components/MoveList';
 import SetView from '../components/SetView';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
-import { tabNames, paneNames } from "../constants"
+import { tabNames, paneNames, cardTypes } from "../constants"
+
+import "../css/containers/Pane.css"
+import "../css/containers/GeneratorView.css"
+import 'bootstrap/dist/css/bootstrap.css';
 
 const { TabPane } = Tabs;
 
@@ -106,7 +110,7 @@ class GeneratorView extends React.Component {
 					<Tabs defaultActiveKey={paneNames[0]}>
 						<TabPane className="Pane" tab={paneNames[0]} key={paneNames[0]}>
 							<CardList 
-								renderMoves={false}
+								cardType={cardTypes[1]}
 								cardList={this.state.setList} 
 								currentTab={paneNames[0]}
 								selectedIdx={this.state.selectedSetIdx}
@@ -116,7 +120,7 @@ class GeneratorView extends React.Component {
 							/>
 						</TabPane>
 					</Tabs>
-					<Button type="primary" onClick={()=>this.addSet()}>Add Set</Button>
+					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
 					<Tabs defaultActiveKey={paneNames[1]}>
@@ -136,10 +140,10 @@ class GeneratorView extends React.Component {
 						moveList={this.state.moveList}
 						currentTab={this.state.currentTab}
 						enableDrag={false}
+						cardType={cardTypes[2]}
 					/>
 				</div>
 			</div>
-
 		)
 	}
 }
