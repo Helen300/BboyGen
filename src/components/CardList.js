@@ -94,7 +94,7 @@ class CardList extends React.Component {
 	  }
 
 	renderCards = (cardType) => {
-		if(cardType === cardTypes[0]) {
+		if(cardType === cardTypes.MOVE) {
 			return(
 				this.props.cardList.map((move, idx) => 
 					<Move
@@ -110,7 +110,7 @@ class CardList extends React.Component {
 			        />
 				)
 			)
-		} else if(cardType === cardTypes[1]){
+		} else if(cardType === cardTypes.SET){
 			return(
 				this.props.cardList.map((moveSet, idx) => 
 					<MoveSet
@@ -126,7 +126,7 @@ class CardList extends React.Component {
 			        />
 				)
 			)
-		} else if(cardType === cardTypes[2]) {
+		} else if(cardType === cardTypes.MOVEUNDRAGGABLE) {
 			return(
 				this.props.cardList.map((move) => 
 					<MoveUndraggable

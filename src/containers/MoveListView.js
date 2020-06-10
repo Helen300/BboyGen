@@ -107,7 +107,7 @@ class MoveListView extends React.Component {
 							selectedMoveIdx={this.state.selectedMoveIdx}
 							currentTab={this.state.currentTab}
 							enableDrag={true}
-							cardType={cardTypes[0]}
+							cardType={cardTypes.MOVE}
 						/>
 						<MoveInput 
 							currentTab={this.state.currentTab} 

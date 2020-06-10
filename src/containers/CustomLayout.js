@@ -39,20 +39,20 @@ class CustomLayout extends React.Component {
         {
             // if authenticated = true we show logout 
             this.props.isAuthenticated ? 
-            [<Menu.Item key={menuKeys[0]} disabled style={{color:"white"}}>
+            [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
               Hello, {localStorage.getItem('username')}
             </Menu.Item>,
-            <Menu.Item key={menuKeys[1]} onClick={() => {this.changeMenuKey(menuKeys[1]); this.props.logout();}} style={{ float:'right' }}>
+            <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.props.logout();}} style={{ float:'right' }}>
               Logout
             </Menu.Item>,
-            <Menu.Item key={menuKeys[2]} onClick={() => this.changeMenuKey(menuKeys[2])}>
+            <Menu.Item key={menuKeys.LIST} onClick={() => this.changeMenuKey(menuKeys.LIST)}>
               <Link to="/">List</Link>
             </Menu.Item>,
-            <Menu.Item key={menuKeys[3]} onClick={() => this.changeMenuKey(menuKeys[3])}>
+            <Menu.Item key={menuKeys.GENERATOR} onClick={() => this.changeMenuKey(menuKeys.GENERATOR)}>
               <Link to="/gen/">Generator</Link>
             </Menu.Item>]
             :
-            <Menu.Item key={menuKeys[4]} style={{ float:'right' }} onClick={() => this.changeMenuKey(menuKeys[4])}>
+            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => this.changeMenuKey(menuKeys.LOGIN)}>
               <Link to="/login/">Login</Link>
             </Menu.Item>
         }
