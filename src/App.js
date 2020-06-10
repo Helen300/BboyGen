@@ -6,7 +6,7 @@ import BaseRouter from './routes';
 import 'antd/dist/antd.css'; 
 import * as actions from './store/actions/auth';
 
-import CustomLayout from './containers/Layout';
+import CustomLayout from './containers/CustomLayout';
 
 class App extends Component {
 
@@ -21,7 +21,7 @@ class App extends Component {
 			    <Router> 
 					{/* passes isAuthenticated down to CustomLayout component */}
 				    <CustomLayout {...this.props}>
-				    	<BaseRouter />
+				    	<BaseRouter {...this.props}/>
 				    </CustomLayout>
 				</Router>
 		    </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import "../css/components/MoveDetail.css"
-import { Input } from 'antd';
+import { Input, Select } from 'antd';
 import axios from 'axios';
 import $ from 'jquery';
 
 const { TextArea } = Input;
-
+const { Option } = Select;
 
 
 
@@ -31,6 +31,30 @@ class MoveDetail extends React.Component {
 		this.props.updateMoveList(newList);
 	}
 
+	updateType = (value) => {
+		var newType = value;
+		// make copy of array
+		var newList = this.props.moveList.slice();
+		newList[this.props.selectedMoveIdx].type = value;
+		this.props.updateMoveList(newList);
+	}
+
+	onTypeBlur = () => {
+	  console.log('blur');
+
+	}
+
+	onTypeFocus = () => {
+	  console.log('focus');
+
+	}
+
+	onTypeSearch = (val) => {
+	  console.log('search:', val);
+	 
+	}
+
+
 	render() {
 		if (this.props.move == null) {
 			return (
@@ -48,19 +72,35 @@ class MoveDetail extends React.Component {
 							  rows={1}
 							  value={this.props.move.name}
 							  onChange={() => this.updateName()}
-					/> 
+					/>
 				</div>
-			
-				{
-				this.props.currentTab === 'All' ?
 				<div>
-					Type: {this.props.move.type} <br/>
+					<Select
+				  	id="selectType"
+				    showSearch
+				    optionFilterProp="children"
+				    onChange={this.updateType}
+				    onFocus={this.onTypeFocus}
+				    onBlur={this.onTypeBlur}
+				    onSearch={this.onTypeSearch}
+				    // defaultValue={this.state.selectedMoveType}
+				    value={this.props.move.type}
+				    filterOption={(input, option) =>
+				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+				    }
+				    className="SelectType"
+				  >
+				    <Option value="Toprock">Toprock</Option>
+				    <Option value="Footwork">Footwork</Option>
+				    <Option value="Freezes">Freezes</Option>
+				    <Option value="Power">Power</Option>
+				  </Select>
+				 </div>
+				 <div>
+				  <br/>
 					Reverse Possible: {this.props.move.reverse ? "Yes" : "No"}
 				</div>
-				:
-				null
 
-				}
 				<TextArea id="moveDescription" 
 						  rows={4} 
 						  value={this.props.move.description} 

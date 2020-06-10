@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import CardList from '../components/CardList';
+import SetView from '../components/SetView';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
 
@@ -13,7 +14,6 @@ class GeneratorView extends React.Component {
 	state = {
 		setList: [], 
 		selectedSetIdx: -1,
-		currentTab:tabNames[0],
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -52,6 +52,20 @@ class GeneratorView extends React.Component {
 			this.updateSetList(newList)
 	}
 
+	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
+
+	componentDidMount() {
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				setList: res.data.setList
+			});
+		})
+        .catch(error => console.error(error));
+	}
+
 
 	componentWillReceiveProps(newProps) {
 		if (newProps.token) {
@@ -68,7 +82,7 @@ class GeneratorView extends React.Component {
 				});
 			})
 	        .catch(error => console.error(error));
-			}
+		}
 	}
 
 
@@ -95,9 +109,15 @@ class GeneratorView extends React.Component {
 				<div className="col-md-4 h-100">
 					<Tabs defaultActiveKey={tabNames[1]} onChange={(key) => this.tabsChange(key)}>
 						<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
-		
+							<SetView 
+								set={this.state.setList[this.state.selectedSetIdx]} 
+								setList={this.state.setList}
+								selectedSetIdx={this.state.selectedSetIdx}
+								updateSetList={this.updateSetList.bind(this)}
+							/>
 						</TabPane>
 					</Tabs>
+
 				</div>
 			</div>
 

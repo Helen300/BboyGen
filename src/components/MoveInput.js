@@ -98,7 +98,7 @@ class MoveInput extends React.Component {
 						placeholder="Add Move" 
 						onSearch={() => this.addMove()} 
 						refresh={this.state.refresh} 
-						enterButton={<center><PlusOutlined /></center>} 
+						enterButton={<div style={{ textAlign:"center" }}><PlusOutlined /></div>} 
 						className="InputMove"
 					/>
 			</div>

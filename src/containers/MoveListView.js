@@ -56,6 +56,20 @@ class MoveListView extends React.Component {
 		}
 	}
 
+	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
+
+	componentDidMount() {
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				moveList: res.data.moveList
+			});
+		})
+        .catch(error => console.error(error));
+	}
+
 	// when new props arrive, component rerenders
 	componentWillReceiveProps(newProps) {
 		if (newProps.token) {
@@ -72,7 +86,7 @@ class MoveListView extends React.Component {
 				});
 			})
 	        .catch(error => console.error(error));
-			}
+		}
 	}
 
 
