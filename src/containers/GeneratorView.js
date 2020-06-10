@@ -14,7 +14,6 @@ class GeneratorView extends React.Component {
 	state = {
 		setList: [], 
 		selectedSetIdx: -1,
-		currentTab:tabNames[0],
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -96,9 +95,15 @@ class GeneratorView extends React.Component {
 				<div className="col-md-4 h-100">
 					<Tabs defaultActiveKey={tabNames[1]} onChange={(key) => this.tabsChange(key)}>
 						<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
-							<SetView />
+							<SetView 
+								set={this.state.setList[this.state.selectedSetIdx]} 
+								setList={this.state.setList}
+								selectedSetIdx={this.state.selectedSetIdx}
+								updateSetList={this.updateSetList.bind(this)}
+							/>
 						</TabPane>
 					</Tabs>
+
 				</div>
 			</div>
 

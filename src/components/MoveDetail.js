@@ -72,7 +72,7 @@ class MoveDetail extends React.Component {
 							  rows={1}
 							  value={this.props.move.name}
 							  onChange={() => this.updateName()}
-					/> 
+					/>
 				</div>
 				<div>
 					<Select
@@ -95,6 +95,8 @@ class MoveDetail extends React.Component {
 				    <Option value="Freezes">Freezes</Option>
 				    <Option value="Power">Power</Option>
 				  </Select>
+				 </div>
+				 <div>
 				  <br/>
 					Reverse Possible: {this.props.move.reverse ? "Yes" : "No"}
 				</div>
