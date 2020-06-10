@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import CardList from '../components/CardList';
+import SetView from '../components/SetView';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
 
@@ -95,7 +96,7 @@ class GeneratorView extends React.Component {
 				<div className="col-md-4 h-100">
 					<Tabs defaultActiveKey={tabNames[1]} onChange={(key) => this.tabsChange(key)}>
 						<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
-		
+							<SetView />
 						</TabPane>
 					</Tabs>
 				</div>

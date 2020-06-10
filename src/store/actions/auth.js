@@ -73,7 +73,7 @@ export const authLogin = (username, password) => {
 			// can't just store it in the application, must store it in something that persists
 			localStorage.setItem('token', token);
 			localStorage.setItem('expirationDate', expirationDate);
-			localStorage.setItem('username', username);
+			localStorage.setItem('username', username.trim());
 			// successful login
 			dispatch(authSuccess(token));
 			dispatch(checkAuthTimeout(3600))
@@ -110,7 +110,7 @@ export const authSignup = (username, email, password1, password2) => {
 			// can't just store it in the application, must store it in something that persists
 			localStorage.setItem('token', token);
 			localStorage.setItem('expirationDate', expirationDate);
-			localStorage.setItem('username', username);
+			localStorage.setItem('username', username.trim());
 			// successful login
 			dispatch(authSuccess(token));
 			dispatch(checkAuthTimeout(3600))
