@@ -70,13 +70,6 @@ class CardList extends React.Component {
 		this.props.updateCardList(newList)
 	}
 
-	resetIcon = (cardIdx) => {
-		// generating a new list and updating it 
-		var newList = this.props.cardList.slice()
-		newList[cardIdx].reverse = false
-		this.props.updateCardList(newList)
-	}
-
 	selectCard = (moveIdx) => {
 		// unselect the move if it is selected again
 		if(!this.props.updateSelectedIdx) {
