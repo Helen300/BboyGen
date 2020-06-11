@@ -20,6 +20,11 @@
 	margin-right: 2%;
 }
 
+.NormalAdd {
+	float: right;
+	color: #5f6bb2;
+}
+
 .ToggledReverse {
 	float: right;
 	color: orange;

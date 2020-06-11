@@ -60,7 +60,6 @@ class CardList extends React.Component {
 		if(cardIdx === this.props.selectedIdx) {
 			this.props.updateSelectedIdx(-1)
 		}
-		console.log('newwwww LIST DEELLELELETE CARD', newList);
 		this.props.updateCardList(newList)
 	}
 
@@ -71,8 +70,18 @@ class CardList extends React.Component {
 		this.props.updateCardList(newList)
 	}
 
+	resetIcon = (cardIdx) => {
+		// generating a new list and updating it 
+		var newList = this.props.cardList.slice()
+		newList[cardIdx].reverse = false
+		this.props.updateCardList(newList)
+	}
+
 	selectCard = (moveIdx) => {
 		// unselect the move if it is selected again
+		if(!this.props.updateSelectedIdx) {
+			return
+		}
 		if(moveIdx === this.props.selectedIdx) {
 			this.props.updateSelectedIdx(-1)
 		} else {
@@ -95,59 +104,71 @@ class CardList extends React.Component {
 	  }
 
 	renderCards = (cardType) => {
-		console.log(cardType)
-		console.log('here');
-		if(cardType === cardTypes.MOVE) {
-			return(
-				this.props.cardList.map((move, idx) => 
-					<Move
-			          // goes to slash that link 
-			          move={move}
-			          moveIdx={idx}
-			          deleteMove={this.deleteCard}
-			          selectMove={this.selectCard}
-			          shouldRender={this.moveFilter(move)}
-			          toggleReverse={this.toggleIcon}
-			          //description={item.id}
-			        />
+		switch(cardType) {
+			case cardTypes.MOVE:
+				return(
+					this.props.cardList.map((move, idx) => 
+						<Move
+				          // goes to slash that link 
+				          move={move}
+				          moveIdx={idx}
+				          deleteMove={this.deleteCard}
+				          selectMove={this.selectCard}
+				          shouldRender={this.moveFilter(move)}
+				          selectedMoveIdx={this.props.selectedIdx}
+				          toggleReverse={this.toggleIcon}
+				          //description={item.id}
+				        />
+					)
 				)
-			)
-		} else if(cardType === cardTypes.SET){
-			return(
-				this.props.cardList.map((moveSet, idx) => 
-					<MoveSet
-			          // goes to slash that link 
-			          moveSet={moveSet}
-			          setIdx={idx}
-			          deleteSet={this.deleteCard}
-			          selectSet={this.selectCard}
-			          // shouldRender={this.moveFilter(move)}
-			          selectedSetIdx={this.props.selectedIdx}
-			          // toggleReverse={this.props.toggleReverse}
-			          //description={item.id}
-			        />
+			case cardTypes.SET:
+				return(
+					this.props.cardList.map((moveSet, idx) => 
+						<MoveSet
+				          // goes to slash that link 
+				          moveSet={moveSet}
+				          setIdx={idx}
+				          deleteSet={this.deleteCard}
+				          selectSet={this.selectCard}
+				          // shouldRender={this.moveFilter(move)}
+				          selectedSetIdx={this.props.selectedIdx}
+				          // toggleReverse={this.props.toggleReverse}
+				          //description={item.id}
+				        />
+					)
 				)
-			)
-		} else if(cardType === cardTypes.MOVEUNDRAGGABLE) {
-			return(
-				this.props.cardList.map((move, idx) => 
-					<MoveUndraggable
-			          // goes to slash that link 
-			          move={move}
-			          moveIdx={idx}
-			          shouldRender={this.moveFilter(move)}
-			          moveList={this.props.cardList}
-			          addMove={this.props.updateMoveToSetList}
-			          //description={item.id}
-			        />
+			case cardTypes.MOVE_UNDRAGGABLE:
+				return(
+					this.props.cardList.map((move, idx) => 
+						<MoveUndraggable
+				          // goes to slash that link 
+				          move={move}
+				          shouldRender={this.moveFilter(move)}
+				          addMove={this.props.addToSetMoveList}
+				          //description={item.id}
+				        />
+					)
 				)
-			)
+			case cardTypes.SET_MOVE:
+				return(
+					this.props.cardList.map((move, idx) => 
+						<Move
+				          // goes to slash that link 
+				          move={move}
+				          moveIdx={idx}
+				          deleteMove={this.deleteCard}
+				          selectMove={this.selectCard}
+				          shouldRender={this.moveFilter(move)}
+				          selectedMoveIdx={this.props.selectedIdx}
+				          //description={item.id}
+				        />
+					)
+				)
 		}
 	}
 
 	render() {
 		if(this.props.enableDrag) {
-			console.log('drag');
 			return (
 				<DragDropContext onDragEnd={this.onDragEnd}>
 				<Droppable droppableId={this.props.currentTab}>
@@ -167,7 +188,6 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
-			console.log('no drag');
 			return(
 				<div class="MoveListDiv">
 					{this.renderCards(this.props.cardType)}

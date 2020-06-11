@@ -56,12 +56,7 @@ class Move extends React.Component {
 							>
 								<Meta 
 									title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>
-												{this.props.move.name} 
-												<DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> 
-												{this.props.toggleReverse ? 
-												<ReloadOutlined className={this.getReverseIconClass(this.props.move.reverse)} onClick={(e) => this.toggleReverse(e)}/>
-												:
-												null}
+												{this.props.move.name} <DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> <ReloadOutlined className={this.getReverseIconClass(this.props.move.reverse)} onClick={(e) => this.toggleReverse(e)}/>
 										   </div>} 
 								/>
 					  		</Card> 

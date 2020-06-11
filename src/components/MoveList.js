@@ -42,7 +42,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
-				    	updateMoveToSetList={this.props.updateMoveToSetList}
+				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 				    	/>
 			 	</TabPane>
@@ -54,7 +54,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
-				    	updateMoveToSetList={this.props.updateMoveToSetList}
+				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 
 			    	/>
@@ -68,7 +68,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
-				    	updateMoveToSetList={this.props.updateMoveToSetList}
+				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 			    	/>
 			 	</TabPane>
@@ -81,7 +81,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
-				    	updateMoveToSetListt={this.props.updateMoveToSetList}
+				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 			    	/>
 			 	</TabPane>
@@ -95,7 +95,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
-				    	updateMoveToSetList={this.props.updateMoveToSetListt}
+				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 			    	/>
 			 	</TabPane>

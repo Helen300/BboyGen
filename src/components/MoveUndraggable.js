@@ -9,32 +9,18 @@ const { Meta } = Card;
 
 class MoveUndraggable extends React.Component {
 
-
-	isSelected() {
-		return this.props.moveIdx === this.props.selectedMoveIdx
-	}
-
-	addMoveToSet(e) {
-		e.stopPropagation();
-		console.log('~~~~add this move to list');
-		this.props.addMove(this.props.move);
-	}
-
-
 	render() {
 		if (this.props.shouldRender) {
 				return(
 						<Card 
 							hoverable 
 							className={"NormalCard"}
-							onClick={() => {}}
+							onClick={() => {this.props.addMove(this.props.move)}}
 						>
 							<Meta 
 								title={<div className={"NormalTitle"}>
 											{this.props.move.name}
-										<PlusOutlined 
-											className={"NormalDelete"}
-											onClick={(e) => this.addMoveToSet(e)} />
+										<PlusOutlined className={"NormalAdd"}/>
 									   </div>} 
 							/>
 				  		</Card> 

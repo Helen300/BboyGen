@@ -11,24 +11,14 @@ const { TabPane } = Tabs;
 
 
 // for all moves, there exists one moveDetail div that gets updated 
-class SetMovesList extends React.Component {
+class SetMoveList extends React.Component {
 
 	state = {
-		moveList: [],
-		selectedMoveIdx: -1,
 		setIdx: -1,
 		currentTab: 'All',
 	}
 
-
-	updateSelectedMoveIdx(newIdx) {
-		this.setState({
-			selectedMoveIdx: newIdx,
-		})
-	}
-
-
-	updateMoveList(newList) {
+	updateSetMoveList(newList) {
 		this.setState({
 			moveList: newList
 		})
@@ -40,7 +30,7 @@ class SetMovesList extends React.Component {
 
 
 	render() {
-		if (this.props.set == null) {
+		if (this.props.selectedSetIdx == -1) {
 			return (
 				// since we need to return one div
 				<div>
@@ -53,11 +43,9 @@ class SetMovesList extends React.Component {
 				<Tabs defaultActiveKey={paneNames.CURRENT_SET}>
 					<TabPane className="Pane" tab={paneNames.CURRENT_SET} key={paneNames.CURRENT_SET}>
 						<CardList
-							cardType={cardTypes.MOVE}
-							cardList={this.props.set.moves}
-							selectedIdx={this.state.selectedMoveIdx}
-							updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							updateCardList={this.updateMoveList.bind(this)}
+							cardType={cardTypes.SET_MOVE}
+							cardList={this.props.setList[this.props.selectedSetIdx].moves}
+							updateCardList={this.updateSetMoveList.bind(this)}
 							enableDrag={true}
 							currentTab={this.state.currentTab}
 						/>
@@ -77,4 +65,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default SetMovesList;
+export default SetMoveList;
