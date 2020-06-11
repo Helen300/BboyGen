@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import MoveDetail from '../components/MoveDetail';
-import CardList from '../components/CardList';
+import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
 
 import $ from 'jquery';
@@ -11,22 +11,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
-import "../css/containers/MoveListView.css"
+import "../css/containers/Pane.css"
+
+import { tabNames, cardTypes } from "../constants"
 
 
 
 // import { Input } from 'antd';
 // contains List of Moves and Form to add moves 
 
-const { TabPane } = Tabs;
-const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
-
 
 class MoveListView extends React.Component {
 	state = {
 		moveList: [],
 		selectedMoveIdx: -1,
-		currentTab: tabNames[0],
+		currentTab:tabNames[0]
 	}
 
 	updateSelectedMoveIdx(newIdx) {
@@ -54,6 +53,12 @@ class MoveListView extends React.Component {
 		          })
 		          .catch(error => console.error(error));
 		}
+	}
+
+	updateSelectedTab(newTab) {
+		this.setState({
+			currentTab: newTab
+		})
 	}
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
@@ -90,75 +95,20 @@ class MoveListView extends React.Component {
 	}
 
 
-	tabsChange = (key) => {
-		this.setState({ 
-			selectedMoveIdx: -1,
-			currentTab: key,
-		})
-
-	}
-
-
 	render() {
 		return (
 				<div className="row h-100">
 					<div className="col-md-4 h-100">
-						<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
-							<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
-					  			<CardList
-						  			renderMoves={true}
-							    	cardList={this.state.moveList} 
-							    	currentTab={this.state.currentTab}
-							    	selectedIdx={this.state.selectedMoveIdx}
-							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateCardList={this.updateMoveList.bind(this)}
-							    	/>
-						 	</TabPane>
-					  		<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
-					  			<CardList
-					  				renderMoves={true}
-							    	cardList={this.state.moveList} 
-							    	currentTab={this.state.currentTab}
-							    	selectedIdx={this.state.selectedMoveIdx}
-							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateCardList={this.updateMoveList.bind(this)}
-						    	/>
-						 	</TabPane>
-
-					  		<TabPane className="TabPane" tab={tabNames[2]} key={tabNames[2]}>
-					  			<CardList
-					  				renderMoves={true}
-							    	cardList={this.state.moveList} 
-							    	currentTab={this.state.currentTab}
-							    	selectedIdx={this.state.selectedMoveIdx}
-							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateCardList={this.updateMoveList.bind(this)}
-						    	/>
-						 	</TabPane>
-
-						 	<TabPane className="TabPane" tab={tabNames[3]} key={tabNames[3]}>
-					  			<CardList 
-					  				renderMoves={true}
-							    	cardList={this.state.moveList} 
-							    	currentTab={this.state.currentTab}
-							    	selectedIdx={this.state.selectedMoveIdx}
-							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateCardList={this.updateMoveList.bind(this)}
-						    	/>
-						 	</TabPane>
-
-
-					  		<TabPane className="TabPane" tab={tabNames[4]} key={tabNames[4]}>
-					  			<CardList 
-					  				renderMoves={true}
-							    	cardList={this.state.moveList} 
-							    	currentTab={this.state.currentTab}
-							    	selectedIdx={this.state.selectedMoveIdx}
-							    	updateSelectedIdx={this.updateSelectedMoveIdx.bind(this)}
-							    	updateCardList={this.updateMoveList.bind(this)}
-						    	/>
-						 	</TabPane>
-						</Tabs>
+						<MoveList
+							updateSelectedMoveIdx={this.updateSelectedMoveIdx.bind(this)}
+							updateMoveList={this.updateMoveList.bind(this)}
+							updateSelectedTab={this.updateSelectedTab.bind(this)}
+							moveList={this.state.moveList}
+							selectedMoveIdx={this.state.selectedMoveIdx}
+							currentTab={this.state.currentTab}
+							enableDrag={true}
+							cardType={cardTypes.MOVE}
+						/>
 						<MoveInput 
 							currentTab={this.state.currentTab} 
 							moveList={this.state.moveList}

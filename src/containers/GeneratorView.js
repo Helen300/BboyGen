@@ -2,18 +2,25 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import CardList from '../components/CardList';
+import MoveList from '../components/MoveList';
 import SetView from '../components/SetView';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
+import { tabNames, paneNames, cardTypes } from "../constants"
+
+import "../css/containers/Pane.css"
+import "../css/containers/GeneratorView.css"
+import 'bootstrap/dist/css/bootstrap.css';
 
 const { TabPane } = Tabs;
-const tabNames = ['All Sets', 'STUFFF', 'Footwork', 'Freezes', 'Power'];
 
 class GeneratorView extends React.Component {
 
 	state = {
 		setList: [], 
 		selectedSetIdx: -1,
+		moveList: [],
+		currentTab: tabNames[0]
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -43,6 +50,12 @@ class GeneratorView extends React.Component {
 		}
 	}
 
+	updateSelectedTab(newTab) {
+		this.setState({
+			currentTab: newTab
+		})
+	}
+
 	addSet() {
 			var newList = this.state.setList.concat([{
 						"name": "Set #".concat(this.state.setList.length),
@@ -60,7 +73,8 @@ class GeneratorView extends React.Component {
 		axios.get(apiUrl)
 		.then(res => {
 			this.setState({
-				setList: res.data.setList
+				setList: res.data.setList,
+				moveList: res.data.moveList
 			});
 		})
         .catch(error => console.error(error));
@@ -78,7 +92,8 @@ class GeneratorView extends React.Component {
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					setList: res.data.setList
+					setList: res.data.setList,
+					moveList: res.data.moveList
 				});
 			})
 	        .catch(error => console.error(error));
@@ -92,23 +107,24 @@ class GeneratorView extends React.Component {
 
 			<div className="row h-100">
 				<div className="col-md-4 h-100">
-					<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
-						<TabPane className="TabPane" tab={tabNames[0]} key={tabNames[0]}>
+					<Tabs defaultActiveKey={paneNames.ALL_SETS}>
+						<TabPane className="Pane" tab={paneNames.ALL_SETS} key={paneNames.ALL_SETS}>
 							<CardList 
-								renderMoves={false}
+								cardType={cardTypes.SET}
 								cardList={this.state.setList} 
-								currentTab={this.state.currentTab}
+								currentTab={paneNames.ALL_SETS}
 								selectedIdx={this.state.selectedSetIdx}
 								updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
 								updateCardList={this.updateSetList.bind(this)}
+								enableDrag={true}
 							/>
 						</TabPane>
 					</Tabs>
-					<Button type="primary" onClick={()=>this.addSet()}>Add Set</Button>
+					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
-					<Tabs defaultActiveKey={tabNames[1]} onChange={(key) => this.tabsChange(key)}>
-						<TabPane className="TabPane" tab={tabNames[1]} key={tabNames[1]}>
+					<Tabs defaultActiveKey={paneNames.CURRENT_SET}>
+						<TabPane className="Pane" tab={paneNames.CURRENT_SET} key={paneNames.CURRENT_SET}>
 							<SetView 
 								set={this.state.setList[this.state.selectedSetIdx]} 
 								setList={this.state.setList}
@@ -117,10 +133,17 @@ class GeneratorView extends React.Component {
 							/>
 						</TabPane>
 					</Tabs>
-
+				</div>
+				<div className="col-md-4 h-100">
+					<MoveList
+						updateSelectedTab={this.updateSelectedTab.bind(this)}
+						moveList={this.state.moveList}
+						currentTab={this.state.currentTab}
+						enableDrag={false}
+						cardType={cardTypes.MOVEUNDRAGGABLE}
+					/>
 				</div>
 			</div>
-
 		)
 	}
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Move from '../components/Move';
+import MoveUndraggable from '../components/MoveUndraggable';
 import MoveSet from '../components/MoveSet';
 
 import $ from 'jquery';
@@ -10,6 +11,8 @@ import { Droppable } from 'react-beautiful-dnd';
 // import 'antd/dist/antd.css';
 
 import "../css/components/CardList.css"
+
+import { cardTypes } from "../constants"
 
 
 // contains List of Moves and Form to add moves 
@@ -90,8 +93,8 @@ class CardList extends React.Component {
 	    return item.type === key
 	  }
 
-	renderCards = (renderMoves) => {
-		if(renderMoves) {
+	renderCards = (cardType) => {
+		if(cardType === cardTypes.MOVE) {
 			return(
 				this.props.cardList.map((move, idx) => 
 					<Move
@@ -107,12 +110,12 @@ class CardList extends React.Component {
 			        />
 				)
 			)
-		} else {
+		} else if(cardType === cardTypes.SET){
 			return(
-				this.props.cardList.map((set, idx) => 
+				this.props.cardList.map((moveSet, idx) => 
 					<MoveSet
 			          // goes to slash that link 
-			          set={set}
+			          moveSet={moveSet}
 			          setIdx={idx}
 			          deleteSet={this.deleteCard}
 			          selectSet={this.selectCard}
@@ -123,28 +126,47 @@ class CardList extends React.Component {
 			        />
 				)
 			)
+		} else if(cardType === cardTypes.MOVEUNDRAGGABLE) {
+			return(
+				this.props.cardList.map((move) => 
+					<MoveUndraggable
+			          // goes to slash that link 
+			          move={move}
+			          shouldRender={this.moveFilter(move)}
+			          //description={item.id}
+			        />
+				)
+			)
 		}
 	}
 
 	render() {
-		return (
-			<DragDropContext onDragEnd={this.onDragEnd}>
-			<Droppable droppableId={this.props.currentTab}>
-				{provided => (
-					<div
-						ref={provided.innerRef}
-						{...provided.droppableProps}
-						class="MoveListDiv"
-					>
-					{
-						this.renderCards(this.props.renderMoves)						
-					}
-					{provided.placeholder}
-					</div>
-				)}
-			</Droppable>
-			</DragDropContext>
-		);
+		if(this.props.enableDrag) {
+			return (
+				<DragDropContext onDragEnd={this.onDragEnd}>
+				<Droppable droppableId={this.props.currentTab}>
+					{provided => (
+						<div
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+							class="MoveListDiv"
+						>
+						{
+							this.renderCards(this.props.cardType)					
+						}
+						{provided.placeholder}
+						</div>
+					)}
+				</Droppable>
+				</DragDropContext>
+			);
+		} else {
+			return(
+				<div class="MoveListDiv">
+					{this.renderCards(this.props.cardType)}
+				</div>
+			)
+		}
 	}
 }
 

@@ -34,7 +34,7 @@ class MoveSet extends React.Component {
 						onClick={() => this.props.selectSet(this.props.setIdx)}
 					>
 						<Meta 
-							title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>{this.props.set.name} 
+							title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>{this.props.moveSet.name} 
 									<DeleteOutlined 
 										className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} 
 										onClick={(e) => this.deleteSet(e)}/>
