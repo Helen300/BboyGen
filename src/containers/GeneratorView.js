@@ -3,7 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
-import SetView from '../components/SetView';
+import SetMovesList from '../components/SetMovesList';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
 import { tabNames, paneNames, cardTypes } from "../constants"
@@ -25,7 +25,7 @@ class GeneratorView extends React.Component {
 
 	updateSelectedSetIdx(selectedSetIdx) {
 		this.setState({
-			selectedSetIdx: selectedSetIdx
+			selectedSetIdx: selectedSetIdx,
 		})
 	}
 
@@ -56,13 +56,23 @@ class GeneratorView extends React.Component {
 		})
 	}
 
+	// adds a new set 
 	addSet() {
 			var newList = this.state.setList.concat([{
 						"name": "Set #".concat(this.state.setList.length),
+						"id": "Set".concat(this.state.setList.length),
 						"description": "", 
 						"moves": [],
 					}])
 			this.updateSetList(newList)
+	}
+
+	// adds a new move to a selected set 
+	addToSetList(newMove) {
+		var newSetList = this.state.setList;
+		var newList = newSetList[this.state.selectedSetIdx].moves.concat(newMove);
+		newSetList[this.state.selectedSetIdx].moves = newList;
+		this.updateSetList(newSetList);
 	}
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
@@ -103,6 +113,7 @@ class GeneratorView extends React.Component {
 
 
 	render() {
+		console.log(this.state.setList[this.state.selectedSetIdx]);
 		return (
 
 			<div className="row h-100">
@@ -123,25 +134,24 @@ class GeneratorView extends React.Component {
 					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
-					<Tabs defaultActiveKey={paneNames.CURRENT_SET}>
-						<TabPane className="Pane" tab={paneNames.CURRENT_SET} key={paneNames.CURRENT_SET}>
-							<SetView 
-								set={this.state.setList[this.state.selectedSetIdx]} 
-								setList={this.state.setList}
-								selectedSetIdx={this.state.selectedSetIdx}
-								updateSetList={this.updateSetList.bind(this)}
-							/>
-						</TabPane>
-					</Tabs>
+					<SetMovesList
+						set={this.state.setList[this.state.selectedSetIdx]} 
+						setList={this.state.setList}
+						selectedSetIdx={this.state.selectedSetIdx}
+						updateSetList={this.updateSetList.bind(this)}
+					/>
 				</div>
 				<div className="col-md-4 h-100">
-					<MoveList
-						updateSelectedTab={this.updateSelectedTab.bind(this)}
-						moveList={this.state.moveList}
-						currentTab={this.state.currentTab}
-						enableDrag={false}
-						cardType={cardTypes.MOVEUNDRAGGABLE}
-					/>
+					{this.state.selectedSetIdx == -1 ? null : 
+						<MoveList
+							updateSelectedTab={this.updateSelectedTab.bind(this)}
+							moveList={this.state.moveList}
+							currentTab={this.state.currentTab}
+							enableDrag={false}
+							cardType={cardTypes.MOVEUNDRAGGABLE}
+							updateMoveToSetList={this.addToSetList.bind(this)}
+						/>
+					}
 				</div>
 			</div>
 		)

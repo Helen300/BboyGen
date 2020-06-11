@@ -60,6 +60,7 @@ class CardList extends React.Component {
 		if(cardIdx === this.props.selectedIdx) {
 			this.props.updateSelectedIdx(-1)
 		}
+		console.log('newwwww LIST DEELLELELETE CARD', newList);
 		this.props.updateCardList(newList)
 	}
 
@@ -94,6 +95,8 @@ class CardList extends React.Component {
 	  }
 
 	renderCards = (cardType) => {
+		console.log(cardType)
+		console.log('here');
 		if(cardType === cardTypes.MOVE) {
 			return(
 				this.props.cardList.map((move, idx) => 
@@ -104,7 +107,6 @@ class CardList extends React.Component {
 			          deleteMove={this.deleteCard}
 			          selectMove={this.selectCard}
 			          shouldRender={this.moveFilter(move)}
-			          selectedMoveIdx={this.props.selectedIdx}
 			          toggleReverse={this.toggleIcon}
 			          //description={item.id}
 			        />
@@ -128,11 +130,14 @@ class CardList extends React.Component {
 			)
 		} else if(cardType === cardTypes.MOVEUNDRAGGABLE) {
 			return(
-				this.props.cardList.map((move) => 
+				this.props.cardList.map((move, idx) => 
 					<MoveUndraggable
 			          // goes to slash that link 
 			          move={move}
+			          moveIdx={idx}
 			          shouldRender={this.moveFilter(move)}
+			          moveList={this.props.cardList}
+			          addMove={this.props.updateMoveToSetList}
 			          //description={item.id}
 			        />
 				)
@@ -142,6 +147,7 @@ class CardList extends React.Component {
 
 	render() {
 		if(this.props.enableDrag) {
+			console.log('drag');
 			return (
 				<DragDropContext onDragEnd={this.onDragEnd}>
 				<Droppable droppableId={this.props.currentTab}>
@@ -161,6 +167,7 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
+			console.log('no drag');
 			return(
 				<div class="MoveListDiv">
 					{this.renderCards(this.props.cardType)}

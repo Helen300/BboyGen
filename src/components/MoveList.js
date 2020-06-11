@@ -42,6 +42,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
+				    	updateMoveToSetList={this.props.updateMoveToSetList}
 				    	enableDrag={this.props.enableDrag}
 				    	/>
 			 	</TabPane>
@@ -53,7 +54,9 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
+				    	updateMoveToSetList={this.props.updateMoveToSetList}
 				    	enableDrag={this.props.enableDrag}
+
 			    	/>
 			 	</TabPane>
 
@@ -65,6 +68,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
+				    	updateMoveToSetList={this.props.updateMoveToSetList}
 				    	enableDrag={this.props.enableDrag}
 			    	/>
 			 	</TabPane>
@@ -77,6 +81,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
+				    	updateMoveToSetListt={this.props.updateMoveToSetList}
 				    	enableDrag={this.props.enableDrag}
 			    	/>
 			 	</TabPane>
@@ -90,6 +95,7 @@ class MoveList extends React.Component {
 				    	selectedIdx={this.props.selectedMoveIdx}
 				    	updateSelectedIdx={this.props.updateSelectedMoveIdx}
 				    	updateCardList={this.props.updateMoveList}
+				    	updateMoveToSetList={this.props.updateMoveToSetListt}
 				    	enableDrag={this.props.enableDrag}
 			    	/>
 			 	</TabPane>
