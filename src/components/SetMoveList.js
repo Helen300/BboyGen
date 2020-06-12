@@ -19,9 +19,6 @@ class SetMoveList extends React.Component {
 	}
 
 	updateSetMoveList(newList) {
-		this.setState({
-			moveList: newList
-		})
 		var newSetList = this.props.setList;
 		newSetList[this.props.selectedSetIdx].moves = newList;
 		this.props.updateSetList(newSetList);
