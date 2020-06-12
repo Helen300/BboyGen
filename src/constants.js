@@ -13,7 +13,8 @@ export const menuKeys = {
 export const cardTypes = {
 	MOVE: 'Move', 
 	SET: 'Set', 
-	MOVEUNDRAGGABLE: 'MoveUndraggable'
+	MOVE_UNDRAGGABLE: 'Move Undraggable',
+	SET_MOVE: 'Set Move'
 };
 
 export const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];

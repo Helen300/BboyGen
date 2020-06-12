@@ -1,9 +1,11 @@
 import React from 'react';
 import { Card } from 'antd';
+import { PlusOutlined } from '@ant-design/icons'
 import "../css/components/Move.css"
 
 // what does the Meta do? 
 const { Meta } = Card;
+
 
 class MoveUndraggable extends React.Component {
 
@@ -13,11 +15,12 @@ class MoveUndraggable extends React.Component {
 						<Card 
 							hoverable 
 							className={"NormalCard"}
-							onClick={() => {}}
+							onClick={() => {this.props.addMove(this.props.move)}}
 						>
 							<Meta 
 								title={<div className={"NormalTitle"}>
 											{this.props.move.name}
+										<PlusOutlined className={"NormalAdd"}/>
 									   </div>} 
 							/>
 				  		</Card> 
