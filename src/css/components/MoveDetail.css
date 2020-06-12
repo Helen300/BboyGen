@@ -12,8 +12,9 @@
 }
 
 .Reversible {
-	background-color:#939BCB;
-	color: white;
+	background-color:#939BCB !important;
+	color: white !important;
+	border-color: white !important;
 }
 
 .NotReversible {
