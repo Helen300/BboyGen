@@ -15,9 +15,9 @@ import "../css/containers/Pane.css"
 
 import { tabNames, cardTypes } from "../constants"
 
+import { animateScroll } from "react-scroll";
 
 
-// import { Input } from 'antd';
 // contains List of Moves and Form to add moves 
 
 
@@ -61,6 +61,13 @@ class MoveListView extends React.Component {
 		})
 	}
 
+	 scrollToBottom() {
+	 	console.log('scrollingggg');
+	    animateScroll.scrollToBottom({
+	      containerId: "MoveList"
+	    });
+	}	
+
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 
 	componentDidMount() {
@@ -95,6 +102,8 @@ class MoveListView extends React.Component {
 	}
 
 
+
+
 	render() {
 		return (
 				<div className="row h-100">
@@ -112,6 +121,7 @@ class MoveListView extends React.Component {
 						<MoveInput 
 							currentTab={this.state.currentTab} 
 							moveList={this.state.moveList}
+							scrollToBottom={this.scrollToBottom}
 							updateMoveList={this.updateMoveList.bind(this)}
 						/>
 						</div>

@@ -13,7 +13,7 @@ export const menuKeys = {
 export const cardTypes = {
 	MOVE: 'Move', 
 	SET: 'Set', 
-	MOVE_UNDRAGGABLE: 'Move Undraggable',
+	MOVE_ADDABLE: 'Move Addable',
 	SET_MOVE: 'Set Move'
 };
 

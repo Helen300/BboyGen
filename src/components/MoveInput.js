@@ -56,7 +56,7 @@ class MoveInput extends React.Component {
 					"type": this.state.selectedMoveType,
 					"reverse": false
 				}])
-		this.props.updateMoveList(newList)
+		this.props.updateMoveList(newList);
 	}
 
 	componentWillReceiveProps(newProps) {

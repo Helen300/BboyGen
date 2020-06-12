@@ -146,7 +146,7 @@ class GeneratorView extends React.Component {
 							moveList={this.state.moveList}
 							currentTab={this.state.currentTab}
 							enableDrag={false}
-							cardType={cardTypes.MOVE_UNDRAGGABLE}
+							cardType={cardTypes.MOVE_ADDABLE}
 							addToSetMoveList={this.addToSetMoveList.bind(this)}
 						/>
 					}

@@ -8,7 +8,7 @@ import { Draggable } from 'react-beautiful-dnd';
 const { Meta } = Card;
 
 
-class MoveSet extends React.Component {
+class SetCard extends React.Component {
 
 	isSelected() {
 		return this.props.setIdx === this.props.selectedSetIdx
@@ -52,4 +52,4 @@ class MoveSet extends React.Component {
 }
 
 
-export default MoveSet;
+export default SetCard;

@@ -7,6 +7,7 @@ import * as actions from '../store/actions/auth';
 import $ from 'jquery';
 
 import { menuKeys } from "../constants"
+import "../css/containers/CustomLayout.css"
 
 const { Header, Content, Footer } = Layout;
 

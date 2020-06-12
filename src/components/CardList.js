@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Move from '../components/Move';
-import MoveUndraggable from '../components/MoveUndraggable';
-import MoveSet from '../components/MoveSet';
+import MoveAddable from '../components/MoveAddable';
+import SetCard from '../components/SetCard';
 
 import $ from 'jquery';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Droppable } from 'react-beautiful-dnd';
+import { animateScroll } from "react-scroll";
 
 // import 'antd/dist/antd.css';
 
@@ -96,6 +97,21 @@ class CardList extends React.Component {
 	    return item.type === key
 	  }
 
+
+	componentDidUpdate() {
+		console.log('COMPOENNT UPDATED');
+    	this.scrollToBottom();
+	}
+
+
+	scrollToBottom() {
+	 	console.log('scrollingggg');
+	    animateScroll.scrollToBottom({
+	      containerId: "MoveList"
+	    });
+	}
+
+
 	renderCards = (cardType) => {
 		switch(cardType) {
 			case cardTypes.MOVE:
@@ -109,7 +125,7 @@ class CardList extends React.Component {
 				          selectMove={this.selectCard}
 				          shouldRender={this.moveFilter(move)}
 				          selectedMoveIdx={this.props.selectedIdx}
-				          toggleReverse={this.toggleIcon}
+				          toggleSetGenReverse={false}
 				          //description={item.id}
 				        />
 					)
@@ -117,44 +133,52 @@ class CardList extends React.Component {
 			case cardTypes.SET:
 				return(
 					this.props.cardList.map((moveSet, idx) => 
-						<MoveSet
+						<SetCard
 				          // goes to slash that link 
 				          moveSet={moveSet}
 				          setIdx={idx}
 				          deleteSet={this.deleteCard}
 				          selectSet={this.selectCard}
-				          // shouldRender={this.moveFilter(move)}
+				 
 				          selectedSetIdx={this.props.selectedIdx}
-				          // toggleReverse={this.props.toggleReverse}
-				          //description={item.id}
+				  
 				        />
 					)
 				)
-			case cardTypes.MOVE_UNDRAGGABLE:
+			case cardTypes.MOVE_ADDABLE:
 				return(
 					this.props.cardList.map((move, idx) => 
-						<MoveUndraggable
+						<MoveAddable
 				          // goes to slash that link 
 				          move={move}
 				          shouldRender={this.moveFilter(move)}
 				          addMove={this.props.addToSetMoveList}
-				          //description={item.id}
+
 				        />
 					)
 				)
 			case cardTypes.SET_MOVE:
 				return(
-					this.props.cardList.map((move, idx) => 
-						<Move
-				          // goes to slash that link 
-				          move={move}
-				          moveIdx={idx}
-				          deleteMove={this.deleteCard}
-				          selectMove={this.selectCard}
-				          shouldRender={this.moveFilter(move)}
-				          selectedMoveIdx={this.props.selectedIdx}
-				          //description={item.id}
-				        />
+					this.props.cardList.map((move, idx) => {
+						// move.reverse = false; 
+						return (
+
+								<Move
+					          // goes to slash that link 
+					          move={move}
+					          moveIdx={idx}
+					          deleteMove={this.deleteCard}
+					          selectMove={this.selectCard}
+					          shouldRender={this.moveFilter(move)}
+					          selectedMoveIdx={this.props.selectedIdx}
+					          toggleReverse={this.props.toggleReverseIcon}
+					          toggleSetGenReverse={true}
+					        />
+
+						)
+
+
+					}
 					)
 				)
 		}
@@ -169,6 +193,7 @@ class CardList extends React.Component {
 						<div
 							ref={provided.innerRef}
 							{...provided.droppableProps}
+							id="MoveList" 
 							class="MoveListDiv"
 						>
 						{
@@ -182,7 +207,7 @@ class CardList extends React.Component {
 			);
 		} else {
 			return(
-				<div class="MoveListDiv">
+				<div id="MoveList" class="MoveListDiv">
 					{this.renderCards(this.props.cardType)}
 				</div>
 			)

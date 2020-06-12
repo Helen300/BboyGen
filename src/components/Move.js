@@ -39,6 +39,7 @@ class Move extends React.Component {
 		return classList
 	}
 
+
 	render() {
 		if (this.props.shouldRender) {
 				return(
@@ -58,7 +59,7 @@ class Move extends React.Component {
 									title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>
 												{this.props.move.name} 
 												<DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> 
-												{this.props.toggleReverse ? 
+												{this.props.toggleSetGenReverse ? 
 												<ReloadOutlined className={this.getReverseIconClass(this.props.move.reverse)} onClick={(e) => this.toggleReverse(e)}/>
 												:
 												null}

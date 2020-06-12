@@ -25,6 +25,15 @@ class SetMoveList extends React.Component {
 
 	}
 
+	toggleReverseIcon(moveIdx) {
+		console.log('we want the reverse of this move')
+		var newSetList = this.props.setList;
+		var newList = this.props.setList[this.props.selectedSetIdx].moves.slice()
+		newList[moveIdx].reverse = !newList[moveIdx].reverse
+		newSetList[this.props.selectedSetIdx].moves = newList
+		this.props.updateSetList(newSetList);
+
+	}
 
 	render() {
 		if (this.props.selectedSetIdx == -1) {
@@ -45,6 +54,7 @@ class SetMoveList extends React.Component {
 							updateCardList={this.updateSetMoveList.bind(this)}
 							enableDrag={true}
 							currentTab={this.state.currentTab}
+							toggleReverseIcon={this.toggleReverseIcon.bind(this)}
 						/>
 					</TabPane>
 				</Tabs>
