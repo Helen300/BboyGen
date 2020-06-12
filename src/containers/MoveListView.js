@@ -61,13 +61,6 @@ class MoveListView extends React.Component {
 		})
 	}
 
-	 scrollToBottom() {
-	 	console.log('scrollingggg');
-	    animateScroll.scrollToBottom({
-	      containerId: "MoveList"
-	    });
-	}	
-
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 
 	componentDidMount() {

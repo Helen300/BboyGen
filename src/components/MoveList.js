@@ -8,7 +8,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import 'antd/dist/antd.css';
 
+
 import { Tabs } from 'antd';
+import { animateScroll } from "react-scroll";
+
 import "../css/containers/Pane.css"
 
 import { tabNames } from "../constants"
@@ -30,12 +33,10 @@ class MoveList extends React.Component {
 		this.props.updateSelectedTab(key)
 	}
 
-
-
 	render() {
 		return (
 			<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
-				<TabPane className="Pane" tab={tabNames[0]} key={tabNames[0]}>
+				<TabPane id="AllPane" className="Pane" tab={tabNames[0]} key={tabNames[0]}>
 		  			<CardList
 			  			cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
@@ -47,7 +48,7 @@ class MoveList extends React.Component {
 				    	enableDrag={this.props.enableDrag}
 				    	/>
 			 	</TabPane>
-		  		<TabPane className="Pane" tab={tabNames[1]} key={tabNames[1]}>
+		  		<TabPane id="FootworkPane" className="Pane" tab={tabNames[1]} key={tabNames[1]}>
 		  			<CardList
 		  				cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
