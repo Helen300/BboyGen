@@ -32,7 +32,7 @@ class SetMoveList extends React.Component {
 		console.log('we want the reverse of this move')
 		var newSetList = this.props.setList;
 		var newList = this.props.setList[this.props.selectedSetIdx].moves.slice()
-		newList[moveIdx].reverse = !newList[moveIdx].reverse
+		newList[moveIdx].reverseEnabled = !newList[moveIdx].reverseEnabled
 		newSetList[this.props.selectedSetIdx].moves = newList
 		this.props.updateSetList(newSetList);
 

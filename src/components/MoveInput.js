@@ -54,7 +54,8 @@ class MoveInput extends React.Component {
 					"name": newMove,
 					"description": "", 
 					"type": this.state.selectedMoveType,
-					"reverse": false
+					"reversible": false,
+					"reverseEnabled": false
 				}])
 		this.props.updateMoveList(newList);
 	}

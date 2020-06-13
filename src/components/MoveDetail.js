@@ -42,7 +42,7 @@ class MoveDetail extends React.Component {
 	toggleReverse(e) {
 		// e.stopPropagation()
 		var newList = this.props.moveList.slice()
-		newList[this.props.selectedMoveIdx].reverse = !newList[this.props.selectedMoveIdx].reverse
+		newList[this.props.selectedMoveIdx].reversible = !newList[this.props.selectedMoveIdx].reversible
 		this.props.updateMoveList(newList);
 	}
 
@@ -107,9 +107,9 @@ class MoveDetail extends React.Component {
 				  	<br/>
 						<Button
 							id="ReversibleButton"
-							className={this.props.move.reverse ? "Reversible" : null }
+							className={this.props.move.reversible ? "Reversible" : null }
 							onClick={(e) => this.toggleReverse(e)}>
-							{this.props.move.reverse ? "Reversible" :"Not Reversible"}
+							{this.props.move.reversible ? "Reversible" :"Not Reversible"}
 						</Button>
 				</div>
 				<br/>

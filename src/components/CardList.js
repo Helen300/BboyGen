@@ -64,13 +64,6 @@ class CardList extends React.Component {
 		this.props.updateCardList(newList)
 	}
 
-	toggleIcon = (cardIdx) => {
-		// generating a new list and updating it 
-		var newList = this.props.cardList.slice()
-		newList[cardIdx].reverse = !newList[cardIdx].reverse
-		this.props.updateCardList(newList)
-	}
-
 	selectCard = (moveIdx) => {
 		// unselect the move if it is selected again
 		if(!this.props.updateSelectedIdx) {
@@ -125,7 +118,7 @@ class CardList extends React.Component {
 				          selectMove={this.selectCard}
 				          shouldRender={this.moveFilter(move)}
 				          selectedMoveIdx={this.props.selectedIdx}
-				          toggleSetGenReverse={false}
+				          showReverseIcon={false}
 				          //description={item.id}
 				        />
 					)
@@ -160,9 +153,7 @@ class CardList extends React.Component {
 			case cardTypes.SET_MOVE:
 				return(
 					this.props.cardList.map((move, idx) => {
-						// move.reverse = false; 
 						return (
-
 								<Move
 					          // goes to slash that link 
 					          move={move}
@@ -172,7 +163,7 @@ class CardList extends React.Component {
 					          shouldRender={this.moveFilter(move)}
 					          selectedMoveIdx={this.props.selectedIdx}
 					          toggleReverse={this.props.toggleReverseIcon}
-					          toggleSetGenReverse={true}
+					          showReverseIcon={move.reversible}
 					        />
 
 						)
