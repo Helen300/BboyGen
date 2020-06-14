@@ -92,13 +92,11 @@ class CardList extends React.Component {
 
 
 	componentDidUpdate() {
-		console.log('COMPOENNT UPDATED');
     	this.scrollToBottom();
 	}
 
 
 	scrollToBottom() {
-	 	console.log('scrollingggg');
 	    animateScroll.scrollToBottom({
 	      containerId: "MoveList"
 	    });

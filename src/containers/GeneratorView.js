@@ -20,7 +20,8 @@ class GeneratorView extends React.Component {
 		setList: [], 
 		selectedSetIdx: -1,
 		moveList: [],
-		currentTab: tabNames[0]
+		currentTab: tabNames[0],
+		probabilities: []
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -45,6 +46,31 @@ class GeneratorView extends React.Component {
 		              setList: newList,
 		          })
 		          .then(res => {
+		          })
+		          .catch(error => console.error(error));
+		}
+	}
+
+	updateProbabilities(newProbabilities) {
+		this.setState({
+			probabilities: newProbabilities
+		})
+		if (this.props.token !== null) {
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: this.props.token
+			}
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			apiUrl = apiUrl.concat('/updateProbabilities/')
+			axios.post(apiUrl, {
+					  username: localStorage.getItem("username"),
+		              probabilities: newProbabilities,
+		          })
+		          .then(res => {
+		          	console.log("jfioewja")
+		          	console.log(this.state.probabilities)
+		          	console.log(newProbabilities)
+		          	console.log("jfioewja")
 		          })
 		          .catch(error => console.error(error));
 		}
@@ -90,6 +116,30 @@ class GeneratorView extends React.Component {
 			});
 		})
         .catch(error => console.error(error));
+
+        // used for testing
+        var testProbs = {}
+        testProbs[tabNames[1]] = {
+    		[tabNames[2]]: 0.2,
+    		[tabNames[3]]: 0.3, 
+    		[tabNames[4]]: 0.5, 
+    	}
+    	testProbs[tabNames[2]] = {
+    		[tabNames[1]]: 0.2,
+    		[tabNames[3]]: 0.3, 
+    		[tabNames[4]]: 0.5, 
+    	}
+    	testProbs[tabNames[3]] = {
+    		[tabNames[2]]: 0.2,
+    		[tabNames[1]]: 0.3, 
+    		[tabNames[4]]: 0.5, 
+    	}
+    	testProbs[tabNames[4]] = {
+    		[tabNames[2]]: 0.2,
+    		[tabNames[3]]: 0.3, 
+    		[tabNames[1]]: 0.5, 
+    	}
+    	this.updateProbabilities(testProbs)
 	}
 
 
