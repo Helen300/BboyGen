@@ -10,3 +10,13 @@
 .MoveDescription {
 	margin-top:0.7em;
 }
+
+.Reversible {
+	background-color:#939BCB !important;
+	color: white !important;
+	border-color: white !important;
+}
+
+.NotReversible {
+	background-color:pink;
+}

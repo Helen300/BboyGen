@@ -23,21 +23,22 @@ class Move extends React.Component {
 		this.props.toggleReverse(this.props.moveIdx)
 	}
 
-	getReverseIconClass(reverse) {
+	getReverseIconClass(reverseEnabled) {
 		var classList = ""
 		if(this.isSelected()) {
 			classList = "SelectedReverse"
-			if(reverse) {
+			if(reverseEnabled) {
 				classList = classList.concat(" SelectedToggledReverse")
 			}
 		} else {
 			classList = "NormalReverse"
-			if(reverse) {
+			if(reverseEnabled) {
 				classList = classList.concat(" ToggledReverse")
 			}
 		}
 		return classList
 	}
+
 
 	render() {
 		if (this.props.shouldRender) {
@@ -58,8 +59,8 @@ class Move extends React.Component {
 									title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>
 												{this.props.move.name} 
 												<DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> 
-												{this.props.toggleReverse ? 
-												<ReloadOutlined className={this.getReverseIconClass(this.props.move.reverse)} onClick={(e) => this.toggleReverse(e)}/>
+												{this.props.showReverseIcon ? 
+												<ReloadOutlined className={this.getReverseIconClass(this.props.move.reverseEnabled)} onClick={(e) => this.toggleReverse(e)}/>
 												:
 												null}
 										   </div>} 

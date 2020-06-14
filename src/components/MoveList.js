@@ -31,6 +31,7 @@ class MoveList extends React.Component {
 	}
 
 
+
 	render() {
 		return (
 			<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>

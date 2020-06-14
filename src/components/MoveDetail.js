@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import "../css/components/MoveDetail.css"
-import { Input, Select } from 'antd';
+import { Input, Select, Button } from 'antd';
 import axios from 'axios';
 import $ from 'jquery';
 
@@ -36,6 +36,13 @@ class MoveDetail extends React.Component {
 		// make copy of array
 		var newList = this.props.moveList.slice();
 		newList[this.props.selectedMoveIdx].type = value;
+		this.props.updateMoveList(newList);
+	}
+
+	toggleReverse(e) {
+		// e.stopPropagation()
+		var newList = this.props.moveList.slice()
+		newList[this.props.selectedMoveIdx].reversible = !newList[this.props.selectedMoveIdx].reversible
 		this.props.updateMoveList(newList);
 	}
 
@@ -97,10 +104,15 @@ class MoveDetail extends React.Component {
 				  </Select>
 				 </div>
 				 <div>
-				  <br/>
-					Reverse Possible: {this.props.move.reverse ? "Yes" : "No"}
+				  	<br/>
+						<Button
+							id="ReversibleButton"
+							className={this.props.move.reversible ? "Reversible" : null }
+							onClick={(e) => this.toggleReverse(e)}>
+							{this.props.move.reversible ? "Reversible" :"Not Reversible"}
+						</Button>
 				</div>
-
+				<br/>
 				<TextArea id="moveDescription" 
 						  rows={4} 
 						  value={this.props.move.description} 

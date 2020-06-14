@@ -7,7 +7,7 @@ import "../css/components/Move.css"
 const { Meta } = Card;
 
 
-class MoveUndraggable extends React.Component {
+class MoveAddable extends React.Component {
 
 	render() {
 		if (this.props.shouldRender) {
@@ -31,4 +31,4 @@ class MoveUndraggable extends React.Component {
  	}
 }
 
-export default MoveUndraggable;
+export default MoveAddable;

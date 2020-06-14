@@ -71,7 +71,8 @@ class GeneratorView extends React.Component {
 	// adds a new move to a selected set 
 	addToSetMoveList(newMove) {
 		var newSetList = this.state.setList;
-		var newList = newSetList[this.state.selectedSetIdx].moves.concat(newMove);
+		// make a copy of newMove
+		var newList = newSetList[this.state.selectedSetIdx].moves.concat(Object.assign({}, newMove));
 		newSetList[this.state.selectedSetIdx].moves = newList;
 		this.updateSetList(newSetList);
 	}
@@ -146,7 +147,7 @@ class GeneratorView extends React.Component {
 							moveList={this.state.moveList}
 							currentTab={this.state.currentTab}
 							enableDrag={false}
-							cardType={cardTypes.MOVE_UNDRAGGABLE}
+							cardType={cardTypes.MOVE_ADDABLE}
 							addToSetMoveList={this.addToSetMoveList.bind(this)}
 						/>
 					}

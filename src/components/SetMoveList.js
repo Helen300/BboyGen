@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import $ from 'jquery';
-import { Tabs } from 'antd';
+import { Tabs, Button } from 'antd';
+import { EditOutlined } from '@ant-design/icons'
 import CardList from '../components/CardList';
+import EditSetName from '../components/EditSetName';
 import { paneNames, cardTypes } from "../constants"
 
 import "../css/containers/Pane.css"
-const { TabPane } = Tabs;
 
+const { TabPane } = Tabs;
 
 // for all moves, there exists one moveDetail div that gets updated 
 class SetMoveList extends React.Component {
@@ -25,6 +27,13 @@ class SetMoveList extends React.Component {
 
 	}
 
+	toggleReverseIcon(moveIdx) {
+		var newSetList = this.props.setList.slice();
+		newSetList[this.props.selectedSetIdx].moves[moveIdx].reverseEnabled = !newSetList[this.props.selectedSetIdx].moves[moveIdx].reverseEnabled
+		this.props.updateSetList(newSetList);
+
+	}
+
 
 	render() {
 		if (this.props.selectedSetIdx == -1) {
@@ -37,17 +46,22 @@ class SetMoveList extends React.Component {
 			return (
 				// since we need to return one div
 				<div>
-				<Tabs defaultActiveKey={paneNames.CURRENT_SET}>
-					<TabPane className="Pane" tab={paneNames.CURRENT_SET} key={paneNames.CURRENT_SET}>
+					<EditSetName
+						selectedSetIdx={this.props.selectedSetIdx}
+						updateSetList={this.props.updateSetList.bind(this)}
+						setList={this.props.setList}
+					/>
+					<div className="Pane">
 						<CardList
 							cardType={cardTypes.SET_MOVE}
 							cardList={this.props.setList[this.props.selectedSetIdx].moves}
 							updateCardList={this.updateSetMoveList.bind(this)}
 							enableDrag={true}
 							currentTab={this.state.currentTab}
+							toggleReverseIcon={this.toggleReverseIcon.bind(this)}
 						/>
-					</TabPane>
-				</Tabs>
+					</div>
+			
 				</div>
 			);
 		}
