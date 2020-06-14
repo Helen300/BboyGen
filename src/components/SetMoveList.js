@@ -29,11 +29,8 @@ class SetMoveList extends React.Component {
 	}
 
 	toggleReverseIcon(moveIdx) {
-		console.log('we want the reverse of this move')
-		var newSetList = this.props.setList;
-		var newList = this.props.setList[this.props.selectedSetIdx].moves.slice()
-		newList[moveIdx].reverseEnabled = !newList[moveIdx].reverseEnabled
-		newSetList[this.props.selectedSetIdx].moves = newList
+		var newSetList = this.props.setList.slice();
+		newSetList[this.props.selectedSetIdx].moves[moveIdx].reverseEnabled = !newSetList[this.props.selectedSetIdx].moves[moveIdx].reverseEnabled
 		this.props.updateSetList(newSetList);
 
 	}
