@@ -8,7 +8,7 @@ class UserProfile(models.Model):
 	email = models.CharField(max_length=50)
 	moveList = JSONField(null=True, blank=True, default=list())
 	setList = JSONField(null=True, blank=True, default=list())
-	probabilities = JSONField(null=True, blank=True, default=dict())
+	probs = JSONField(null=True, blank=True, default=dict())
 
 class Move(models.Model):
 	name = models.CharField(max_length=100)

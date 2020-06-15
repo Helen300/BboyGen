@@ -36,35 +36,27 @@ class SetMoveList extends React.Component {
 
 
 	render() {
-		if (this.props.selectedSetIdx == -1) {
-			return (
-				// since we need to return one div
-				<div>
-				</div>
-			);
-		} else {
-			return (
-				// since we need to return one div
-				<div>
-					<EditSetName
-						selectedSetIdx={this.props.selectedSetIdx}
-						updateSetList={this.props.updateSetList.bind(this)}
-						setList={this.props.setList}
+		return (
+			// since we need to return one div
+			<div>
+				<EditSetName
+					selectedSetIdx={this.props.selectedSetIdx}
+					updateSetList={this.props.updateSetList.bind(this)}
+					setList={this.props.setList}
+				/>
+				<div className="Pane">
+					<CardList
+						cardType={cardTypes.SET_MOVE}
+						cardList={this.props.setList[this.props.selectedSetIdx].moves}
+						updateCardList={this.updateSetMoveList.bind(this)}
+						enableDrag={true}
+						currentTab={this.state.currentTab}
+						toggleReverseIcon={this.toggleReverseIcon.bind(this)}
 					/>
-					<div className="Pane">
-						<CardList
-							cardType={cardTypes.SET_MOVE}
-							cardList={this.props.setList[this.props.selectedSetIdx].moves}
-							updateCardList={this.updateSetMoveList.bind(this)}
-							enableDrag={true}
-							currentTab={this.state.currentTab}
-							toggleReverseIcon={this.toggleReverseIcon.bind(this)}
-						/>
-					</div>
-			
 				</div>
-			);
-		}
+		
+			</div>
+		);
 	}
 
 }

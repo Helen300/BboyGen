@@ -31,7 +31,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 	@action(methods=['post'], detail=True, url_path='updateProbabilities', url_name='updateProbabilities')
 	def updateProbabilities(self, request, *args, **kwargs): 
 		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
-		currentUser.probabilities = request.data.get("probabilities")
+		currentUser.probs = request.data.get("probs")
 		currentUser.save()
 		return Response()
 		
