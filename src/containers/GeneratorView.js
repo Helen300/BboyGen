@@ -67,10 +67,6 @@ class GeneratorView extends React.Component {
 		              probabilities: newProbabilities,
 		          })
 		          .then(res => {
-		          	console.log("jfioewja")
-		          	console.log(this.state.probabilities)
-		          	console.log(newProbabilities)
-		          	console.log("jfioewja")
 		          })
 		          .catch(error => console.error(error));
 		}
