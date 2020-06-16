@@ -27,6 +27,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 		currentUser.setList = request.data.get("setList")
 		currentUser.save()
 		return Response()
+
+	@action(methods=['post'], detail=True, url_path='updateProbabilities', url_name='updateProbabilities')
+	def updateProbabilities(self, request, *args, **kwargs): 
+		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser.probs = request.data.get("probs")
+		currentUser.save()
+		return Response()
 		
 # from rest_framework.generics import (
 # 	ListAPIView, 
