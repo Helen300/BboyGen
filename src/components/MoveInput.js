@@ -58,6 +58,7 @@ class MoveInput extends React.Component {
 					"reverseEnabled": false
 				}])
 		this.props.updateMoveList(newList);
+		this.props.scrollToBottom();
 	}
 
 	componentWillReceiveProps(newProps) {

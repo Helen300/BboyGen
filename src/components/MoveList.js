@@ -5,7 +5,7 @@ import CardList from './CardList';
 
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
-
+import { animateScroll } from "react-scroll";
 import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
@@ -35,7 +35,7 @@ class MoveList extends React.Component {
 	render() {
 		return (
 			<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
-				<TabPane className="Pane" tab={tabNames[0]} key={tabNames[0]}>
+				<TabPane id="pleaseScrollll" className="Pane" tab={tabNames[0]} key={tabNames[0]}>
 		  			<CardList
 			  			cardType={this.props.cardType}
 				    	cardList={this.props.moveList} 
@@ -45,6 +45,7 @@ class MoveList extends React.Component {
 				    	updateCardList={this.props.updateMoveList}
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
+				  
 				    	/>
 			 	</TabPane>
 		  		<TabPane className="Pane" tab={tabNames[1]} key={tabNames[1]}>
