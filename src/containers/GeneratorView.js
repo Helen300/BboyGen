@@ -94,14 +94,15 @@ class GeneratorView extends React.Component {
 		var target = Math.random()
 		var runningProb = 0
 		var i;
-		for (i = 0; i < probs.length - 1; i++) {
-			runningProb += probs[i]
-			if(target >= runningProb && target < runningProb + probs[i + 1]) {
+		for (i = 0; i < probs.length; i++) {
+			if(target >= runningProb && target <= runningProb + probs[i]) {
 			// add 1 to skip the first tab "All"
 				return tabNames[i + 1]
 			}
+			runningProb += probs[i]
 		}
-		return tabNames[i + 1]
+		// error, should not reach this line. User probably input invalid probs
+		return tabNames[i]
 	}
 
 	// adds a new move to a selected set 

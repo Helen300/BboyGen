@@ -12,6 +12,11 @@
 	width: 34%;
 }
 
+.Warning {
+	color: red;
+}
+
+/* Gets rid of arrows on input boxes for numbers */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 

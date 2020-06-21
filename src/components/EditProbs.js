@@ -90,10 +90,6 @@ const EditableCell = ({
 };
 
 class EditProbs extends React.Component {
-
-	state = {
-		show: false
-	}
 	showModal() {
 		this.setState({
 			show: true
@@ -160,41 +156,42 @@ class EditProbs extends React.Component {
 	      },
 	    ];
 	    this.state = {
-	      dataSource: [
-	        {
-	          'key': '0',
-	          'Transition From': tabNames[1],
-	          [tabNames[1]]: this.props.probs[tabNames[1]][0],
-	          [tabNames[2]]: this.props.probs[tabNames[1]][1],
-	          [tabNames[3]]: this.props.probs[tabNames[1]][2],
-	          [tabNames[4]]: this.props.probs[tabNames[1]][3],
-	        },
-	        {
-	          'key': '1',
-	          'Transition From': tabNames[2],
-	          [tabNames[1]]: this.props.probs[tabNames[2]][0],
-	          [tabNames[2]]: this.props.probs[tabNames[2]][1],
-	          [tabNames[3]]: this.props.probs[tabNames[2]][2],
-	          [tabNames[4]]: this.props.probs[tabNames[2]][3],
-	        },
-	        {
-	          'key': '2',
-	          'Transition From': tabNames[3],
-	          [tabNames[1]]: this.props.probs[tabNames[3]][0],
-	          [tabNames[2]]: this.props.probs[tabNames[3]][1],
-	          [tabNames[3]]: this.props.probs[tabNames[3]][2],
-	          [tabNames[4]]: this.props.probs[tabNames[3]][3],
-	        },
-	        {
-	          'key': '3',
-	          'Transition From': tabNames[4],
-	          [tabNames[1]]: this.props.probs[tabNames[4]][0],
-	          [tabNames[2]]: this.props.probs[tabNames[4]][1],
-	          [tabNames[3]]: this.props.probs[tabNames[4]][2],
-	          [tabNames[4]]: this.props.probs[tabNames[4]][3],
-	        },
-	      ],
-	      count: 4,
+	    	show: false,
+			dataSource: [
+				{
+				  'key': '0',
+				  'Transition From': tabNames[1],
+				  [tabNames[1]]: this.props.probs[tabNames[1]][0],
+				  [tabNames[2]]: this.props.probs[tabNames[1]][1],
+				  [tabNames[3]]: this.props.probs[tabNames[1]][2],
+				  [tabNames[4]]: this.props.probs[tabNames[1]][3],
+				},
+				{
+				  'key': '1',
+				  'Transition From': tabNames[2],
+				  [tabNames[1]]: this.props.probs[tabNames[2]][0],
+				  [tabNames[2]]: this.props.probs[tabNames[2]][1],
+				  [tabNames[3]]: this.props.probs[tabNames[2]][2],
+				  [tabNames[4]]: this.props.probs[tabNames[2]][3],
+				},
+				{
+				  'key': '2',
+				  'Transition From': tabNames[3],
+				  [tabNames[1]]: this.props.probs[tabNames[3]][0],
+				  [tabNames[2]]: this.props.probs[tabNames[3]][1],
+				  [tabNames[3]]: this.props.probs[tabNames[3]][2],
+				  [tabNames[4]]: this.props.probs[tabNames[3]][3],
+				},
+				{
+				  'key': '3',
+				  'Transition From': tabNames[4],
+				  [tabNames[1]]: this.props.probs[tabNames[4]][0],
+				  [tabNames[2]]: this.props.probs[tabNames[4]][1],
+				  [tabNames[3]]: this.props.probs[tabNames[4]][2],
+				  [tabNames[4]]: this.props.probs[tabNames[4]][3],
+				},
+			],
+			count: 4,
 	    };
   	}
 
@@ -210,6 +207,13 @@ class EditProbs extends React.Component {
 
   	render() {
 	    const { dataSource } = this.state;
+	    var valid = true
+    	this.state.dataSource.forEach(row => {
+	    	var rowSum = parseFloat(row[tabNames[1]]) + parseFloat(row[tabNames[2]]) + parseFloat(row[tabNames[3]]) + parseFloat(row[tabNames[4]])
+	    	if(rowSum < 0.99 || rowSum > 1.01) {
+	    		valid = false
+	    	}
+	    })
 	    const components = {
 	      body: {
 	        row: EditableRow,
@@ -251,6 +255,7 @@ class EditProbs extends React.Component {
 			          columns={columns}
 			          pagination={false} 
 			        />
+			        { valid ? null : <div className={"Warning"}>Warning: Each row should add up to 1</div>}
 			    </Modal.Body>
 			    <Modal.Footer>
 			      <Button type="primary" className={"SaveButton"} onClick={() => {this.saveNewProbs(); this.closeModal();}}>Save</Button>
