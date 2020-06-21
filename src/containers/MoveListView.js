@@ -80,6 +80,7 @@ class MoveListView extends React.Component {
 			});
 		})
         .catch(error => console.error(error));
+        localStorage.setItem('menuKey', menuKeys.LIST)
 	}
 
 	// when new props arrive, component rerenders

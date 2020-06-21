@@ -3,6 +3,7 @@ import { Form, Input, Button, Spin } from 'antd';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
+import { menuKeys } from "../constants";
 
 
 class Login extends React.Component {
@@ -17,6 +18,10 @@ class Login extends React.Component {
   onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+	componentDidMount() {
+		localStorage.setItem('menuKey', menuKeys.Login)
+	}
 
   render () { 
   	let errorMessage = null; 

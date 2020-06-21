@@ -17,6 +17,27 @@ class CustomLayout extends React.Component {
     menuKey: ''
   }
 
+  componentDidMount() {
+      if (typeof window !== 'undefined') {
+          this.setState({
+            menuKey: localStorage.getItem('menuKey')
+          })
+          window.addEventListener('storage', this.updateMenuKey)
+      }
+  }
+
+  componentWillUnmount(){
+      if (typeof window !== 'undefined') {
+          window.removeEventListener('storage', this.updateMenuKey)
+      }
+  }
+
+  updateMenuKey() {
+    this.setState({
+      menuKey: localStorage.getItem('menuKey')
+    })
+  }
+
   componentWillReceiveProps() {
     this.setState({
       menuKey: localStorage.getItem('menuKey')
@@ -44,7 +65,7 @@ class CustomLayout extends React.Component {
               Hello, {localStorage.getItem('username')}
             </Menu.Item>,
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.props.logout();}} style={{ float:'right' }}>
-              Logout
+              <Link to="/">Logout</Link>
             </Menu.Item>,
             <Menu.Item key={menuKeys.LIST} onClick={() => this.changeMenuKey(menuKeys.LIST)}>
               <Link to="/">List</Link>

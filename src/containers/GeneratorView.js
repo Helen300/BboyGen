@@ -162,6 +162,7 @@ class GeneratorView extends React.Component {
 	        }
 		})
         .catch(error => console.error(error));
+        localStorage.setItem('menuKey', menuKeys.GENERATOR)
 	}
 
 
