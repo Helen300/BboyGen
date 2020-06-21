@@ -153,18 +153,22 @@ class GeneratorView extends React.Component {
 		.then(res => {
 			this.setState({
 				setList: res.data.setList,
-				moveList: res.data.moveList
+				moveList: res.data.moveList,
+				probs: res.data.probs
 			});
 		})
         .catch(error => console.error(error));
 
-        // used for testing
-        var testProbs = {}
-        testProbs[tabNames[1]] = [0.1, 0.2, 0.3, 0.4]
-        testProbs[tabNames[2]] = [0.1, 0.2, 0.3, 0.4]
-        testProbs[tabNames[3]] = [0.1, 0.2, 0.3, 0.4]
-        testProbs[tabNames[4]] = [0.1, 0.2, 0.3, 0.4]
-    	this.updateProbs(testProbs)
+        // if empty, initialize probabilities to uniform
+        if(Object.keys(this.state.probs).length === 0) {
+        	var testProbs = {}
+        	var uni = 1 / (tabNames.length - 1)
+	        testProbs[tabNames[1]] = [uni, uni, uni, uni]
+	        testProbs[tabNames[2]] = [uni, uni, uni, uni]
+	        testProbs[tabNames[3]] = [uni, uni, uni, uni]
+	        testProbs[tabNames[4]] = [uni, uni, uni, uni]
+	    	this.updateProbs(testProbs)
+        }
 	}
 
 
