@@ -1,7 +1,14 @@
-.AddButton {
+.AddSetButton {
 	margin-top: 3%;
 	width: 100%;
 }
 
+.AddMoveButton {
+	margin-top: 3%;
+	margin-right: 3%;
+	width: 63%;
+}
 
-
+.SetMoveList {
+	margin-top: 5.25%;
+}
