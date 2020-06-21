@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetMoveList from '../components/SetMoveList';
+import EditProbs from '../components/EditProbs';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
-import { tabNames, paneNames, cardTypes } from "../constants";
+import { tabNames, paneNames, cardTypes, menuKeys } from "../constants";
 
 import "../css/containers/Pane.css"
 import "../css/containers/GeneratorView.css"
@@ -22,6 +23,13 @@ class GeneratorView extends React.Component {
 		moveList: [],
 		currentTab: tabNames[0],
 		probs: [],
+		toggleProbs: false
+	}
+
+	toggleProbs() {
+		this.setState({
+			toggleProbs: !this.state.toggleProbs
+		})
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -198,19 +206,30 @@ class GeneratorView extends React.Component {
 							/>
 						</TabPane>
 					</Tabs>
-					<Button type="primary" className={"AddButton"} onClick={()=>this.addSet()}>Add Set</Button>
+					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
 					{this.state.selectedSetIdx == -1 ? null :
-						<SetMoveList
-							setList={this.state.setList}
-							selectedSetIdx={this.state.selectedSetIdx}
-							updateSetList={this.updateSetList.bind(this)}
-						/>
+						<div>
+							<SetMoveList
+								setList={this.state.setList}
+								selectedSetIdx={this.state.selectedSetIdx}
+								updateSetList={this.updateSetList.bind(this)}
+							/>
+						</div>
 					}
 				</div>
 				<div className="col-md-4 h-100">
 					{this.state.selectedSetIdx == -1 ? null : 
+						this.state.toggleProbs ? 
+						<div>
+							<EditProbs
+								toggleProbs={this.toggleProbs.bind(this)}
+								probs={this.state.probs}
+								updateProbs={this.updateProbs.bind(this)}
+							/>
+						</div>
+						:
 						<div>
 							<MoveList
 								updateSelectedTab={this.updateSelectedTab.bind(this)}
@@ -220,7 +239,8 @@ class GeneratorView extends React.Component {
 								cardType={cardTypes.MOVE_ADDABLE}
 								addToSetMoveList={this.addToSetMoveList.bind(this)}
 							/>
-							<Button type="primary" className={"AddButton"} onClick={()=>this.addRandom()}>Add Random Move</Button>
+							<Button type="primary" className={"AddMoveButton"} onClick={()=>this.addRandom()}>Add Random Move</Button>
+							<Button type="primary" className={"EditProbButton"} onClick={()=>this.toggleProbs()}>Edit Probabilities</Button>
 						</div>
 					}
 				</div>

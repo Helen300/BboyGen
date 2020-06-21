@@ -13,7 +13,7 @@ import 'antd/dist/antd.css';
 import { Tabs } from 'antd';
 import "../css/containers/Pane.css"
 
-import { tabNames, cardTypes } from "../constants"
+import { tabNames, cardTypes, menuKeys } from "../constants"
 
 import { animateScroll } from "react-scroll";
 

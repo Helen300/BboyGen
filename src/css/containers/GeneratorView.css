@@ -1,7 +1,16 @@
-.AddButton {
+.AddSetButton {
 	margin-top: 3%;
 	width: 100%;
 }
 
+.AddMoveButton {
+	margin-top: 3%;
+	margin-right: 3%;
+	width: 63%;
+}
 
+.EditProbButton {
+	margin-top: 3%;
+	width: 34%;
+}
 
