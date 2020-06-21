@@ -2,3 +2,18 @@
 	margin-top: 3%;
 	width: 100%;
 }
+
+.EditProbsButton {
+	width: 100%;
+}
+
+.EditProbsContainer {
+	display: inline-block;
+	width: 34%;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

@@ -23,13 +23,6 @@ class GeneratorView extends React.Component {
 		moveList: [],
 		currentTab: tabNames[0],
 		probs: [],
-		toggleProbs: false
-	}
-
-	toggleProbs() {
-		this.setState({
-			toggleProbs: !this.state.toggleProbs
-		})
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -156,19 +149,18 @@ class GeneratorView extends React.Component {
 				moveList: res.data.moveList,
 				probs: res.data.probs
 			});
+			// if empty, initialize probabilities to uniform
+	        if(Object.keys(this.state.probs).length === 0) {
+	        	var testProbs = {}
+	        	var uni = 1 / (tabNames.length - 1)
+		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
+		        testProbs[tabNames[2]] = [uni, uni, uni, uni]
+		        testProbs[tabNames[3]] = [uni, uni, uni, uni]
+		        testProbs[tabNames[4]] = [uni, uni, uni, uni]
+		    	this.updateProbs(testProbs)
+	        }
 		})
         .catch(error => console.error(error));
-
-        // if empty, initialize probabilities to uniform
-        if(Object.keys(this.state.probs).length === 0) {
-        	var testProbs = {}
-        	var uni = 1 / (tabNames.length - 1)
-	        testProbs[tabNames[1]] = [uni, uni, uni, uni]
-	        testProbs[tabNames[2]] = [uni, uni, uni, uni]
-	        testProbs[tabNames[3]] = [uni, uni, uni, uni]
-	        testProbs[tabNames[4]] = [uni, uni, uni, uni]
-	    	this.updateProbs(testProbs)
-        }
 	}
 
 
@@ -216,6 +208,7 @@ class GeneratorView extends React.Component {
 					{this.state.selectedSetIdx == -1 ? null :
 						<div>
 							<SetMoveList
+								className={"SetMoveList"}
 								setList={this.state.setList}
 								selectedSetIdx={this.state.selectedSetIdx}
 								updateSetList={this.updateSetList.bind(this)}
@@ -225,15 +218,6 @@ class GeneratorView extends React.Component {
 				</div>
 				<div className="col-md-4 h-100">
 					{this.state.selectedSetIdx == -1 ? null : 
-						this.state.toggleProbs ? 
-						<div>
-							<EditProbs
-								toggleProbs={this.toggleProbs.bind(this)}
-								probs={this.state.probs}
-								updateProbs={this.updateProbs.bind(this)}
-							/>
-						</div>
-						:
 						<div>
 							<MoveList
 								updateSelectedTab={this.updateSelectedTab.bind(this)}
@@ -244,7 +228,10 @@ class GeneratorView extends React.Component {
 								addToSetMoveList={this.addToSetMoveList.bind(this)}
 							/>
 							<Button type="primary" className={"AddMoveButton"} onClick={()=>this.addRandom()}>Add Random Move</Button>
-							<Button type="primary" className={"EditProbButton"} onClick={()=>this.toggleProbs()}>Edit Probabilities</Button>
+							<EditProbs
+								probs={this.state.probs}
+								updateProbs={this.updateProbs.bind(this)}
+							/>
 						</div>
 					}
 				</div>

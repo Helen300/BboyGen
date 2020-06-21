@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { Table, Input, Form, Button } from 'antd';
 import { tabNames } from "../constants";
+import Modal from 'react-bootstrap/Modal'
 
 import "../css/components/EditProbs.css"
 
@@ -70,7 +71,7 @@ const EditableCell = ({
 	      },
 	    ]}
 	  >
-	    <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+	    <Input ref={inputRef} onPressEnter={save} onBlur={save} type='number'/>
 	  </Form.Item>
 	) : (
 	  <div
@@ -90,26 +91,39 @@ const EditableCell = ({
 
 class EditProbs extends React.Component {
 
+	state = {
+		show: false
+	}
+	showModal() {
+		this.setState({
+			show: true
+		})
+	}
+	closeModal() {
+		this.setState({
+			show: false
+		})
+	}
+
 	saveNewProbs() {
 		var newProbs = {}
-        newProbs[tabNames[1]] = [this.state.dataSource[0][tabNames[1]], 
-						        this.state.dataSource[0][tabNames[2]], 
-						        this.state.dataSource[0][tabNames[3]], 
-						        this.state.dataSource[0][tabNames[4]]]
-        newProbs[tabNames[2]] = [this.state.dataSource[1][tabNames[1]], 
-						        this.state.dataSource[1][tabNames[2]], 
-						        this.state.dataSource[1][tabNames[3]], 
-						        this.state.dataSource[1][tabNames[4]]]
-		newProbs[tabNames[3]] = [this.state.dataSource[2][tabNames[1]], 
-						        this.state.dataSource[2][tabNames[2]], 
-						        this.state.dataSource[2][tabNames[3]], 
-						        this.state.dataSource[2][tabNames[4]]]
-		newProbs[tabNames[4]] = [this.state.dataSource[3][tabNames[1]], 
-						        this.state.dataSource[3][tabNames[2]], 
-						        this.state.dataSource[3][tabNames[3]], 
-						        this.state.dataSource[3][tabNames[4]]]
+        newProbs[tabNames[1]] = [parseFloat(this.state.dataSource[0][tabNames[1]]), 
+						        parseFloat(this.state.dataSource[0][tabNames[2]]), 
+						        parseFloat(this.state.dataSource[0][tabNames[3]]), 
+						        parseFloat(this.state.dataSource[0][tabNames[4]])]
+        newProbs[tabNames[2]] = [parseFloat(this.state.dataSource[1][tabNames[1]]), 
+						        parseFloat(this.state.dataSource[1][tabNames[2]]), 
+						        parseFloat(this.state.dataSource[1][tabNames[3]]), 
+						        parseFloat(this.state.dataSource[1][tabNames[4]])]
+		newProbs[tabNames[3]] = [parseFloat(this.state.dataSource[2][tabNames[1]]), 
+						        parseFloat(this.state.dataSource[2][tabNames[2]]), 
+						        parseFloat(this.state.dataSource[2][tabNames[3]]), 
+						        parseFloat(this.state.dataSource[2][tabNames[4]])]
+		newProbs[tabNames[4]] = [parseFloat(this.state.dataSource[3][tabNames[1]]), 
+						        parseFloat(this.state.dataSource[3][tabNames[2]]), 
+						        parseFloat(this.state.dataSource[3][tabNames[3]]), 
+						        parseFloat(this.state.dataSource[3][tabNames[4]])]
 		this.props.updateProbs(newProbs)
-		this.props.toggleProbs()
 	}
 
   	constructor(props) {
@@ -219,17 +233,30 @@ class EditProbs extends React.Component {
 	      };
 	    });
 	    return (
-	      <div>
-	        <Table
-	          components={components}
-	          rowClassName={() => 'editable-row'}
-	          bordered
-	          dataSource={dataSource}
-	          columns={columns}
-	          pagination={false} 
-	        />
-	        <Button type="primary" className={"SaveButton"} onClick={() => this.saveNewProbs()}>Save</Button>
-	      </div>
+	    	<div className={"EditProbsContainer"}>
+			  <Button className={"EditProbsButton"} type="primary" onClick={() => this.showModal()}>
+			    Edit Probabilities
+			  </Button>
+
+			  <Modal show={this.state.show} onHide={() => this.closeModal()}>
+			    <Modal.Header closeButton>
+			      <Modal.Title>Edit Probabilities</Modal.Title>
+			    </Modal.Header>
+			    <Modal.Body>
+			    	<Table
+			          components={components}
+			          rowClassName={() => 'editable-row'}
+			          bordered
+			          dataSource={dataSource}
+			          columns={columns}
+			          pagination={false} 
+			        />
+			    </Modal.Body>
+			    <Modal.Footer>
+			      <Button type="primary" className={"SaveButton"} onClick={() => {this.saveNewProbs(); this.closeModal();}}>Save</Button>
+			    </Modal.Footer>
+			  </Modal>
+			</div>
 	    );
   	}
 }
