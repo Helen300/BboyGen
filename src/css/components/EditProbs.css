@@ -16,6 +16,11 @@
 	color: red;
 }
 
+.HelpMessage {
+	margin-bottom: 3%;
+	margin-left: 2%;
+}
+
 /* Gets rid of arrows on input boxes for numbers */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 

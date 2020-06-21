@@ -61,7 +61,7 @@ const EditableCell = ({
 	childNode = editing ? (
 	  <Form.Item
 	    style={{
-	      margin: 0,
+	      margin: '-10%',
 	    }}
 	    name={dataIndex}
 	    rules={[
@@ -247,6 +247,7 @@ class EditProbs extends React.Component {
 			      <Modal.Title>Edit Probabilities</Modal.Title>
 			    </Modal.Header>
 			    <Modal.Body>
+			    	<div className="HelpMessage">Click on a cell to edit the transition probability when adding a random move.</div>
 			    	<Table
 			          components={components}
 			          rowClassName={() => 'editable-row'}
