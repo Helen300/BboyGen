@@ -8,76 +8,74 @@ import { menuKeys } from "../constants";
 
 class Login extends React.Component {
   // don't need to call validate because onFinish only calls after validated
-  onFinish = (values) => {
-    console.log('Trying to login with:', values);
-    this.props.onAuth(values.username, values.password)
-    this.props.history.push('/');
-   
-  };
-
-  onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  	onFinish = (values) => {
+	    console.log('Trying to login with:', values);
+	    this.props.onAuth(values.username, values.password)
+		this.props.history.push('/');
+ 	 };
+  	onFinishFailed = (errorInfo) => {
+  		console.log('Failed:', errorInfo);
+  	};
 
 	componentDidMount() {
 		localStorage.setItem('menuKey', menuKeys.Login)
 	}
 
-  render () { 
-  	let errorMessage = null; 
-  	if (this.props.error) {
-  		errorMessage = (
-  			<p>{this.props.error.message}</p>
-  		);
-  	}
-	  return (
-	  	<div>
-	  		{ errorMessage }
-		  	{
-		  		this.props.loading ? 
+  	render () { 
+	  	let errorMessage = null; 
+	  	if (this.props.error) {
+	  		errorMessage = (
+	  			<p>{this.props.error.message}</p>
+	  		);
+	  	}
+		  return (
+		  	<div>
+		  		{ errorMessage }
+			  	{
+			  		this.props.loading ? 
 
-		  		<Spin />
+			  		<Spin />
 
-		  		:
+			  		:
 
-			    <Form
-			
-			      onFinish={this.onFinish}
-			      onFinishFailed={this.onFinishFailed}
-			    >
-			      <Form.Item
-			        label="Username"
-			        name="username"
-			        rules={[{ required: true, message: 'Please input your username!' }]}
-			      >
-			        <Input />
-			      </Form.Item>
+				    <Form
+				
+				      onFinish={this.onFinish}
+				      onFinishFailed={this.onFinishFailed}
+				    >
+				      <Form.Item
+				        label="Username"
+				        name="username"
+				        rules={[{ required: true, message: 'Please input your username!' }]}
+				      >
+				        <Input />
+				      </Form.Item>
 
-			      <Form.Item
-			        label="Password"
-			        name="password"
-			        rules={[{ required: true, message: 'Please input your password!' }]}
-			      >
-			        <Input.Password />
-			      </Form.Item>
+				      <Form.Item
+				        label="Password"
+				        name="password"
+				        rules={[{ required: true, message: 'Please input your password!' }]}
+				      >
+				        <Input.Password />
+				      </Form.Item>
 
-			      <Form.Item>
-			        <Button type="primary" htmlType="submit">
-			          Login 
-			        </Button>
-			        <span style={{ marginLeft: '0.5em'}}> 
-			         OR 
-			        </span>
-			        <NavLink style={{ marginLeft: '0.5em'}} to='/signup/'>
-			        Sign Up
-			        </NavLink>
-			      </Form.Item>
-			    </Form>
-			}
-	    </div>
-	  );
-	};
-}
+				      <Form.Item>
+				        <Button type="primary" htmlType="submit">
+				          Login 
+				        </Button>
+				        <span style={{ marginLeft: '0.5em'}}> 
+				         OR 
+				        </span>
+				        <NavLink style={{ marginLeft: '0.5em'}} to='/signup/'>
+				        Sign Up
+				        </NavLink>
+				      </Form.Item>
+				    </Form>
+				}
+		    </div>
+		  );
+		};
+	}
 
 
 const mapStateToProps = (state) => {

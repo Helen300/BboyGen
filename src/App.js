@@ -33,7 +33,8 @@ class App extends Component {
 const mapStateToProps = state => {
 	return {
 		// whether or not token = null (isAuthenticated = False)
-		isAuthenticated: state.token != null
+		isAuthenticated: state.token != null,
+		isLoading: state.loading
 
 	}
 }
