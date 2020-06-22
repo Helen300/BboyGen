@@ -33,7 +33,9 @@ class Signup extends React.Component {
             </Tooltip>
           </span>
         }
-        rules={[{ required: true, message: 'Please input a username!', whitespace: true }]}
+        rules={[{ required: true, message: 'Please input a username!', 
+                  whitespace: true, 
+                  pattern: /^\S*$/, message: 'Spaces not allowed!' }]}
       >
         <Input />
       </Form.Item>
@@ -62,6 +64,7 @@ class Signup extends React.Component {
           {
             required: true,
             message: 'Please input your password!',
+            pattern: /^\S*$/, message: 'Spaces not allowed!'
           },
         ]}
         hasFeedback
