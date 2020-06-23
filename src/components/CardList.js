@@ -166,7 +166,7 @@ class CardList extends React.Component {
 	render() {
 		if(this.props.enableDrag) {
 			return (
-				<DragDropContext onDragEnd={this.onDragEnd} id="Move">
+				<DragDropContext onDragEnd={this.onDragEnd}>
 				<Droppable droppableId={this.props.currentTab}>
 					{provided => (
 						<div

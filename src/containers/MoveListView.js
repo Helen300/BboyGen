@@ -7,7 +7,6 @@ import MoveInput from '../components/MoveInput';
 
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
-import { animateScroll } from "react-scroll";
 
 import 'antd/dist/antd.css';
 
@@ -95,15 +94,9 @@ class MoveListView extends React.Component {
 	}
 
 	scrollToBottom() {
-	 	console.log('scrollingggg');
-	 	var list = document.getElementsByClassName("ant-tabs-tabpane ant-tabs-tabpane-active Pane");
-	 	list[0].id = "pleaseScrollll";
-	    animateScroll.scrollToBottom({
-	      containerId: "pleaseScrollll"
-	    });
-	  
-	    console.log(document.getElementsByClassName("ant-tabs-tabpane ant-tabs-tabpane-active Pane"));
-		console.log(document.getElementById("pleaseScrollll"));
+		$(".Pane").animate({
+			scrollTop: $('.Pane')[0].scrollHeight
+		})
 	}	
 
 
