@@ -3,6 +3,7 @@ import { Form, Input, Button, Spin } from 'antd';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
+import { menuKeys } from "../constants";
 
 
 class Login extends React.Component {
@@ -17,6 +18,10 @@ class Login extends React.Component {
   onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+	componentDidMount() {
+		localStorage.setItem('menuKey', menuKeys.Login)
+	}
 
   render () { 
   	let errorMessage = null; 
@@ -43,7 +48,14 @@ class Login extends React.Component {
 			      <Form.Item
 			        label="Username"
 			        name="username"
-			        rules={[{ required: true, message: 'Please input your username!' }]}
+			        rules={[
+			        		{ 
+			        			required: true, message: 'Please input your username.'
+			        		},
+			        		{
+			        			pattern: /^\S*$/, message: 'Usernames should not have spaces.' 
+			        		}
+			        	]}
 			      >
 			        <Input />
 			      </Form.Item>
@@ -51,7 +63,15 @@ class Login extends React.Component {
 			      <Form.Item
 			        label="Password"
 			        name="password"
-			        rules={[{ required: true, message: 'Please input your password!' }]}
+			        rules={[
+			        		{ 
+			        			required: true, message: 'Please input your password.', 
+			        		},
+			        		{
+			        		  pattern: /^\S*$/, message: 'Passwords should not have spaces.'
+			        		}
+			        	]}
+			        		
 			      >
 			        <Input.Password />
 			      </Form.Item>

@@ -17,4 +17,4 @@ export const cardTypes = {
 	SET_MOVE: 'Set Move'
 };
 
-export const tabNames = ['All', 'Toprock', 'Footwork', 'Freezes', 'Power'];
+export const tabNames = ['All', 'Toprock', 'Footwork', 'Power', 'Freezes'];

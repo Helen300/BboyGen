@@ -1,4 +1,5 @@
 import React from 'react';
+import { menuKeys } from "../constants";
 
 
 
@@ -6,6 +7,9 @@ import React from 'react';
 
 class Landing extends React.Component {
 
+	componentDidMount() {
+        localStorage.setItem('menuKey', menuKeys.LIST)
+	}
 
 	render() {
 

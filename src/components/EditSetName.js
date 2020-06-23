@@ -25,6 +25,14 @@ class EditSetName extends React.Component {
 		this.props.updateSetList(newSetList);
 	}
 
+	componentDidMount() {
+		if (this.props.selectedSetIdx != -1) {
+			this.setState({
+				currentName: this.props.setList[this.props.selectedSetIdx].name,
+			})
+		}
+	}
+
 	componentWillReceiveProps(newProps) {
 		if (newProps.selectedSetIdx != -1) {
 			this.setState({
@@ -61,7 +69,7 @@ class EditSetName extends React.Component {
 						value={this.state.currentName} 
 						onChange={() => this.changingName()}
 						onKeyDown={(e) => this.handleEnter(e)}/>
-					<Button type="primary" className={"SaveButton"} onClick={() => this.saveNewName()}>
+					<Button type="primary" className={"SaveNameButton"} onClick={() => this.saveNewName()}>
 					Save
 					</Button>
 					</div>

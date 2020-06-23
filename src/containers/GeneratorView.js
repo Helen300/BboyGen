@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetMoveList from '../components/SetMoveList';
+import EditProbs from '../components/EditProbs';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
-import { tabNames, paneNames, cardTypes } from "../constants";
+import { tabNames, paneNames, cardTypes, menuKeys } from "../constants";
 
 import "../css/containers/Pane.css"
 import "../css/containers/GeneratorView.css"
@@ -93,14 +94,15 @@ class GeneratorView extends React.Component {
 		var target = Math.random()
 		var runningProb = 0
 		var i;
-		for (i = 0; i < probs.length - 1; i++) {
-			runningProb += probs[i]
-			if(target >= runningProb && target < runningProb + probs[i + 1]) {
+		for (i = 0; i < probs.length; i++) {
+			if(target >= runningProb && target <= runningProb + probs[i]) {
 			// add 1 to skip the first tab "All"
 				return tabNames[i + 1]
 			}
+			runningProb += probs[i]
 		}
-		return tabNames[i + 1]
+		// error, should not reach this line. User probably input invalid probs
+		return tabNames[i]
 	}
 
 	// adds a new move to a selected set 
@@ -145,18 +147,22 @@ class GeneratorView extends React.Component {
 		.then(res => {
 			this.setState({
 				setList: res.data.setList,
-				moveList: res.data.moveList
+				moveList: res.data.moveList,
+				probs: res.data.probs
 			});
+			// if empty, initialize probabilities to uniform
+	        if(Object.keys(this.state.probs).length === 0) {
+	        	var testProbs = {}
+	        	var uni = 1 / (tabNames.length - 1)
+		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
+		        testProbs[tabNames[2]] = [uni, uni, uni, uni]
+		        testProbs[tabNames[3]] = [uni, uni, uni, uni]
+		        testProbs[tabNames[4]] = [uni, uni, uni, uni]
+		    	this.updateProbs(testProbs)
+	        }
 		})
         .catch(error => console.error(error));
-
-        // used for testing
-        var testProbs = {}
-        testProbs[tabNames[1]] = [0.1, 0.2, 0.3, 0.4]
-        testProbs[tabNames[2]] = [0.1, 0.2, 0.3, 0.4]
-        testProbs[tabNames[3]] = [0.1, 0.2, 0.3, 0.4]
-        testProbs[tabNames[4]] = [0.1, 0.2, 0.3, 0.4]
-    	this.updateProbs(testProbs)
+        localStorage.setItem('menuKey', menuKeys.GENERATOR)
 	}
 
 
@@ -198,15 +204,18 @@ class GeneratorView extends React.Component {
 							/>
 						</TabPane>
 					</Tabs>
-					<Button type="primary" className={"AddButton"} onClick={()=>this.addSet()}>Add Set</Button>
+					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
 					{this.state.selectedSetIdx == -1 ? null :
-						<SetMoveList
-							setList={this.state.setList}
-							selectedSetIdx={this.state.selectedSetIdx}
-							updateSetList={this.updateSetList.bind(this)}
-						/>
+						<div>
+							<SetMoveList
+								className={"SetMoveList"}
+								setList={this.state.setList}
+								selectedSetIdx={this.state.selectedSetIdx}
+								updateSetList={this.updateSetList.bind(this)}
+							/>
+						</div>
 					}
 				</div>
 				<div className="col-md-4 h-100">
@@ -220,7 +229,11 @@ class GeneratorView extends React.Component {
 								cardType={cardTypes.MOVE_ADDABLE}
 								addToSetMoveList={this.addToSetMoveList.bind(this)}
 							/>
-							<Button type="primary" className={"AddButton"} onClick={()=>this.addRandom()}>Add Random Move</Button>
+							<Button type="primary" className={"AddMoveButton"} onClick={()=>this.addRandom()}>Add Random Move</Button>
+							<EditProbs
+								probs={this.state.probs}
+								updateProbs={this.updateProbs.bind(this)}
+							/>
 						</div>
 					}
 				</div>
