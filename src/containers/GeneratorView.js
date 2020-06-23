@@ -8,6 +8,7 @@ import EditProbs from '../components/EditProbs';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
 import { tabNames, paneNames, cardTypes, menuKeys } from "../constants";
+import $ from 'jquery';
 
 import "../css/containers/Pane.css"
 import "../css/containers/GeneratorView.css"
@@ -88,6 +89,7 @@ class GeneratorView extends React.Component {
 					"moves": [],
 				}])
 		this.updateSetList(newList)
+		this.scrollSetsToBottom()
 	}
 
 	getRandomType(probs) {
@@ -112,6 +114,19 @@ class GeneratorView extends React.Component {
 		var newList = newSetList[this.state.selectedSetIdx].moves.concat(Object.assign({}, newMove));
 		newSetList[this.state.selectedSetIdx].moves = newList;
 		this.updateSetList(newSetList);
+		this.scrollMovesToBottom()
+	}
+
+	scrollMovesToBottom() {
+		$(".MovesPane").animate({
+			scrollTop: $('.MovesPane')[0].scrollHeight
+		})
+	}	
+
+	scrollSetsToBottom() {
+		$(".SetsPane").animate({
+			scrollTop: $('.SetsPane')[0].scrollHeight
+		})
 	}
 
 	// adds a random move based on probabilities
@@ -192,7 +207,7 @@ class GeneratorView extends React.Component {
 			<div className="row h-100">
 				<div className="col-md-4 h-100">
 					<Tabs defaultActiveKey={paneNames.ALL_SETS}>
-						<TabPane className="Pane" tab={paneNames.ALL_SETS} key={paneNames.ALL_SETS}>
+						<TabPane className="Pane SetsPane" tab={paneNames.ALL_SETS} key={paneNames.ALL_SETS}>
 							<CardList 
 								cardType={cardTypes.SET}
 								cardList={this.state.setList} 

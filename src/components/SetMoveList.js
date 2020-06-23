@@ -44,7 +44,7 @@ class SetMoveList extends React.Component {
 					updateSetList={this.props.updateSetList.bind(this)}
 					setList={this.props.setList}
 				/>
-				<div className="Pane">
+				<div className="Pane MovesPane">
 					<CardList
 						cardType={cardTypes.SET_MOVE}
 						cardList={this.props.setList[this.props.selectedSetIdx].moves}

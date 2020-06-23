@@ -13,7 +13,7 @@ import 'antd/dist/antd.css';
 import { Tabs } from 'antd';
 import "../css/containers/Pane.css"
 
-import { tabNames, cardTypes, menuKeys } from "../constants"
+import { tabNames, cardTypes } from "../constants"
 
 
 // contains List of Moves and Form to add moves 
@@ -72,7 +72,6 @@ class MoveListView extends React.Component {
 			});
 		})
         .catch(error => console.error(error));
-        localStorage.setItem('menuKey', menuKeys.LIST)
 	}
 
 	// when new props arrive, component rerenders
