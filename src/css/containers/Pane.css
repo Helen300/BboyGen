@@ -6,4 +6,28 @@
 	background-color: #ededed
 }
 
+/* Custom Scrollbar*/
 
+/* width */
+::-webkit-scrollbar {
+  width: 2%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: lightgray; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: gray; 
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}

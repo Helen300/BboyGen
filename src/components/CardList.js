@@ -90,17 +90,7 @@ class CardList extends React.Component {
 	    return item.type === key
 	  }
 
-
-	componentDidUpdate() {
-    	this.scrollToBottom();
-	}
-
-
-	scrollToBottom() {
-	    animateScroll.scrollToBottom({
-	      containerId: "MoveList"
-	    });
-	}
+		
 
 
 	renderCards = (cardType) => {
