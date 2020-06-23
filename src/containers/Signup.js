@@ -33,7 +33,14 @@ class Signup extends React.Component {
             </Tooltip>
           </span>
         }
-        rules={[{ required: true, message: 'Please input a username!', whitespace: true }]}
+        rules={[
+          { 
+            required: true, message: 'Please input a username.', whitespace: true,
+          }, 
+          {
+            pattern: /^\S*$/, message: 'Spaces are not allowed.' 
+          },
+        ]}
       >
         <Input />
       </Form.Item>
@@ -43,12 +50,10 @@ class Signup extends React.Component {
         label="E-mail"
         rules={[
           {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
+            type: 'email', message: 'The input is not valid E-mail.',
           },
           {
-            required: true,
-            message: 'Please input your E-mail!',
+            required: true, message: 'Please input your E-mail.',
           },
         ]}
       >
@@ -60,8 +65,13 @@ class Signup extends React.Component {
         label="Password"
         rules={[
           {
-            required: true,
-            message: 'Please input your password!',
+            required: true, message: 'Please input your password.',
+          },
+          { 
+            min: 8, message: 'Passwords must be at least 8 characters.',
+          },
+          {
+            pattern: /^\S*$/, message: 'Spaces are not allowed.',
           },
         ]}
         hasFeedback

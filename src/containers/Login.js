@@ -48,7 +48,14 @@ class Login extends React.Component {
 			      <Form.Item
 			        label="Username"
 			        name="username"
-			        rules={[{ required: true, message: 'Please input your username!' }]}
+			        rules={[
+			        		{ 
+			        			required: true, message: 'Please input your username.'
+			        		},
+			        		{
+			        			pattern: /^\S*$/, message: 'Usernames should not have spaces.' 
+			        		}
+			        	]}
 			      >
 			        <Input />
 			      </Form.Item>
@@ -56,7 +63,15 @@ class Login extends React.Component {
 			      <Form.Item
 			        label="Password"
 			        name="password"
-			        rules={[{ required: true, message: 'Please input your password!' }]}
+			        rules={[
+			        		{ 
+			        			required: true, message: 'Please input your password.', 
+			        		},
+			        		{
+			        		  pattern: /^\S*$/, message: 'Passwords should not have spaces.'
+			        		}
+			        	]}
+			        		
 			      >
 			        <Input.Password />
 			      </Form.Item>
