@@ -100,6 +100,7 @@ class Login extends React.Component {
 					  	size="small"
 					  />
 					 :
+					 // error will get returned from the authLogin
 					 <div>{ this.props.error != null ? this.props.error : null}</div>
 				}
 			    </Form>
