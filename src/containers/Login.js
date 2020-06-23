@@ -50,7 +50,7 @@ class Login extends React.Component {
 			        name="username"
 			        rules={[
 			        		{ 
-			        			required: true, message: 'Please input your username!'
+			        			required: true, message: 'Please input your username.'
 			        		},
 			        		{
 			        			pattern: /^\S*$/, message: 'Usernames should not have spaces.' 
@@ -65,10 +65,10 @@ class Login extends React.Component {
 			        name="password"
 			        rules={[
 			        		{ 
-			        			required: true, message: 'Please input your password!', 
+			        			required: true, message: 'Please input your password.', 
 			        		},
 			        		{
-			        		  pattern: /^\S*$/, message: 'Usernames should not have spaces.'
+			        		  pattern: /^\S*$/, message: 'Passwords should not have spaces.'
 			        		}
 			        	]}
 			        		
