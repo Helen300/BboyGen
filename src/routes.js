@@ -21,15 +21,15 @@ class BaseRouter extends React.Component {
 	}
 
 	render() {
-		if (this.props.isLoading) {
+		/*if (this.props.isLoading) {
 			return(
 			  <Spin 
 			  	tip="Loading..." 
 			  	size="large"
 			  />
 			)
-		}
-		else { 
+		} 
+		else {  */ 
 		return(
 
 			<div>
@@ -50,7 +50,7 @@ class BaseRouter extends React.Component {
 			</div>
 
 		)
-	}
+	//}
 
 	}
 }

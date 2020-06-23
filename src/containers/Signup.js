@@ -6,7 +6,6 @@ import * as actions from '../store/actions/auth';
 
 
 class Signup extends React.Component {
-  // [form] = Form.useForm();
 
   onFinish = values => {
     console.log('Received values of form: ', values);

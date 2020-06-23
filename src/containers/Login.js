@@ -7,18 +7,48 @@ import { menuKeys } from "../constants";
 
 
 class Login extends React.Component {
+
+	state = { 
+		loading: false, 
+	}
   // don't need to call validate because onFinish only calls after validated
   	onFinish = (values) => {
 	    console.log('Trying to login with:', values);
-	    this.props.onAuth(values.username, values.password)
-		this.props.history.push('/');
+	    var login = this.props.onAuth(values.username, values.password)
+	    if (this.props.loading) {
+	    	this.setState({
+	    		loading: true,
+	    	})
+	    	console.log('loading...')
+	    }
+	    console.log(login);
+		// this.props.history.push('/');
  	 };
+
   	onFinishFailed = (errorInfo) => {
   		console.log('Failed:', errorInfo);
   	};
 
 	componentDidMount() {
 		localStorage.setItem('menuKey', menuKeys.Login)
+	}
+
+	componentWillReceiveProps(newProps) {
+		if (!newProps.loading && (newProps.error == null)) {
+	    	this.setState({
+	    		loading: false,
+	    	})
+	    	console.log('now false');
+	    	newProps.history.push('/');
+	    }
+	    else if (!newProps.loading && (newProps.error != null)) {
+	    	this.setState({
+	    		loading: false,
+	    	})
+	    	if (newProps.error === 'Username or password wrong') {
+	    		console.log('bad username/password login');
+	    	}
+	    }
 	}
 
   	render () { 
@@ -31,47 +61,48 @@ class Login extends React.Component {
 		  return (
 		  	<div>
 		  		{ errorMessage }
-			  	{
-			  		this.props.loading ? 
+			    <Form
+			
+			      onFinish={this.onFinish}
+			      onFinishFailed={this.onFinishFailed}
+			    >
+			      <Form.Item
+			        label="Username"
+			        name="username"
+			        rules={[{ required: true, message: 'Please input your username!' }]}
+			      >
+			        <Input />
+			      </Form.Item>
 
-			  		<Spin />
+			      <Form.Item
+			        label="Password"
+			        name="password"
+			        rules={[{ required: true, message: 'Please input your password!' }]}
+			      >
+			        <Input.Password />
+			      </Form.Item>
 
-			  		:
-
-				    <Form
-				
-				      onFinish={this.onFinish}
-				      onFinishFailed={this.onFinishFailed}
-				    >
-				      <Form.Item
-				        label="Username"
-				        name="username"
-				        rules={[{ required: true, message: 'Please input your username!' }]}
-				      >
-				        <Input />
-				      </Form.Item>
-
-				      <Form.Item
-				        label="Password"
-				        name="password"
-				        rules={[{ required: true, message: 'Please input your password!' }]}
-				      >
-				        <Input.Password />
-				      </Form.Item>
-
-				      <Form.Item>
-				        <Button type="primary" htmlType="submit">
-				          Login 
-				        </Button>
-				        <span style={{ marginLeft: '0.5em'}}> 
-				         OR 
-				        </span>
-				        <NavLink style={{ marginLeft: '0.5em'}} to='/signup/'>
-				        Sign Up
-				        </NavLink>
-				      </Form.Item>
-				    </Form>
+			      <Form.Item>
+			        <Button type="primary" htmlType="submit">
+			          Login 
+			        </Button>
+			        <span style={{ marginLeft: '0.5em'}}> 
+			         OR 
+			        </span>
+			        <NavLink style={{ marginLeft: '0.5em'}} to='/signup/'>
+			        Sign Up
+			        </NavLink>
+			      </Form.Item>
+			       { this.state.loading ?
+		
+					  <Spin 
+					  	tip="Logging in..." 
+					  	size="small"
+					  />
+					 :
+					 <div>{ this.props.error != null ? this.props.error : null}</div>
 				}
+			    </Form>
 		    </div>
 		  );
 		};
