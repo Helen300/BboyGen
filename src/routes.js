@@ -21,15 +21,6 @@ class BaseRouter extends React.Component {
 	}
 
 	render() {
-		/*if (this.props.isLoading) {
-			return(
-			  <Spin 
-			  	tip="Loading..." 
-			  	size="large"
-			  />
-			)
-		} 
-		else {  */ 
 		return(
 
 			<div>

@@ -19,10 +19,8 @@ class Login extends React.Component {
 	    	this.setState({
 	    		loading: true,
 	    	})
-	    	console.log('loading...')
 	    }
-	    console.log(login);
-		// this.props.history.push('/');
+	   // console.log(login);
  	 };
 
   	onFinishFailed = (errorInfo) => {
@@ -34,18 +32,15 @@ class Login extends React.Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		if (!newProps.loading && (newProps.error == null)) {
-	    	this.setState({
+		if (!newProps.loading) {
+			this.setState({
 	    		loading: false,
 	    	})
-	    	console.log('now false');
-	    	newProps.history.push('/');
-	    }
-	    else if (!newProps.loading && (newProps.error != null)) {
-	    	this.setState({
-	    		loading: false,
-	    	})
-	    	if (newProps.error === 'Username or password wrong') {
+	    	if (newProps.error == null) {
+	    		console.log('now false');
+	    		newProps.history.push('/');
+	    	}
+	    	else if (newProps.error === 'Username or password wrong') {
 	    		console.log('bad username/password login');
 	    	}
 	    }
