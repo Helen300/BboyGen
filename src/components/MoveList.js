@@ -5,7 +5,6 @@ import CardList from './CardList';
 
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
-
 import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
@@ -45,6 +44,7 @@ class MoveList extends React.Component {
 				    	updateCardList={this.props.updateMoveList}
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
+				  
 				    	/>
 			 	</TabPane>
 		  		<TabPane className="Pane" tab={tabNames[1]} key={tabNames[1]}>
