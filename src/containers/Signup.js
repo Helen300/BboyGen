@@ -3,18 +3,45 @@ import { connect } from 'react-redux';
 import { Form, Input, Tooltip, Button } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import * as actions from '../store/actions/auth';
+import { Spin } from 'antd';
 
 
 class Signup extends React.Component {
+  state = {
+    loading: false, 
+  }
+  // [form] = Form.useForm();
 
   onFinish = values => {
     console.log('Received values of form: ', values);
-    this.props.onAuth(values.username, values.email, values.password, values.confirm)
-    this.props.history.push('/');
+    this.props.onAuth(values.username, values.email, values.password, values.confirm);
+    if (this.props.loading) {
+      this.setState({
+        loading: true,
+      })
+    }
   };
+
+
+  componentWillReceiveProps(newProps) {
+    if (!newProps.loading) {
+      this.setState({
+          loading: false,
+        })
+        if (newProps.error == null) {
+          console.log('now false');
+          newProps.history.push('/');
+        }
+        else if (newProps.error === 'bad') {
+          console.log('bad signup');
+        }
+      }
+  }
+
 
   render () { 
   return (
+    <div>
     <Form
       // form={this.form}
       name="register"
@@ -107,7 +134,19 @@ class Signup extends React.Component {
           Signup
         </Button>
       </Form.Item>
+      { this.state.loading ?
+
+            <Spin 
+              tip="Signing up..." 
+              size="small"
+            />
+           :
+           // error will get returned from the authLogin
+           <div>{ this.props.error != null ? this.props.error : null}</div>
+      }
+
     </Form>
+    </div>
   );
   }
 };
