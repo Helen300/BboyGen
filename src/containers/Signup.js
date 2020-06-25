@@ -7,7 +7,6 @@ import { Spin } from 'antd';
 
 
 class Signup extends React.Component {
-
   state = {
     loading: false, 
   }

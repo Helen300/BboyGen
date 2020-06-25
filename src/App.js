@@ -34,7 +34,6 @@ const mapStateToProps = state => {
 	return {
 		// whether or not token = null (isAuthenticated = False)
 		isAuthenticated: state.token != null
-
 	}
 }
 

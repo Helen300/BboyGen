@@ -81,7 +81,8 @@ export const authLogin = (username, password) => {
 		})
 		// if incorrect credentials, catch error 
 		.catch(err => {
-			dispatch(authFail(err))
+			// returning an error with message
+			dispatch(authFail('Username or password is wrong'))
 		})
 	}
 }
