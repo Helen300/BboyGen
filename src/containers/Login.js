@@ -14,13 +14,12 @@ class Login extends React.Component {
   // don't need to call validate because onFinish only calls after validated
   	onFinish = (values) => {
 	    console.log('Trying to login with:', values);
-	    var login = this.props.onAuth(values.username, values.password)
+	    this.props.onAuth(values.username, values.password)
 	    if (this.props.loading) {
 	    	this.setState({
 	    		loading: true,
 	    	})
 	    }
-	   // console.log(login);
  	 };
 
   	onFinishFailed = (errorInfo) => {
@@ -47,15 +46,13 @@ class Login extends React.Component {
 	}
 
   	render () { 
-	  	let errorMessage = null; 
-	  	if (this.props.error) {
-	  		errorMessage = (
-	  			<p>{this.props.error.message}</p>
-	  		);
-	  	}
 		  return (
 		  	<div>
-		  		{ errorMessage }
+		  		{ this.props.error ? 
+		  			<p>{this.props.error.message}</p> 
+		  			:
+		  			null 
+		  		}
 			    <Form
 			
 			      onFinish={this.onFinish}
