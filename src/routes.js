@@ -5,6 +5,7 @@ import GeneratorView from './containers/GeneratorView';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Landing from './containers/Landing';
+import { Spin, Alert } from 'antd';
 
 class BaseRouter extends React.Component {
 
@@ -20,13 +21,12 @@ class BaseRouter extends React.Component {
 	}
 
 	render() {
-
 		return(
 
 			<div>
 				{/* for the path localhost/ displays MoveList */}
 				{
-					this.props.isAuthenticated ?
+					this.props.isAuthenticated && this.props.isLoading === false ?
 					<Route exact path='/' component={MoveListView} />
 					:
 					<Route exact path='/' component={Landing} />
@@ -41,6 +41,7 @@ class BaseRouter extends React.Component {
 			</div>
 
 		)
+	//}
 
 	}
 }

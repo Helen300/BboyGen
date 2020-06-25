@@ -7,39 +7,52 @@ import { menuKeys } from "../constants";
 
 
 class Login extends React.Component {
-  // don't need to call validate because onFinish only calls after validated
-  onFinish = (values) => {
-    console.log('Trying to login with:', values);
-    this.props.onAuth(values.username, values.password)
-    this.props.history.push('/');
-   
-  };
 
-  onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+	state = { 
+		loading: false, 
+	}
+  // don't need to call validate because onFinish only calls after validated
+  	onFinish = (values) => {
+	    console.log('Trying to login with:', values);
+	    this.props.onAuth(values.username, values.password)
+	    if (this.props.loading) {
+	    	this.setState({
+	    		loading: true,
+	    	})
+	    }
+ 	 };
+
+  	onFinishFailed = (errorInfo) => {
+  		console.log('Failed:', errorInfo);
+  	};
 
 	componentDidMount() {
 		localStorage.setItem('menuKey', menuKeys.Login)
 	}
 
-  render () { 
-  	let errorMessage = null; 
-  	if (this.props.error) {
-  		errorMessage = (
-  			<p>{this.props.error.message}</p>
-  		);
-  	}
-	  return (
-	  	<div>
-	  		{ errorMessage }
-		  	{
-		  		this.props.loading ? 
+	componentWillReceiveProps(newProps) {
+		if (!newProps.loading) {
+			this.setState({
+	    		loading: false,
+	    	})
+	    	if (newProps.error == null) {
+	    		console.log('now false');
+	    		newProps.history.push('/');
+	    	}
+	    	else if (newProps.error === 'Username or password wrong') {
+	    		console.log('bad username/password login');
+	    	}
+	    }
+	}
 
-		  		<Spin />
-
-		  		:
-
+  	render () { 
+		  return (
+		  	<div>
+		  		{ this.props.error ? 
+		  			<p>{this.props.error.message}</p> 
+		  			:
+		  			null 
+		  		}
 			    <Form
 			
 			      onFinish={this.onFinish}
@@ -87,12 +100,21 @@ class Login extends React.Component {
 			        Sign Up
 			        </NavLink>
 			      </Form.Item>
+			       { this.state.loading ?
+		
+					  <Spin 
+					  	tip="Logging in..." 
+					  	size="small"
+					  />
+					 :
+					 // error will get returned from the authLogin
+					 <div>{ this.props.error != null ? this.props.error : null}</div>
+				}
 			    </Form>
-			}
-	    </div>
-	  );
-	};
-}
+		    </div>
+		  );
+		};
+	}
 
 
 const mapStateToProps = (state) => {
