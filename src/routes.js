@@ -9,24 +9,13 @@ import { Spin, Alert } from 'antd';
 
 class BaseRouter extends React.Component {
 
-
-	loginPage() {
-		console.log(this.props.isAuthenticated);
-		if (this.props.isAuthenticated) {
-			return MoveListView
-		}
-		else {
-			return Login
-		}
-	}
-
 	render() {
 		return(
 
 			<div>
 				{/* for the path localhost/ displays MoveList */}
 				{
-					this.props.isAuthenticated && this.props.isLoading === false ?
+					this.props.isAuthenticated ?
 					<Route exact path='/' component={MoveListView} />
 					:
 					<Route exact path='/' component={Landing} />
