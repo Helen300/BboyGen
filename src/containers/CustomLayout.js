@@ -72,6 +72,9 @@ class CustomLayout extends React.Component {
             </Menu.Item>,
             <Menu.Item key={menuKeys.GENERATOR} onClick={() => this.changeMenuKey(menuKeys.GENERATOR)}>
               <Link to="/gen/">Generator</Link>
+            </Menu.Item>,
+            <Menu.Item key={menuKeys.TRAINING} onClick={() => this.changeMenuKey(menuKeys.TRAINING)}>
+              <Link to="/training/">Training</Link>
             </Menu.Item>]
             :
             <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => this.changeMenuKey(menuKeys.LOGIN)}>
