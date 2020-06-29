@@ -8,7 +8,7 @@ export const menuKeys = {
 	LOGOUT: 'Logout',
 	LIST: 'List', 
 	GENERATOR: 'Generator', 
-	TRAINING:'Training',
+	TRAINING: 'Training',
 	LOGIN: 'Login'
 };
 export const cardTypes = {

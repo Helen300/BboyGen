@@ -1,16 +1,23 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import EditProbs from '../components/EditProbs';
+import CardList from '../components/CardList';
+import { tabNames, menuKeys, cardTypes } from "../constants";
+import { Button } from 'antd';
+import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
 
-import { tabNames, menuKeys } from "../constants";
+
+import "../css/containers/TrainingView.css"
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 class TrainingView extends React.Component {
 
-
 	state = {
-		currMoves: [],
-		probs: []
+		currSet: [],
+		probs: [],
+		show: false, 
 	}
 
 	updateProbs(newProbs) {
@@ -39,8 +46,10 @@ class TrainingView extends React.Component {
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
+			console.log(res.data.probs);
 			this.setState({
-				probs: res.data.probs
+				probs: res.data.probs,
+				show: true,
 			});
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(this.state.probs).length === 0) {
@@ -58,10 +67,35 @@ class TrainingView extends React.Component {
 	}
 
 	render() {
-			return (
-				<div>Training</div>
-			);
-		}
+		return (
+			<div className="col-md-4 h-100">
+				Training
+					<div className="Pane MovesPane">
+						<CardList
+							cardType={cardTypes.SET_MOVE}
+							cardList={this.state.currSet}
+							enableDrag={false}
+						/>
+					</div>
+					<div>
+						<Button type="primary" className={"TrainingButton"}>Start Training</Button>
+						<Button type="primary" className={"PlayButtons"}><PauseOutlined /></Button>
+						<Button type="primary" className={"PlayButtons"}><CaretRightOutlined /></Button>
+					</div>
+				{this.state.show ? 
+					<div>
+						<Button type="primary" className={"TrainingButton"}>Save Set</Button>
+						<EditProbs
+							probs={this.state.probs}
+							updateProbs={this.updateProbs.bind(this)}
+						/>
+					</div>
+				:
+				null 
+				}
+			</div>
+		);
+	}
 
 }
 
