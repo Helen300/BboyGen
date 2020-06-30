@@ -9,7 +9,8 @@
 
 .EditProbsContainer {
 	display: inline-block;
-	width: 34%;
+	text-align: center;
+	width: 38%;
 }
 
 .Warning {
