@@ -120,7 +120,6 @@ class CardList extends React.Component {
 				          setIdx={idx}
 				          deleteSet={this.deleteCard}
 				          selectSet={this.selectCard}
-				 
 				          selectedSetIdx={this.props.selectedIdx}
 				  
 				        />
@@ -148,7 +147,7 @@ class CardList extends React.Component {
 					          moveIdx={idx}
 					          deleteMove={this.deleteCard}
 					          selectMove={this.selectCard}
-					          shouldRender={this.moveFilter(move)}
+					          shouldRender={true}
 					          selectedMoveIdx={this.props.selectedIdx}
 					          toggleReverse={this.props.toggleReverseIcon}
 					          showReverseIcon={move.reversible}

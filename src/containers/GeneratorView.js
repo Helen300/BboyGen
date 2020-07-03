@@ -5,6 +5,7 @@ import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetMoveList from '../components/SetMoveList';
 import EditProbs from '../components/EditProbs';
+import RandomMove from '../RandomMove';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
 import { tabNames, paneNames, cardTypes, menuKeys } from "../constants";
@@ -92,21 +93,6 @@ class GeneratorView extends React.Component {
 		this.scrollSetsToBottom()
 	}
 
-	getRandomType(probs) {
-		var target = Math.random()
-		var runningProb = 0
-		var i;
-		for (i = 0; i < probs.length; i++) {
-			if(target >= runningProb && target <= runningProb + probs[i]) {
-			// add 1 to skip the first tab "All"
-				return tabNames[i + 1]
-			}
-			runningProb += probs[i]
-		}
-		// error, should not reach this line. User probably input invalid probs
-		return tabNames[i]
-	}
-
 	// adds a new move to a selected set 
 	addToSetMoveList(newMove) {
 		var newSetList = this.state.setList;
@@ -131,26 +117,8 @@ class GeneratorView extends React.Component {
 
 	// adds a random move based on probabilities
 	addRandom() {
-		var currentSetMoveList = this.state.setList[this.state.selectedSetIdx].moves
-		var lastAddedType = tabNames[0]
-		// select uniform random if no previous added move
-		if(currentSetMoveList.length == 0) {
-			// subract first type
-			var uniformProbs = Array(tabNames.length - 1).fill(1/(tabNames.length - 1))
-			lastAddedType = this.getRandomType(uniformProbs)
-		} else {
-			lastAddedType = currentSetMoveList[currentSetMoveList.length - 1].type
-		}
-		var filteredList = []
-		// if user does not have moves in each category, keep picking random one until we find one with moves
-		while(filteredList.length == 0) {
-			var newType = this.getRandomType(this.state.probs[lastAddedType])
-			filteredList = this.state.moveList.filter(move => move.type == newType);
-		}
-		
-		// get random move of that type and make shallow copy
-		var newMove = Object.assign({}, filteredList[Math.floor(Math.random() * filteredList.length)])
-		this.addToSetMoveList(newMove)
+		var randomMove = RandomMove.getRandomMove(this.state.setList[this.state.selectedSetIdx].moves, this.state.moveList, this.state.probs)
+		this.addToSetMoveList(randomMove)
 	}
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
@@ -244,7 +212,7 @@ class GeneratorView extends React.Component {
 								cardType={cardTypes.MOVE_ADDABLE}
 								addToSetMoveList={this.addToSetMoveList.bind(this)}
 							/>
-							<Button type="primary" className={"AddMoveButton"} onClick={()=>this.addRandom()}>Add Random Move</Button>
+							<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
 							<EditProbs
 								probs={this.state.probs}
 								updateProbs={this.updateProbs.bind(this)}

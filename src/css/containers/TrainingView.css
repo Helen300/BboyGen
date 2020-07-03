@@ -9,3 +9,12 @@
 	margin-right: 3%;
 	width: 45%;
 }
+
+.SlidingContainer {
+	overflow-x: auto;
+	height: 20vh;
+	border: 1px solid #d9d9d9;
+	border-radius: 0.2em;	
+	background-color: #ededed;
+	display: inline-block;
+}
