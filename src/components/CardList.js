@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Move from '../components/Move';
 import MoveAddable from '../components/MoveAddable';
+import TrainingMove from '../components/TrainingMove';
 import SetCard from '../components/SetCard';
 
 import $ from 'jquery';
@@ -14,6 +15,7 @@ import { animateScroll } from "react-scroll";
 import "../css/components/CardList.css"
 
 import { cardTypes } from "../constants"
+import PropTypes from 'prop-types';
 
 
 // contains List of Moves and Form to add moves 
@@ -99,7 +101,6 @@ class CardList extends React.Component {
 				return(
 					this.props.cardList.map((move, idx) => 
 						<Move
-				          // goes to slash that link 
 				          move={move}
 				          moveIdx={idx}
 				          deleteMove={this.deleteCard}
@@ -107,7 +108,6 @@ class CardList extends React.Component {
 				          shouldRender={this.moveFilter(move)}
 				          selectedMoveIdx={this.props.selectedIdx}
 				          showReverseIcon={false}
-				          //description={item.id}
 				        />
 					)
 				)
@@ -115,7 +115,6 @@ class CardList extends React.Component {
 				return(
 					this.props.cardList.map((moveSet, idx) => 
 						<SetCard
-				          // goes to slash that link 
 				          moveSet={moveSet}
 				          setIdx={idx}
 				          deleteSet={this.deleteCard}
@@ -129,7 +128,6 @@ class CardList extends React.Component {
 				return(
 					this.props.cardList.map((move, idx) => 
 						<MoveAddable
-				          // goes to slash that link 
 				          move={move}
 				          shouldRender={this.moveFilter(move)}
 				          addMove={this.props.addToSetMoveList}
@@ -142,22 +140,28 @@ class CardList extends React.Component {
 					this.props.cardList.map((move, idx) => {
 						return (
 								<Move
-					          // goes to slash that link 
-					          move={move}
-					          moveIdx={idx}
-					          deleteMove={this.deleteCard}
-					          selectMove={this.selectCard}
-					          shouldRender={true}
-					          selectedMoveIdx={this.props.selectedIdx}
-					          toggleReverse={this.props.toggleReverseIcon}
-					          showReverseIcon={move.reversible}
-					        />
+						          move={move}
+						          moveIdx={idx}
+						          deleteMove={this.deleteCard}
+						          selectMove={this.selectCard}
+						          shouldRender={true}
+						          selectedMoveIdx={this.props.selectedIdx}
+						          toggleReverse={this.props.toggleReverseIcon}
+						          showReverseIcon={move.reversible}
+						        />
+						)
+					})
+				)
+			case cardTypes.TRAINING_MOVE:
+				return(
+					this.props.cardList.map((move, idx) => {
+						return (
+								<TrainingMove
+						          move={move}
+						        />
 
 						)
-
-
-					}
-					)
+					})
 				)
 		}
 	}
@@ -184,8 +188,12 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
+			var classes = "MoveListDiv"
+			if(this.props.cardType === cardTypes.TRAINING_MOVE) {
+				classes = classes.concat(" SlidingContainer")
+			}
 			return(
-				<div id="MoveList" class="MoveListDiv">
+				<div id="MoveList" class={classes}>
 					{this.renderCards(this.props.cardType)}
 				</div>
 			)
@@ -199,6 +207,18 @@ const mapStateToProps = state => {
 		token: state.token
 
 	}
+}
+
+CardList.propTypes = {
+	cardList: PropTypes.array.isRequired,
+	cardType: PropTypes.string.isRequired,
+	enableDrag: PropTypes.bool.isRequired,
+	selectedIdx: PropTypes.number,
+	updateSelectedIdx: PropTypes.func,
+	updateCardList: PropTypes.func,
+	currentTab: PropTypes.string,
+	addToSetMoveList: PropTypes.func,
+	toggleReverseIcon: PropTypes.func,
 }
 
 export default connect(mapStateToProps)(CardList);

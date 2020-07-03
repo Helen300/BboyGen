@@ -93,7 +93,6 @@ class TrainingView extends React.Component {
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
-			console.log(res.data.probs);
 			this.setState({
 				probs: res.data.probs,
 				moveList: res.data.moveList,
@@ -118,9 +117,9 @@ class TrainingView extends React.Component {
 		return (
 			<div className="col-md-12 h-100">
 				Training
-					<div className="SlidingContainer">
+					<div>
 						<CardList
-							cardType={cardTypes.SET_MOVE}
+							cardType={cardTypes.TRAINING_MOVE}
 							cardList={this.state.currSet}
 							enableDrag={false}
 							currentTab={tabNames[0]}
