@@ -1,6 +1,8 @@
 {
   "name": "bboyapp",
-  "scripts": {},
+  "scripts": {
+    "postdeploy": "npm run build"
+  },
   "env": {
     "ALLOWED_HOSTS": {
       "required": true
