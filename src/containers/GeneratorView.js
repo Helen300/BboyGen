@@ -93,6 +93,30 @@ class GeneratorView extends React.Component {
 		this.scrollSetsToBottom()
 	}
 
+
+	// adds a new set 
+	dupSet() {
+		console.log(this.state.setList[this.state.selectedSetIdx]);
+		/* var newList = this.state.setList.concat([{
+					"name": "Set #".concat(this.state.setList.length),
+					"id": "Set".concat(this.state.setList.length),
+					"description": "", 
+					"moves": [],
+				}])
+		this.updateSetList(newList) */ 
+		var dupSet = this.state.setList[this.state.selectedSetIdx];
+		console.log(dupSet.description);
+		console.log(dupSet.moves);
+		var newList = this.state.setList.concat([{
+					"name": "Copy of ".concat(dupSet.name),
+					"id": "Set".concat(this.state.setList.length),
+					"description": dupSet.description, 
+					"moves": dupSet.moves,
+				}])
+		this.updateSetList(newList);
+		this.scrollSetsToBottom();
+	}
+
 	// adds a new move to a selected set 
 	addToSetMoveList(newMove) {
 		var newSetList = this.state.setList;
@@ -198,8 +222,10 @@ class GeneratorView extends React.Component {
 								selectedSetIdx={this.state.selectedSetIdx}
 								updateSetList={this.updateSetList.bind(this)}
 							/>
+							<Button type="primary" className={"AddSetButton"} onClick={()=>this.dupSet()}>Duplciate Set</Button>
 						</div>
 					}
+
 				</div>
 				<div className="col-md-4 h-100">
 					{this.state.selectedSetIdx == -1 ? null : 
