@@ -1,0 +1,30 @@
+{
+  "name": "bboygen",
+  "scripts": {},
+  "env": {
+    "ALLOWED_HOSTS": {
+      "required": true
+    },
+    "SECRET_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "stack": "heroku-18"
+} 

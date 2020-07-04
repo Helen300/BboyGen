@@ -25,7 +25,7 @@ SECRET_KEY = '5&cea=odq)1*h$b70c6m2j1jxrii7v4+solfucunp%-s)c0=vs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bboy-gen.herokuapp.com', 'localhost', '*']
+ALLOWED_HOSTS = ['bboygen.herokuapp.com', 'localhost', '*']
 
 
 # Application definition
