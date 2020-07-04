@@ -1,8 +1,11 @@
 {
-  "name": "bboyapp",
+  "name": "bboygen",
+  "description": "bboy app",
   "scripts": {
     "predeploy": "npm run build"
   },
+  "website": "http://bboygen.herokuapp.com",
+  "repository": "https://github.com/Helen300/BboyGen.git",
   "env": {
     "ALLOWED_HOSTS": {
       "required": true
