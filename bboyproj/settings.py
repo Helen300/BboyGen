@@ -148,6 +148,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_TMP = os.path.join(BASE_DIR, 'build/static')
+os.makedirs(STATIC_TMP, exist_ok=True)
 # for handling static files 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static'),
