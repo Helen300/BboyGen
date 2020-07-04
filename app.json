@@ -1,7 +1,7 @@
 {
   "name": "bboyapp",
   "scripts": {
-    "postdeploy": "npm run build"
+    "predeploy": "npm run build"
   },
   "env": {
     "ALLOWED_HOSTS": {
