@@ -188,12 +188,9 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
-			var classes = "MoveListDiv"
-			if(this.props.cardType === cardTypes.TRAINING_MOVE) {
-				classes = classes.concat(" SlidingContainer")
-			}
+			var containerClass = this.props.cardType === cardTypes.TRAINING_MOVE ? "SlidingContainer" : "MoveListDiv"
 			return(
-				<div id="MoveList" class={classes}>
+				<div id="MoveList" class={containerClass}>
 					{this.renderCards(this.props.cardType)}
 				</div>
 			)

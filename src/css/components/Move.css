@@ -7,8 +7,12 @@
 
 .TrainingCard {
 	float: left;
-	width: 20%;
 	flex: 0 0 auto;
+	transition: width 0s !important;
+	margin-right: 0.5% !important;
+	margin-top: 0% !important;
+	margin-bottom: 0% !important;
+	
 }
 
 .NormalTitle {
