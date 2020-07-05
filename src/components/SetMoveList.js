@@ -6,7 +6,7 @@ import { Tabs, Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
 import CardList from '../components/CardList';
 import EditSetName from '../components/EditSetName';
-import { paneNames, cardTypes } from "../constants"
+import { paneNames, cardTypes, tabNames } from "../constants"
 
 import "../css/containers/Pane.css"
 
@@ -17,7 +17,6 @@ class SetMoveList extends React.Component {
 
 	state = {
 		setIdx: -1,
-		currentTab: 'All',
 	}
 
 	updateSetMoveList(newList) {
@@ -50,7 +49,7 @@ class SetMoveList extends React.Component {
 						cardList={this.props.setList[this.props.selectedSetIdx].moves}
 						updateCardList={this.updateSetMoveList.bind(this)}
 						enableDrag={true}
-						currentTab={this.state.currentTab}
+						currentTab={tabNames[0]}
 						toggleReverseIcon={this.toggleReverseIcon.bind(this)}
 					/>
 				</div>

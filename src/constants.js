@@ -15,7 +15,8 @@ export const cardTypes = {
 	MOVE: 'Move', 
 	SET: 'Set', 
 	MOVE_ADDABLE: 'Move Addable',
-	SET_MOVE: 'Set Move'
+	SET_MOVE: 'Set Move',
+	TRAINING_MOVE: "Training Move"
 };
 
 export const tabNames = ['All', 'Toprock', 'Footwork', 'Power', 'Freezes'];
