@@ -93,6 +93,19 @@ class GeneratorView extends React.Component {
 		this.scrollSetsToBottom()
 	}
 
+	// duplicates a set 
+	dupSet() {
+		var dupSet = this.state.setList[this.state.selectedSetIdx];
+		var newList = this.state.setList.concat([{
+					"name": "Copy of ".concat(dupSet.name),
+					"id": "Set".concat(this.state.setList.length),
+					"description": dupSet.description, 
+					"moves": JSON.parse(JSON.stringify(dupSet.moves)),
+				}])
+		this.updateSetList(newList);
+		this.scrollSetsToBottom();
+	}
+
 	// adds a new move to a selected set 
 	addToSetMoveList(newMove) {
 		var newSetList = this.state.setList;
@@ -198,6 +211,7 @@ class GeneratorView extends React.Component {
 								selectedSetIdx={this.state.selectedSetIdx}
 								updateSetList={this.updateSetList.bind(this)}
 							/>
+							<Button type="primary" className={"AddSetButton"} onClick={()=>this.dupSet()}>Copy Set</Button>
 						</div>
 					}
 				</div>
