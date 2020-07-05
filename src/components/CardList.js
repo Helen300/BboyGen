@@ -112,6 +112,7 @@ class CardList extends React.Component {
 				          selectSet={this.selectCard}
 				          selectedSetIdx={this.props.selectedIdx}
 				          shouldRender={this.cardFilter(moveSet)}
+				          enableDrag={this.props.enableDrag}
 				        />
 					)
 				)
@@ -201,10 +202,10 @@ CardList.propTypes = {
 	cardList: PropTypes.array.isRequired,
 	cardType: PropTypes.string.isRequired,
 	enableDrag: PropTypes.bool.isRequired,
+	currentTab: PropTypes.string,
 	selectedIdx: PropTypes.number,
 	updateSelectedIdx: PropTypes.func,
 	updateCardList: PropTypes.func,
-	currentTab: PropTypes.string,
 	addToSetMoveList: PropTypes.func,
 	toggleReverseIcon: PropTypes.func,
 }

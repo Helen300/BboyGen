@@ -17,8 +17,8 @@ class TrainingView extends React.Component {
 	state = {
 		currSet: [],
 		probs: [],
-		moveList: [],
-		show: false, 
+		allMoves: [],
+		currMoveList: [],
 		playing: false,
 		moveBacklog: 0,
 		selectedSetIdx: -1,
@@ -55,7 +55,7 @@ class TrainingView extends React.Component {
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.moveList, this.state.probs)
+			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs)
 			switch(nextMove.type) {
 				case tabNames[1]:
 					fill -= 1
@@ -127,6 +127,24 @@ class TrainingView extends React.Component {
 		this.setState({
 			selectedSetIdx: newIdx
 		})
+		// use all moves if no set selected
+		if(newIdx === -1) {
+			this.setState({
+				currMoveList: this.state.allMoves
+			})
+		} else {
+			this.setState({
+				currMoveList: this.state.trainingSetList[newIdx].moves
+			})
+		}
+		// clear current playing and pause
+		if(this.state.playing) {
+			this.stopPlaying()
+		}
+		this.setState({
+			currSet: [],
+			moveBacklog: 0
+		})
 	}
 
 	componentDidMount() {
@@ -134,15 +152,14 @@ class TrainingView extends React.Component {
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
-			var getTrainingSets = res.data.setList.filter(item => item.type === setTabNames[1])
 			this.setState({
 				probs: res.data.probs,
-				moveList: res.data.moveList,
-				show: true,
-				trainingSetList: getTrainingSets
+				allMoves: res.data.moveList,
+				currMoveList: res.data.moveList,
+				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1])
 			});
 			// if empty, initialize probabilities to uniform
-	        if(Object.keys(this.state.probs).length === 0) {
+	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
 	        	var uni = 1 / (tabNames.length - 1)
 		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
@@ -180,21 +197,21 @@ class TrainingView extends React.Component {
 						cardType={cardTypes.SET}
 						cardList={this.state.trainingSetList}
 						enableDrag={false}
-						currentTab={tabNames[0]}
-						selectedSetIdx={this.state.selectedSetIdx}
+						selectedIdx={this.state.selectedSetIdx}
+						currentTab={setTabNames[1]}
 						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
 					/>
-				{this.state.show ? 
-					<div>
-						<Button type="primary" className={"TrainingButton"}>Save Set</Button>
-						<EditProbs
-							probs={this.state.probs}
-							updateProbs={this.updateProbs.bind(this)}
-						/>
-					</div>
-				:
-				null 
-				}
+					{Object.keys(this.state.probs).length !== 0 ? 
+						<div>
+							<Button type="primary" className={"TrainingButton"}>Save Set</Button>
+							<EditProbs
+								probs={this.state.probs}
+								updateProbs={this.updateProbs.bind(this)}
+							/>
+						</div>
+						:
+						null 
+					}
 			</div>
 		);
 	}

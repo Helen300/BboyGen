@@ -158,7 +158,7 @@ class GeneratorView extends React.Component {
 				probs: res.data.probs
 			});
 			// if empty, initialize probabilities to uniform
-	        if(Object.keys(this.state.probs).length === 0) {
+	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
 	        	var uni = 1 / (tabNames.length - 1)
 		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
