@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import { tabNames } from "../constants";
+import { ReloadOutlined } from '@ant-design/icons'
 import "../css/components/Move.css"
 
 // what does the Meta do? 
@@ -20,6 +21,8 @@ class TrainingMove extends React.Component {
 				return "#E2A9BE"
 		}
 	}
+
+
 	render() {
 			var cardWidth = this.props.move.length * 15
 			cardWidth = cardWidth.toString() + "%"
@@ -32,7 +35,13 @@ class TrainingMove extends React.Component {
 						<Meta 
 							title={<div className={"SelectedTitle"}>
 										{this.props.move.name}
-								   </div>} 
+								   
+								   {this.props.move.reverseEnabled? 
+										<ReloadOutlined className={"SelectedReverse"}/>
+										:
+									null}
+									</div>
+								} 
 						/>
 			  		</Card> 
 	 		)
