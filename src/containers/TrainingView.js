@@ -3,7 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import EditProbs from '../components/EditProbs';
 import CardList from '../components/CardList';
-import { tabNames, menuKeys, cardTypes } from "../constants";
+import { tabNames, menuKeys, cardTypes, setTabNames } from "../constants";
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
@@ -20,7 +20,9 @@ class TrainingView extends React.Component {
 		moveList: [],
 		show: false, 
 		playing: false,
-		moveBacklog: 0
+		moveBacklog: 0,
+		selectedSetIdx: -1,
+		trainingSetList: []
 	}
 
 	updateProbs(newProbs) {
@@ -121,15 +123,23 @@ class TrainingView extends React.Component {
 		clearInterval(this.interval)
 	}
 
+	updateSelectedSetIdx(newIdx) {
+		this.setState({
+			selectedSetIdx: newIdx
+		})
+	}
+
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
+			var getTrainingSets = res.data.setList.filter(item => item.type === setTabNames[1])
 			this.setState({
 				probs: res.data.probs,
 				moveList: res.data.moveList,
 				show: true,
+				trainingSetList: getTrainingSets
 			});
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(this.state.probs).length === 0) {
@@ -143,6 +153,7 @@ class TrainingView extends React.Component {
 	        }
 		})
         .catch(error => console.error(error));
+        
         localStorage.setItem('menuKey', menuKeys.TRAINING)
 	}
 
@@ -165,6 +176,14 @@ class TrainingView extends React.Component {
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
 						}
 					</div>
+					<CardList
+						cardType={cardTypes.SET}
+						cardList={this.state.trainingSetList}
+						enableDrag={false}
+						currentTab={tabNames[0]}
+						selectedSetIdx={this.state.selectedSetIdx}
+						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
+					/>
 				{this.state.show ? 
 					<div>
 						<Button type="primary" className={"TrainingButton"}>Save Set</Button>
