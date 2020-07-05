@@ -44,35 +44,39 @@ class TrainingView extends React.Component {
 		}
 	}
 
-	startPlaying() {
+	fillMoves() {
 		const maxBacklog = 20
-		this.setState({
-			playing: true
-		})
 		var fill = maxBacklog - this.state.moveBacklog
+		if(fill <= 0) {
+			return
+		}
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
 			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.moveList, this.state.probs)
-			addedMoves.push(nextMove)
 			switch(nextMove.type) {
 				case tabNames[1]:
 					fill -= 1
 					totalAdded += 1
+					nextMove.length = nextMove.originalLength = 1
 					break;
 				case tabNames[2]:
 					fill -= 2
 					totalAdded += 2
+					nextMove.length = nextMove.originalLength = 2
 					break;
 				case tabNames[3]:
 					fill -= 3
 					totalAdded += 3
+					nextMove.length = nextMove.originalLength = 3
 					break;
 				case tabNames[4]:
 					fill -= 4
 					totalAdded += 4
+					nextMove.length = nextMove.originalLength = 4
 					break;
 			}
+			addedMoves.push(nextMove)
 		}
 		this.setState({
 			currSet: this.state.currSet.concat(addedMoves)
@@ -82,10 +86,39 @@ class TrainingView extends React.Component {
 		})
 	}
 
+	startPlaying() {
+		this.setState({
+			playing: true
+		})
+		// 40 fps
+		this.interval = setInterval(() => {
+			// if no moves yet, fill
+			if(this.state.currSet.length == 0) {
+				this.fillMoves()
+			}
+			// if first move is out of length, remove first and fill with more
+			else if(this.state.currSet[0].length <= 0) {
+				this.setState({
+					moveBacklog: this.state.moveBacklog - this.state.currSet[0].originalLength,
+					currSet: this.state.currSet.slice(1),
+				})
+				this.fillMoves()
+			// otherwise, keep decreasing first move's length
+			} else {
+				var newList = this.state.currSet.slice()
+				newList[0].length -= 0.025
+				this.setState({
+					currSet: newList
+				})
+			}
+		}, 25)
+	}
+
 	stopPlaying() {
 		this.setState({
 			playing: false
 		})
+		clearInterval(this.interval)
 	}
 
 	componentDidMount() {
@@ -126,7 +159,6 @@ class TrainingView extends React.Component {
 						/>
 					</div>
 					<div>
-						<Button type="primary" className={"TrainingButton"}>Start Training</Button>
 						{ this.state.playing ? 
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
 							:
