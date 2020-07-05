@@ -20,35 +20,36 @@ class SetCard extends React.Component {
 	}
 
 	render(){
-		return(
-			<Draggable draggableId={String(this.props.setIdx)} index={this.props.setIdx}>
-				{provided => (
-				<div 
-					ref={provided.innerRef}
-					{...provided.draggableProps}
-					{...provided.dragHandleProps}
-				>
-					<Card 
-						hoverable 
-						className={this.isSelected() ? "SelectedCard" : "NormalCard"}
-						onClick={() => this.props.selectSet(this.props.setIdx)}
+		if(this.props.shouldRender) {
+			return(
+				<Draggable draggableId={String(this.props.setIdx)} index={this.props.setIdx}>
+					{provided => (
+					<div 
+						ref={provided.innerRef}
+						{...provided.draggableProps}
+						{...provided.dragHandleProps}
 					>
-						<Meta 
-							title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>{this.props.moveSet.name} 
-									<DeleteOutlined 
-										className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} 
-										onClick={(e) => this.deleteSet(e)}/>
-								   </div>} 
-						/>
-			  		</Card> 
-		  		</div>
-				)}
-			</Draggable>
-		);
+						<Card 
+							hoverable 
+							className={this.isSelected() ? "SelectedCard" : "NormalCard"}
+							onClick={() => this.props.selectSet(this.props.setIdx)}
+						>
+							<Meta 
+								title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>{this.props.moveSet.name} 
+										<DeleteOutlined 
+											className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} 
+											onClick={(e) => this.deleteSet(e)}/>
+									   </div>} 
+							/>
+				  		</Card> 
+			  		</div>
+					)}
+				</Draggable>
+			);
+		} else {
+			return(null)
+		}
 	}
-
-
-
 }
 
 

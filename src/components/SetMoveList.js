@@ -6,7 +6,7 @@ import { Tabs, Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
 import CardList from '../components/CardList';
 import EditSetName from '../components/EditSetName';
-import { paneNames, cardTypes, tabNames } from "../constants"
+import { cardTypes, tabNames } from "../constants"
 
 import "../css/containers/Pane.css"
 

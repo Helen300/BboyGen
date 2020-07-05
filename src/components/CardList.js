@@ -66,34 +66,25 @@ class CardList extends React.Component {
 		this.props.updateCardList(newList)
 	}
 
-	selectCard = (moveIdx) => {
+	selectCard = (cardIdx) => {
 		// unselect the move if it is selected again
 		if(!this.props.updateSelectedIdx) {
 			return
 		}
-		if(moveIdx === this.props.selectedIdx) {
+		if(cardIdx === this.props.selectedIdx) {
 			this.props.updateSelectedIdx(-1)
 		} else {
-			this.props.updateSelectedIdx(moveIdx)
+			this.props.updateSelectedIdx(cardIdx)
 		}
 	}
 
-	moveFilter = (item) => {
-
-	    // console.log(' in move filter item is', item);
-	    // RETURNS EITHER ALL, TOPROCK, FOOTWORK, FREEZES, POWER...
+	cardFilter = (item) => {
 	    const key = this.props.currentTab;
 	    if (key == 'All') {
 	      return true
 	    }
-
-	    // console.log('item type', item.type == key);
-	    // console.log('=== ', item.type === key);
 	    return item.type === key
-	  }
-
-		
-
+  	}
 
 	renderCards = (cardType) => {
 		switch(cardType) {
@@ -105,7 +96,7 @@ class CardList extends React.Component {
 				          moveIdx={idx}
 				          deleteMove={this.deleteCard}
 				          selectMove={this.selectCard}
-				          shouldRender={this.moveFilter(move)}
+				          shouldRender={this.cardFilter(move)}
 				          selectedMoveIdx={this.props.selectedIdx}
 				          showReverseIcon={false}
 				        />
@@ -120,7 +111,7 @@ class CardList extends React.Component {
 				          deleteSet={this.deleteCard}
 				          selectSet={this.selectCard}
 				          selectedSetIdx={this.props.selectedIdx}
-				  
+				          shouldRender={this.cardFilter(moveSet)}
 				        />
 					)
 				)
@@ -129,7 +120,7 @@ class CardList extends React.Component {
 					this.props.cardList.map((move, idx) => 
 						<MoveAddable
 				          move={move}
-				          shouldRender={this.moveFilter(move)}
+				          shouldRender={this.cardFilter(move)}
 				          addMove={this.props.addToSetMoveList}
 
 				        />

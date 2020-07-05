@@ -1,8 +1,3 @@
-export const paneNames = {
-	ALL_SETS:'All Sets', 
-	CURRENT_SET: 'Current Set', 
-	MOVE_LIST: 'Move List'
-};
 export const menuKeys = {
 	GREETING:'Greeting', 
 	LOGOUT: 'Logout',
@@ -20,3 +15,4 @@ export const cardTypes = {
 };
 
 export const tabNames = ['All', 'Toprock', 'Footwork', 'Power', 'Freezes'];
+export const setTabNames = ['Battle Sets', "Training Sets"]
