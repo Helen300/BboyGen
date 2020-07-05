@@ -163,7 +163,13 @@ class GeneratorView extends React.Component {
 		}
 		
 		// get random move of that type and make shallow copy
-		var newMove = Object.assign({}, filteredList[Math.floor(Math.random() * filteredList.length)])
+		var newMove = Object.assign({}, filteredList[Math.floor(Math.random() * filteredList.length)]);
+		// var reverse = Math.round(Math.random());
+		var reverse = Math.random();
+		// add a random move reverse version half the time
+		if (reverse >= 0.5 && newMove.reversible) {
+			newMove.reverseEnabled = true;
+		}
 		this.addToSetMoveList(newMove)
 	}
 
