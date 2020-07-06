@@ -9,6 +9,7 @@ class UserProfile(models.Model):
 	moveList = JSONField(null=True, blank=True, default=list())
 	setList = JSONField(null=True, blank=True, default=list())
 	probs = JSONField(null=True, blank=True, default=dict())
+	durations = JSONField(null=True, blank=True, default=dict())
 
 class Move(models.Model):
 	name = models.CharField(max_length=100)
