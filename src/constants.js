@@ -14,5 +14,10 @@ export const cardTypes = {
 	TRAINING_MOVE: "Training Move"
 };
 
+export const editValueTypes = {
+	PROBS: "Probs",
+	DURATIONS: "Durations"
+}
+
 export const tabNames = ['All', 'Toprock', 'Footwork', 'Power', 'Freezes'];
 export const setTabNames = ['Battle Sets', "Training Sets"]

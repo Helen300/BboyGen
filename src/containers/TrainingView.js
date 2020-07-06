@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import EditProbs from '../components/EditProbs';
+import EditValues from '../components/EditValues';
 import CardList from '../components/CardList';
-import { tabNames, menuKeys, cardTypes, setTabNames } from "../constants";
+import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../constants";
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
@@ -22,7 +22,8 @@ class TrainingView extends React.Component {
 		playing: false,
 		moveBacklog: 0,
 		selectedSetIdx: -1,
-		trainingSetList: []
+		trainingSetList: [],
+		durations: {}
 	}
 
 	updateProbs(newProbs) {
@@ -46,6 +47,27 @@ class TrainingView extends React.Component {
 		}
 	}
 
+	updateDurations(newDurations) {
+		this.setState({
+			durations: newDurations
+		})
+		if (this.props.token !== null) {
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: this.props.token
+			}
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			apiUrl = apiUrl.concat('/updateDurations/')
+			axios.post(apiUrl, {
+					  username: localStorage.getItem("username"),
+		              durations: newDurations,
+		          })
+		          .then(res => {
+		          })
+		          .catch(error => console.error(error));
+		}
+	}
+
 	fillMoves() {
 		const maxBacklog = 20
 		var fill = maxBacklog - this.state.moveBacklog
@@ -56,28 +78,10 @@ class TrainingView extends React.Component {
 		var addedMoves = []
 		while(fill > 0) {
 			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs)
-			switch(nextMove.type) {
-				case tabNames[1]:
-					fill -= 1
-					totalAdded += 1
-					nextMove.length = nextMove.originalLength = 1
-					break;
-				case tabNames[2]:
-					fill -= 2
-					totalAdded += 2
-					nextMove.length = nextMove.originalLength = 2
-					break;
-				case tabNames[3]:
-					fill -= 3
-					totalAdded += 3
-					nextMove.length = nextMove.originalLength = 3
-					break;
-				case tabNames[4]:
-					fill -= 4
-					totalAdded += 4
-					nextMove.length = nextMove.originalLength = 4
-					break;
-			}
+			var moveDuration = this.state.durations.types[nextMove.type]
+			fill -= moveDuration
+			totalAdded += moveDuration
+			nextMove.length = nextMove.originalLength = moveDuration
 			addedMoves.push(nextMove)
 		}
 		this.setState({
@@ -92,6 +96,9 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
+		if(this.state.currMoveList.length === 0) {
+			return
+		}
 		// 40 fps
 		this.interval = setInterval(() => {
 			// if no moves yet, fill
@@ -120,6 +127,9 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: false
 		})
+		if(this.state.currMoveList.length === 0) {
+			return
+		}
 		clearInterval(this.interval)
 	}
 
@@ -156,7 +166,8 @@ class TrainingView extends React.Component {
 				probs: res.data.probs,
 				allMoves: res.data.moveList,
 				currMoveList: res.data.moveList,
-				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1])
+				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
+				durations: res.data.durations
 			});
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(res.data.probs).length === 0) {
@@ -168,6 +179,18 @@ class TrainingView extends React.Component {
 		        testProbs[tabNames[4]] = [uni, uni, uni, uni]
 		    	this.updateProbs(testProbs)
 	        }
+	        // if empty, initialize durations to uniform
+	        if(Object.keys(res.data.durations).length === 0) {
+	        	var initDurations = {}
+	        	initDurations.types = {
+	        		[tabNames[1]]: 2,
+	        		[tabNames[2]]: 2,
+	        		[tabNames[3]]: 2,
+	        		[tabNames[4]]: 2
+	        	}
+	        	initDurations.moves = {}
+		    	this.updateDurations(initDurations)
+	        }
 		})
         .catch(error => console.error(error));
         
@@ -177,7 +200,7 @@ class TrainingView extends React.Component {
 	render() {
 		return (
 			<div className="col-md-12 h-100">
-				Training
+				<h4>Training</h4>
 					<div>
 						<CardList
 							cardType={cardTypes.TRAINING_MOVE}
@@ -186,11 +209,33 @@ class TrainingView extends React.Component {
 							currentTab={tabNames[0]}
 						/>
 					</div>
-					<div>
+					<div class="ButtonsDiv">
 						{ this.state.playing ? 
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
 							:
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
+						}
+						{Object.keys(this.state.probs).length !== 0 ? 
+							<div>
+								<EditValues
+									values={this.state.probs}
+									updateValues={this.updateProbs.bind(this)}
+									valueType={editValueTypes.PROBS}
+								/>
+							</div>
+							:
+							null 
+						}
+						{Object.keys(this.state.durations).length !== 0 ? 
+							<div>
+								<EditValues
+									values={this.state.durations}
+									updateValues={this.updateDurations.bind(this)}
+									valueType={editValueTypes.DURATIONS}
+								/>
+							</div>
+							:
+							null 
 						}
 					</div>
 					<CardList
@@ -201,17 +246,6 @@ class TrainingView extends React.Component {
 						currentTab={setTabNames[1]}
 						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
 					/>
-					{Object.keys(this.state.probs).length !== 0 ? 
-						<div>
-							<Button type="primary" className={"TrainingButton"}>Save Set</Button>
-							<EditProbs
-								probs={this.state.probs}
-								updateProbs={this.updateProbs.bind(this)}
-							/>
-						</div>
-						:
-						null 
-					}
 			</div>
 		);
 	}

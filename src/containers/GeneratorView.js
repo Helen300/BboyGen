@@ -5,11 +5,11 @@ import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetList from '../components/SetList';
 import SetMoveList from '../components/SetMoveList';
-import EditProbs from '../components/EditProbs';
+import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
-import { tabNames, cardTypes, menuKeys, setTabNames } from "../constants";
+import { tabNames, cardTypes, menuKeys, setTabNames, editValueTypes } from "../constants";
 import $ from 'jquery';
 
 import "../css/containers/Pane.css"
@@ -230,9 +230,10 @@ class GeneratorView extends React.Component {
 								addToSetMoveList={this.addToSetMoveList.bind(this)}
 							/>
 							<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
-							<EditProbs
-								probs={this.state.probs}
-								updateProbs={this.updateProbs.bind(this)}
+							<EditValues
+								values={this.state.probs}
+								updateValues={this.updateProbs.bind(this)}
+								valueType={editValueTypes.PROBS}
 							/>
 						</div>
 					}

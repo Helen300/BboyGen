@@ -3,12 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from bboyapp.models import Move, UserProfile
-from .serializers import MoveSerializer, UserProfileSerializer
-
-
-class MoveViewSet(viewsets.ModelViewSet):
-	queryset = Move.objects.all()
-	serializer_class = MoveSerializer
+from .serializers import UserProfileSerializer
 
 class UserProfileViewSet(viewsets.ModelViewSet):
 	queryset = UserProfile.objects.all()
@@ -34,6 +29,14 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 		currentUser.probs = request.data.get("probs")
 		currentUser.save()
 		return Response()
+
+	@action(methods=['post'], detail=True, url_path='updateDurations', url_name='updateDurations')
+	def updateDurations(self, request, *args, **kwargs): 
+		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser.durations = request.data.get("durations")
+		currentUser.save()
+		return Response()
+
 		
 # from rest_framework.generics import (
 # 	ListAPIView, 
