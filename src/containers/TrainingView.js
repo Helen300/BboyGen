@@ -3,7 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import EditProbs from '../components/EditProbs';
 import CardList from '../components/CardList';
-import { tabNames, menuKeys, cardTypes } from "../constants";
+import { tabNames, menuKeys, cardTypes, setTabNames } from "../constants";
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
@@ -17,10 +17,12 @@ class TrainingView extends React.Component {
 	state = {
 		currSet: [],
 		probs: [],
-		moveList: [],
-		show: false, 
+		allMoves: [],
+		currMoveList: [],
 		playing: false,
-		moveBacklog: 0
+		moveBacklog: 0,
+		selectedSetIdx: -1,
+		trainingSetList: []
 	}
 
 	updateProbs(newProbs) {
@@ -53,7 +55,7 @@ class TrainingView extends React.Component {
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.moveList, this.state.probs)
+			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs)
 			switch(nextMove.type) {
 				case tabNames[1]:
 					fill -= 1
@@ -121,6 +123,30 @@ class TrainingView extends React.Component {
 		clearInterval(this.interval)
 	}
 
+	updateSelectedSetIdx(newIdx) {
+		this.setState({
+			selectedSetIdx: newIdx
+		})
+		// use all moves if no set selected
+		if(newIdx === -1) {
+			this.setState({
+				currMoveList: this.state.allMoves
+			})
+		} else {
+			this.setState({
+				currMoveList: this.state.trainingSetList[newIdx].moves
+			})
+		}
+		// clear current playing and pause
+		if(this.state.playing) {
+			this.stopPlaying()
+		}
+		this.setState({
+			currSet: [],
+			moveBacklog: 0
+		})
+	}
+
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 		apiUrl = apiUrl.concat('/')
@@ -128,11 +154,12 @@ class TrainingView extends React.Component {
 		.then(res => {
 			this.setState({
 				probs: res.data.probs,
-				moveList: res.data.moveList,
-				show: true,
+				allMoves: res.data.moveList,
+				currMoveList: res.data.moveList,
+				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1])
 			});
 			// if empty, initialize probabilities to uniform
-	        if(Object.keys(this.state.probs).length === 0) {
+	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
 	        	var uni = 1 / (tabNames.length - 1)
 		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
@@ -143,6 +170,7 @@ class TrainingView extends React.Component {
 	        }
 		})
         .catch(error => console.error(error));
+        
         localStorage.setItem('menuKey', menuKeys.TRAINING)
 	}
 
@@ -165,17 +193,25 @@ class TrainingView extends React.Component {
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
 						}
 					</div>
-				{this.state.show ? 
-					<div>
-						<Button type="primary" className={"TrainingButton"}>Save Set</Button>
-						<EditProbs
-							probs={this.state.probs}
-							updateProbs={this.updateProbs.bind(this)}
-						/>
-					</div>
-				:
-				null 
-				}
+					<CardList
+						cardType={cardTypes.SET}
+						cardList={this.state.trainingSetList}
+						enableDrag={false}
+						selectedIdx={this.state.selectedSetIdx}
+						currentTab={setTabNames[1]}
+						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
+					/>
+					{Object.keys(this.state.probs).length !== 0 ? 
+						<div>
+							<Button type="primary" className={"TrainingButton"}>Save Set</Button>
+							<EditProbs
+								probs={this.state.probs}
+								updateProbs={this.updateProbs.bind(this)}
+							/>
+						</div>
+						:
+						null 
+					}
 			</div>
 		);
 	}

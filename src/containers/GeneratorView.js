@@ -3,12 +3,13 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
+import SetList from '../components/SetList';
 import SetMoveList from '../components/SetMoveList';
 import EditProbs from '../components/EditProbs';
 import RandomMove from '../RandomMove';
 import { Tabs } from 'antd';
 import { Button } from 'antd';
-import { tabNames, paneNames, cardTypes, menuKeys } from "../constants";
+import { tabNames, cardTypes, menuKeys, setTabNames } from "../constants";
 import $ from 'jquery';
 
 import "../css/containers/Pane.css"
@@ -24,6 +25,7 @@ class GeneratorView extends React.Component {
 		selectedSetIdx: -1,
 		moveList: [],
 		currentTab: tabNames[0],
+		currentSetTab: setTabNames[0],
 		probs: [],
 	}
 
@@ -81,26 +83,35 @@ class GeneratorView extends React.Component {
 		})
 	}
 
+	updateSelectedSetTab(newTab) {
+		this.setState({
+			currentSetTab: newTab
+		})
+	}
+
 	// adds a new set 
 	addSet() {
+		var setNum = this.state.setList.filter(moveSet => moveSet.type === this.state.currentSetTab).length
 		var newList = this.state.setList.concat([{
-					"name": "Set #".concat(this.state.setList.length),
-					"id": "Set".concat(this.state.setList.length),
+					"name": "Set #".concat(setNum),
+					"id": this.state.currentTab.concat(" ".concat(setNum)),
 					"description": "", 
 					"moves": [],
+					"type": this.state.currentSetTab
 				}])
 		this.updateSetList(newList)
 		this.scrollSetsToBottom()
 	}
 
 	// duplicates a set 
-	dupSet() {
-		var dupSet = this.state.setList[this.state.selectedSetIdx];
+	copySet() {
+		var copySet = this.state.setList[this.state.selectedSetIdx];
 		var newList = this.state.setList.concat([{
-					"name": "Copy of ".concat(dupSet.name),
-					"id": "Set".concat(this.state.setList.length),
-					"description": dupSet.description, 
-					"moves": JSON.parse(JSON.stringify(dupSet.moves)),
+					"name": "Copy of ".concat(copySet.name),
+					"id": copySet.id.concat(" Copy"),
+					"description": copySet.description, 
+					"moves": JSON.parse(JSON.stringify(copySet.moves)),
+					"type": copySet.type
 				}])
 		this.updateSetList(newList);
 		this.scrollSetsToBottom();
@@ -147,7 +158,7 @@ class GeneratorView extends React.Component {
 				probs: res.data.probs
 			});
 			// if empty, initialize probabilities to uniform
-	        if(Object.keys(this.state.probs).length === 0) {
+	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
 	        	var uni = 1 / (tabNames.length - 1)
 		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
@@ -181,25 +192,17 @@ class GeneratorView extends React.Component {
 		}
 	}
 
-
-
 	render() {
 		return (
 			<div className="row h-100">
 				<div className="col-md-4 h-100">
-					<Tabs defaultActiveKey={paneNames.ALL_SETS}>
-						<TabPane className="Pane SetsPane" tab={paneNames.ALL_SETS} key={paneNames.ALL_SETS}>
-							<CardList 
-								cardType={cardTypes.SET}
-								cardList={this.state.setList} 
-								currentTab={paneNames.ALL_SETS}
-								selectedIdx={this.state.selectedSetIdx}
-								updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
-								updateCardList={this.updateSetList.bind(this)}
-								enableDrag={true}
-							/>
-						</TabPane>
-					</Tabs>
+					<SetList
+						updateSelectedSetIdx={this.updateSelectedSetIdx.bind(this)}
+						updateSelectedSetTab={this.updateSelectedSetTab.bind(this)}
+						setList={this.state.setList}
+						selectedSetIdx={this.state.selectedSetIdx}
+						updateSetList={this.updateSetList.bind(this)}
+					/>
 					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
@@ -211,7 +214,7 @@ class GeneratorView extends React.Component {
 								selectedSetIdx={this.state.selectedSetIdx}
 								updateSetList={this.updateSetList.bind(this)}
 							/>
-							<Button type="primary" className={"AddSetButton"} onClick={()=>this.dupSet()}>Copy Set</Button>
+							<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
 						</div>
 					}
 				</div>

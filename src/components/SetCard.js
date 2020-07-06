@@ -20,15 +20,7 @@ class SetCard extends React.Component {
 	}
 
 	render(){
-		return(
-			<Draggable draggableId={String(this.props.setIdx)} index={this.props.setIdx}>
-				{provided => (
-				<div 
-					ref={provided.innerRef}
-					{...provided.draggableProps}
-					{...provided.dragHandleProps}
-				>
-					<Card 
+		var card = <Card 
 						hoverable 
 						className={this.isSelected() ? "SelectedCard" : "NormalCard"}
 						onClick={() => this.props.selectSet(this.props.setIdx)}
@@ -41,14 +33,27 @@ class SetCard extends React.Component {
 								   </div>} 
 						/>
 			  		</Card> 
-		  		</div>
-				)}
-			</Draggable>
-		);
+		if(this.props.shouldRender) {
+			return(
+				this.props.enableDrag ? 
+				<Draggable draggableId={String(this.props.setIdx)} index={this.props.setIdx}>
+					{provided => (
+					<div 
+						ref={provided.innerRef}
+						{...provided.draggableProps}
+						{...provided.dragHandleProps}
+					>
+						{card}
+			  		</div>
+					)}
+				</Draggable>
+				:
+				card
+			)
+		} else {
+			return(null)
+		}
 	}
-
-
-
 }
 
 
