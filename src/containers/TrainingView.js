@@ -96,6 +96,9 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
+		if(this.state.currMoveList.length === 0) {
+			return
+		}
 		// 40 fps
 		this.interval = setInterval(() => {
 			// if no moves yet, fill
@@ -124,6 +127,9 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: false
 		})
+		if(this.state.currMoveList.length === 0) {
+			return
+		}
 		clearInterval(this.interval)
 	}
 
