@@ -78,7 +78,10 @@ class TrainingView extends React.Component {
 		var addedMoves = []
 		while(fill > 0) {
 			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs)
-			var moveDuration = this.state.durations.types[nextMove.type]
+			var moveDuration = (nextMove.name in this.state.durations.moves) ? 
+				this.state.durations.moves[nextMove.name] 
+				: 
+				this.state.durations.types[nextMove.type]
 			fill -= moveDuration
 			totalAdded += moveDuration
 			nextMove.length = nextMove.originalLength = moveDuration
@@ -232,6 +235,7 @@ class TrainingView extends React.Component {
 									values={this.state.durations}
 									updateValues={this.updateDurations.bind(this)}
 									valueType={editValueTypes.DURATIONS}
+									allMoves={this.state.allMoves}
 								/>
 							</div>
 							:

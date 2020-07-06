@@ -4,8 +4,11 @@ import 'antd/dist/antd.css';
 import { Table, Input, Form, Button } from 'antd';
 import { tabNames, editValueTypes } from "../constants";
 import Modal from 'react-bootstrap/Modal'
+import { Tabs } from 'antd';
 
 import "../css/components/EditValues.css"
+
+const { TabPane } = Tabs;
 
 const EditableContext = React.createContext();
 
@@ -96,8 +99,10 @@ class EditValues extends React.Component {
 		})
 	}
 	closeModal() {
+		this.saveNewValues()
 		this.setState({
-			show: false
+			show: false,
+			showMoveDurations: false
 		})
 	}
 
@@ -127,148 +132,214 @@ class EditValues extends React.Component {
 			"types": {},
 			"moves": {}
 		}
-		newDurations.types[tabNames[1]] = parseFloat(this.state.dataSource[0]['Duration (s)'])
-		newDurations.types[tabNames[2]] = parseFloat(this.state.dataSource[1]['Duration (s)'])
-		newDurations.types[tabNames[3]] = parseFloat(this.state.dataSource[2]['Duration (s)'])
-		newDurations.types[tabNames[4]] = parseFloat(this.state.dataSource[3]['Duration (s)'])
-		newDurations.moves = this.props.values.moves
+		newDurations.types[tabNames[1]] = parseFloat(this.state.typeDurations[0]['Duration (s)'])
+		newDurations.types[tabNames[2]] = parseFloat(this.state.typeDurations[1]['Duration (s)'])
+		newDurations.types[tabNames[3]] = parseFloat(this.state.typeDurations[2]['Duration (s)'])
+		newDurations.types[tabNames[4]] = parseFloat(this.state.typeDurations[3]['Duration (s)'])
+		newDurations.moves = this.state.moveDurations
+		this.props.updateValues(newDurations)
+	}
+
+	saveNewMoveDurations() {
+		var newDurations = {
+			"types": {},
+			"moves": {}
+		}
+		this.state.moveDurations[tabNames[0]].forEach(moveData => {
+			if(moveData['Duration (s)'] > -1) {
+				newDurations.moves[moveData['Move']] = parseFloat(moveData['Duration (s)'])
+			}
+		})
+		newDurations.types = this.state.typeDurations
 		this.props.updateValues(newDurations)
 	}
 
 	saveNewValues() {
 		if(this.props.valueType === editValueTypes.PROBS) {
 			this.saveNewProbs()
+		} else if (this.props.valueType == editValueTypes.DURATIONS && this.state.showMoveDurations) {
+			this.saveNewMoveDurations()
 		} else if (this.props.valueType == editValueTypes.DURATIONS) {
 			this.saveNewDurations()
 		}
 	}
 
+	setProbCells() {
+		this.columns = [
+	      {
+	        title: 'Transition From',
+	        dataIndex: 'Transition From',
+	        width: '30%',
+	      },
+	      {
+	        title: tabNames[1],
+	        dataIndex: tabNames[1],
+	        width: '30%',
+	        editable: true,
+	      },
+	      {
+	        title: tabNames[2],
+	        dataIndex: tabNames[2],
+	        width: '30%',
+	        editable: true,
+	      },
+	      {
+	        title: tabNames[3],
+	        dataIndex: tabNames[3],
+	        width: '30%',
+	        editable: true,
+	      },
+	      {
+	        title: tabNames[4],
+	        dataIndex: tabNames[4],
+	        width: '30%',
+	        editable: true,
+	      },
+	    ];
+		this.state = {
+	    	show: false,
+			dataSource: [
+				{
+				  'key': '0',
+				  'Transition From': tabNames[1],
+				  [tabNames[1]]: this.props.values[tabNames[1]][0],
+				  [tabNames[2]]: this.props.values[tabNames[1]][1],
+				  [tabNames[3]]: this.props.values[tabNames[1]][2],
+				  [tabNames[4]]: this.props.values[tabNames[1]][3],
+				},
+				{
+				  'key': '1',
+				  'Transition From': tabNames[2],
+				  [tabNames[1]]: this.props.values[tabNames[2]][0],
+				  [tabNames[2]]: this.props.values[tabNames[2]][1],
+				  [tabNames[3]]: this.props.values[tabNames[2]][2],
+				  [tabNames[4]]: this.props.values[tabNames[2]][3],
+				},
+				{
+				  'key': '2',
+				  'Transition From': tabNames[3],
+				  [tabNames[1]]: this.props.values[tabNames[3]][0],
+				  [tabNames[2]]: this.props.values[tabNames[3]][1],
+				  [tabNames[3]]: this.props.values[tabNames[3]][2],
+				  [tabNames[4]]: this.props.values[tabNames[3]][3],
+				},
+				{
+				  'key': '3',
+				  'Transition From': tabNames[4],
+				  [tabNames[1]]: this.props.values[tabNames[4]][0],
+				  [tabNames[2]]: this.props.values[tabNames[4]][1],
+				  [tabNames[3]]: this.props.values[tabNames[4]][2],
+				  [tabNames[4]]: this.props.values[tabNames[4]][3],
+				},
+			],
+	    };
+	}
+
+	setDurationCells() {
+		this.columns = [
+	      {
+	        title: 'Move',
+	        dataIndex: 'Move',
+	        width: '30%',
+	      },
+	      {
+	        title: 'Duration (s)',
+	        dataIndex: 'Duration (s)',
+	        width: '30%',
+	        editable: true,
+	      }
+	    ];
+	    var moveDurations = {
+	    	[tabNames[0]]: [],
+	    	[tabNames[1]]: [],
+	    	[tabNames[2]]: [],
+	    	[tabNames[3]]: [],
+	    	[tabNames[4]]: [],
+	    }
+	    tabNames.forEach(tabName => {
+	    	var moveType = this.props.allMoves.filter(move => move.type === tabName || tabName === tabNames[0])
+	    	var moveObj = (move, idx) => {
+	    		var currMoveDur = move.name in this.props.values.moves ? this.props.values.moves[move.name] : -1
+	    		return({
+		    		'key': idx.toString(),
+		    		'Move': move.name,
+		    		'Duration (s)': currMoveDur
+		    	})
+	    	}
+	    	moveDurations[tabName] = moveType.map((move, idx) => moveObj(move, idx))
+	    })
+		this.state = {
+	    	show: false,
+	    	showMoveDurations: false,
+	    	currentTab: tabNames[0],
+	    	moveDurations: moveDurations,
+			typeDurations: [
+				{
+				  'key': '0',
+				  'Move': tabNames[1],
+				  'Duration (s)': this.props.values.types[tabNames[1]]
+				},
+				{
+				  'key': '1',
+				  'Move': tabNames[2],
+				  'Duration (s)': this.props.values.types[tabNames[2]]
+				},
+				{
+				  'key': '2',
+				  'Move': tabNames[3],
+				  'Duration (s)': this.props.values.types[tabNames[3]]
+				},
+				{
+				  'key': '3',
+				  'Move': tabNames[4],
+				  'Duration (s)': this.props.values.types[tabNames[4]]
+				},
+			],
+	    };
+	}
+
   	constructor(props) {
 	    super(props);
 	    if(this.props.valueType === editValueTypes.PROBS) {
-	    	this.columns = [
-		      {
-		        title: 'Transition From',
-		        dataIndex: 'Transition From',
-		        width: '30%',
-		      },
-		      {
-		        title: tabNames[1],
-		        dataIndex: tabNames[1],
-		        width: '30%',
-		        editable: true,
-		      },
-		      {
-		        title: tabNames[2],
-		        dataIndex: tabNames[2],
-		        width: '30%',
-		        editable: true,
-		      },
-		      {
-		        title: tabNames[3],
-		        dataIndex: tabNames[3],
-		        width: '30%',
-		        editable: true,
-		      },
-		      {
-		        title: tabNames[4],
-		        dataIndex: tabNames[4],
-		        width: '30%',
-		        editable: true,
-		      },
-		    ];
-	    } else if(this.props.valueType === editValueTypes.DURATIONS) {
-	    	this.columns = [
-		      {
-		        title: 'Move Type',
-		        dataIndex: 'Move Type',
-		        width: '30%',
-		      },
-		      {
-		        title: 'Duration (s)',
-		        dataIndex: 'Duration (s)',
-		        width: '30%',
-		        editable: true,
-		      }
-		    ];
-	    }
-	    if(this.props.valueType === editValueTypes.PROBS) {
-			this.state = {
-		    	show: false,
-				dataSource: [
-					{
-					  'key': '0',
-					  'Transition From': tabNames[1],
-					  [tabNames[1]]: this.props.values[tabNames[1]][0],
-					  [tabNames[2]]: this.props.values[tabNames[1]][1],
-					  [tabNames[3]]: this.props.values[tabNames[1]][2],
-					  [tabNames[4]]: this.props.values[tabNames[1]][3],
-					},
-					{
-					  'key': '1',
-					  'Transition From': tabNames[2],
-					  [tabNames[1]]: this.props.values[tabNames[2]][0],
-					  [tabNames[2]]: this.props.values[tabNames[2]][1],
-					  [tabNames[3]]: this.props.values[tabNames[2]][2],
-					  [tabNames[4]]: this.props.values[tabNames[2]][3],
-					},
-					{
-					  'key': '2',
-					  'Transition From': tabNames[3],
-					  [tabNames[1]]: this.props.values[tabNames[3]][0],
-					  [tabNames[2]]: this.props.values[tabNames[3]][1],
-					  [tabNames[3]]: this.props.values[tabNames[3]][2],
-					  [tabNames[4]]: this.props.values[tabNames[3]][3],
-					},
-					{
-					  'key': '3',
-					  'Transition From': tabNames[4],
-					  [tabNames[1]]: this.props.values[tabNames[4]][0],
-					  [tabNames[2]]: this.props.values[tabNames[4]][1],
-					  [tabNames[3]]: this.props.values[tabNames[4]][2],
-					  [tabNames[4]]: this.props.values[tabNames[4]][3],
-					},
-				],
-				count: 4,
-		    };
+	    	this.setProbCells()
 		} else if (this.props.valueType === editValueTypes.DURATIONS) {
-			this.state = {
-		    	show: false,
-				dataSource: [
-					{
-					  'key': '0',
-					  'Move Type': tabNames[1],
-					  'Duration (s)': this.props.values.types[tabNames[1]]
-					},
-					{
-					  'key': '1',
-					  'Move Type': tabNames[2],
-					  'Duration (s)': this.props.values.types[tabNames[2]]
-					},
-					{
-					  'key': '2',
-					  'Move Type': tabNames[3],
-					  'Duration (s)': this.props.values.types[tabNames[3]]
-					},
-					{
-					  'key': '3',
-					  'Move Type': tabNames[4],
-					  'Duration (s)': this.props.values.types[tabNames[4]]
-					},
-				],
-				count: 4,
-		    };
+			this.setDurationCells()
 		}
   	}
 
+  	toggleMoveDurations() {
+  		this.setState({
+  			showMoveDurations: !this.state.showMoveDurations
+  		})
+  	}
+
   	handleSave = row => {
-	    const newData = [...this.state.dataSource];
+	    var newData = [];
+	    if(this.props.valueType === editValueTypes.PROBS) {
+	    	newData = [...this.state.dataSource]
+	    } else if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
+	    	newData = [...this.state.moveDurations[this.state.currentTab]]
+	    } else if(this.props.valueType === editValueTypes.DURATIONS) {
+	    	newData = [...this.state.typeDurations]
+	    }
 	    const index = newData.findIndex(item => row.key === item.key);
 	    const item = newData[index];
 	    newData.splice(index, 1, { ...item, ...row });
-	    this.setState({
-	      dataSource: newData,
-	    });
+	    if(this.props.valueType === editValueTypes.PROBS) {
+	    	this.setState({
+		      dataSource: newData
+		    });
+	    } else if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
+	    	var copyDurs = Object.assign({}, this.state.moveDurations)
+	    	copyDurs[this.state.currentTab] = newData
+	    	this.setState({
+		      moveDurations: copyDurs
+		    });
+	    } else if(this.props.valueType === editValueTypes.DURATIONS) {
+	    	this.setState({
+		      typeDurations: newData
+		    });
+	    }
   	};
 
   	getTitle() {
@@ -282,13 +353,101 @@ class EditValues extends React.Component {
   	getDescription() {
   		if(this.props.valueType === editValueTypes.PROBS) {
   			return("Click on a cell to edit the transition probability when adding a random move.")
+  		} else if(this.props.valueType === editValueTypes.DURATIONS && !this.state.showMoveDurations) {
+  			return("Edit the duration of each move.")
   		} else if(this.props.valueType === editValueTypes.DURATIONS) {
-  			return("Edit the duration of each move type.")
+  			return("Edit the duration of each move type.")	
+  		}
+  	}
+
+  	tabsChange = (key) => {
+		this.setState({
+			currentTab: key
+		})
+	}
+
+  	displayTable(components, columns) {
+  		if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
+  			return(
+	  			<Tabs defaultActiveKey={tabNames[0]} onChange={(key) => this.tabsChange(key)}>
+					<TabPane className="MoveTable" tab={tabNames[0]} key={tabNames[0]}>
+						<Table
+				          components={components}
+				          rowClassName={() => 'editable-row'}
+				          bordered
+				          dataSource={this.state.moveDurations[tabNames[0]]}
+				          columns={columns}
+				          pagination={false} 
+				        />
+					</TabPane>
+					<TabPane className="MoveTable" tab={tabNames[1]} key={tabNames[1]}>
+						<Table
+				          components={components}
+				          rowClassName={() => 'editable-row'}
+				          bordered
+				          dataSource={this.state.moveDurations[tabNames[1]]}
+				          columns={columns}
+				          pagination={false} 
+				        />
+					</TabPane>
+					<TabPane className="MoveTable" tab={tabNames[2]} key={tabNames[2]}>
+						<Table
+				          components={components}
+				          rowClassName={() => 'editable-row'}
+				          bordered
+				          dataSource={this.state.moveDurations[tabNames[2]]}
+				          columns={columns}
+				          pagination={false} 
+				        />
+					</TabPane>
+					<TabPane className="MoveTable" tab={tabNames[3]} key={tabNames[3]}>
+						<Table
+				          components={components}
+				          rowClassName={() => 'editable-row'}
+				          bordered
+				          dataSource={this.state.moveDurations[tabNames[3]]}
+				          columns={columns}
+				          pagination={false} 
+				        />
+					</TabPane>
+					<TabPane className="MoveTable" tab={tabNames[4]} key={tabNames[4]}>
+						<Table
+				          components={components}
+				          rowClassName={() => 'editable-row'}
+				          bordered
+				          dataSource={this.state.moveDurations[tabNames[4]]}
+				          columns={columns}
+				          pagination={false} 
+				        />
+					</TabPane>
+				</Tabs>
+			)
+  		} else if(this.props.valueType === editValueTypes.DURATIONS){
+  			return (
+	  			<Table
+		          components={components}
+		          rowClassName={() => 'editable-row'}
+		          bordered
+		          dataSource={this.state.typeDurations}
+		          columns={columns}
+		          pagination={false} 
+		        />
+	        )
+  		} else if(this.props.valueType === editValueTypes.PROBS) {
+   			return (
+	  			<Table
+		          components={components}
+		          rowClassName={() => 'editable-row'}
+		          bordered
+		          dataSource={this.state.dataSource}
+		          columns={columns}
+		          pagination={false} 
+		        />
+	        )
   		}
   	}
 
   	render() {
-	    const { dataSource } = this.state;
 	    // validate each row, only do this for probs modal
 	    var valid = true
 	    if(this.props.valueType === editValueTypes.PROBS) {
@@ -333,18 +492,24 @@ class EditValues extends React.Component {
 			    </Modal.Header>
 			    <Modal.Body>
 			    	<div className="HelpMessage">{this.getDescription()}</div>
-			    	<Table
-			          components={components}
-			          rowClassName={() => 'editable-row'}
-			          bordered
-			          dataSource={dataSource}
-			          columns={columns}
-			          pagination={false} 
-			        />
-			        { this.props.valueType === editValueTypes.PROBS && !valid ? <div className={"Warning"}>Warning: Each row should add up to 1</div> : null}
+			    	{
+			    		this.displayTable(components, columns)
+			    	}
+			        { this.props.valueType === editValueTypes.PROBS && !valid ? 
+			        	<div className={"Warning"}>Warning: Each row should add up to 1</div> 
+			        	: 
+			        	null
+			        }
+			        { this.props.valueType === editValueTypes.DURATIONS ? 
+			        	<Button type="primary" className={"SaveButton"} onClick={() => this.toggleMoveDurations()}>
+			        		{this.state.showMoveDurations ? "Back" : "Advanced"}
+			        	</Button> 
+			        	:
+			        	null
+			        }
 			    </Modal.Body>
 			    <Modal.Footer>
-			      <Button type="primary" className={"SaveButton"} onClick={() => {this.saveNewValues(); this.closeModal();}}>Save</Button>
+			      <Button type="primary" className={"SaveButton"} onClick={() => {this.closeModal();}}>Save</Button>
 			    </Modal.Footer>
 			  </Modal>
 			</div>
