@@ -99,7 +99,6 @@ class EditValues extends React.Component {
 		})
 	}
 	closeModal() {
-		this.saveNewValues()
 		this.setState({
 			show: false,
 			showMoveDurations: false
@@ -108,22 +107,22 @@ class EditValues extends React.Component {
 
 	saveNewProbs() {
 		var newProbs = {}
-        newProbs[tabNames[1]] = [parseFloat(this.state.dataSource[0][tabNames[1]]), 
-						        parseFloat(this.state.dataSource[0][tabNames[2]]), 
-						        parseFloat(this.state.dataSource[0][tabNames[3]]), 
-						        parseFloat(this.state.dataSource[0][tabNames[4]])]
-        newProbs[tabNames[2]] = [parseFloat(this.state.dataSource[1][tabNames[1]]), 
-						        parseFloat(this.state.dataSource[1][tabNames[2]]), 
-						        parseFloat(this.state.dataSource[1][tabNames[3]]), 
-						        parseFloat(this.state.dataSource[1][tabNames[4]])]
-		newProbs[tabNames[3]] = [parseFloat(this.state.dataSource[2][tabNames[1]]), 
-						        parseFloat(this.state.dataSource[2][tabNames[2]]), 
-						        parseFloat(this.state.dataSource[2][tabNames[3]]), 
-						        parseFloat(this.state.dataSource[2][tabNames[4]])]
-		newProbs[tabNames[4]] = [parseFloat(this.state.dataSource[3][tabNames[1]]), 
-						        parseFloat(this.state.dataSource[3][tabNames[2]]), 
-						        parseFloat(this.state.dataSource[3][tabNames[3]]), 
-						        parseFloat(this.state.dataSource[3][tabNames[4]])]
+        newProbs[tabNames[1]] = [parseFloat(this.state.probs[0][tabNames[1]]), 
+						        parseFloat(this.state.probs[0][tabNames[2]]), 
+						        parseFloat(this.state.probs[0][tabNames[3]]), 
+						        parseFloat(this.state.probs[0][tabNames[4]])]
+        newProbs[tabNames[2]] = [parseFloat(this.state.probs[1][tabNames[1]]), 
+						        parseFloat(this.state.probs[1][tabNames[2]]), 
+						        parseFloat(this.state.probs[1][tabNames[3]]), 
+						        parseFloat(this.state.probs[1][tabNames[4]])]
+		newProbs[tabNames[3]] = [parseFloat(this.state.probs[2][tabNames[1]]), 
+						        parseFloat(this.state.probs[2][tabNames[2]]), 
+						        parseFloat(this.state.probs[2][tabNames[3]]), 
+						        parseFloat(this.state.probs[2][tabNames[4]])]
+		newProbs[tabNames[4]] = [parseFloat(this.state.probs[3][tabNames[1]]), 
+						        parseFloat(this.state.probs[3][tabNames[2]]), 
+						        parseFloat(this.state.probs[3][tabNames[3]]), 
+						        parseFloat(this.state.probs[3][tabNames[4]])]
 		this.props.updateValues(newProbs)
 	}
 
@@ -137,7 +136,7 @@ class EditValues extends React.Component {
 		newDurations.types[tabNames[3]] = parseFloat(this.state.typeDurations[2]['Duration (s)'])
 		newDurations.types[tabNames[4]] = parseFloat(this.state.typeDurations[3]['Duration (s)'])
 
-		this.state.moveDurations[tabNames[0]].forEach(moveData => {
+		this.state.moveDurations.forEach(moveData => {
 			if(moveData['Duration (s)'] > -1) {
 				newDurations.moves[moveData['Move']] = parseFloat(moveData['Duration (s)'])
 			}
@@ -187,7 +186,7 @@ class EditValues extends React.Component {
 	    ];
 		this.state = {
 	    	show: false,
-			dataSource: [
+			probs: [
 				{
 				  'key': '0',
 				  'Transition From': tabNames[1],
@@ -238,30 +237,20 @@ class EditValues extends React.Component {
 	        editable: true,
 	      }
 	    ];
-	    var moveDurations = {
-	    	[tabNames[0]]: [],
-	    	[tabNames[1]]: [],
-	    	[tabNames[2]]: [],
-	    	[tabNames[3]]: [],
-	    	[tabNames[4]]: [],
-	    }
-	    tabNames.forEach(tabName => {
-	    	var moveType = this.props.allMoves.filter(move => move.type === tabName || tabName === tabNames[0])
-	    	var moveObj = (move, idx) => {
-	    		var currMoveDur = move.name in this.props.values.moves ? this.props.values.moves[move.name] : -1
-	    		return({
-		    		'key': idx.toString(),
-		    		'Move': move.name,
-		    		'Duration (s)': currMoveDur
-		    	})
-	    	}
-	    	moveDurations[tabName] = moveType.map((move, idx) => moveObj(move, idx))
-	    })
+
+    	var moveMap = (move, idx) => {
+    		return({
+	    		'key': idx.toString(),
+	    		'Move': move.name,
+	    		'Duration (s)': move.name in this.props.values.moves ? this.props.values.moves[move.name] : -1,
+	    		'type': move.type
+	    	})
+    	}
 		this.state = {
 	    	show: false,
 	    	showMoveDurations: false,
 	    	currentTab: tabNames[0],
-	    	moveDurations: moveDurations,
+	    	moveDurations: this.props.allMoves.map(moveMap),
 			typeDurations: [
 				{
 				  'key': '0',
@@ -303,28 +292,27 @@ class EditValues extends React.Component {
   	}
 
   	handleSave = row => {
-	    var newData = [];
 	    if(this.props.valueType === editValueTypes.PROBS) {
-	    	newData = [...this.state.dataSource]
-	    } else if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
-	    	newData = [...this.state.moveDurations[this.state.currentTab]]
-	    } else if(this.props.valueType === editValueTypes.DURATIONS) {
-	    	newData = [...this.state.typeDurations]
-	    }
-	    const index = newData.findIndex(item => row.key === item.key);
-	    const item = newData[index];
-	    newData.splice(index, 1, { ...item, ...row });
-	    if(this.props.valueType === editValueTypes.PROBS) {
+	    	const newData = [...this.state.probs]
+	    	const index = newData.findIndex(item => row.key === item.key);
+		    const item = newData[index];
+		    newData.splice(index, 1, { ...item, ...row });
 	    	this.setState({
-		      dataSource: newData
+		      probs: newData
 		    });
 	    } else if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
-	    	var copyDurs = Object.assign({}, this.state.moveDurations)
-	    	copyDurs[this.state.currentTab] = newData
+	    	const newData = [...this.state.moveDurations]
+	    	const index = parseInt(row.key, 10)
+		    const item = newData[index];
+		    newData.splice(index, 1, { ...item, ...row });
 	    	this.setState({
-		      moveDurations: copyDurs
+		      moveDurations: newData
 		    });
 	    } else if(this.props.valueType === editValueTypes.DURATIONS) {
+	    	const newData = [...this.state.typeDurations]
+	    	const index = newData.findIndex(item => row.key === item.key);
+		    const item = newData[index];
+		    newData.splice(index, 1, { ...item, ...row });
 	    	this.setState({
 		      typeDurations: newData
 		    });
@@ -342,8 +330,8 @@ class EditValues extends React.Component {
   	getDescription() {
   		if(this.props.valueType === editValueTypes.PROBS) {
   			return("Click on a cell to edit the transition probability when adding a random move.")
-  		} else if(this.props.valueType === editValueTypes.DURATIONS && !this.state.showMoveDurations) {
-  			return("Edit the duration of each move.")
+  		} else if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
+  			return("Edit the duration of each move. -1 sets to default type value")
   		} else if(this.props.valueType === editValueTypes.DURATIONS) {
   			return("Edit the duration of each move type.")	
   		}
@@ -355,6 +343,10 @@ class EditValues extends React.Component {
 		})
 	}
 
+	filterMoves(moves, moveType) {
+		return moves.filter(move => move.type === moveType || moveType === tabNames[0])
+	}
+
   	displayTable(components, columns) {
   		if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
   			return(
@@ -364,7 +356,7 @@ class EditValues extends React.Component {
 				          components={components}
 				          rowClassName={() => 'editable-row'}
 				          bordered
-				          dataSource={this.state.moveDurations[tabNames[0]]}
+				          dataSource={this.filterMoves(this.state.moveDurations, tabNames[0])}
 				          columns={columns}
 				          pagination={false} 
 				        />
@@ -374,7 +366,7 @@ class EditValues extends React.Component {
 				          components={components}
 				          rowClassName={() => 'editable-row'}
 				          bordered
-				          dataSource={this.state.moveDurations[tabNames[1]]}
+				          dataSource={this.filterMoves(this.state.moveDurations, tabNames[1])}
 				          columns={columns}
 				          pagination={false} 
 				        />
@@ -384,7 +376,7 @@ class EditValues extends React.Component {
 				          components={components}
 				          rowClassName={() => 'editable-row'}
 				          bordered
-				          dataSource={this.state.moveDurations[tabNames[2]]}
+				          dataSource={this.filterMoves(this.state.moveDurations, tabNames[2])}
 				          columns={columns}
 				          pagination={false} 
 				        />
@@ -394,7 +386,7 @@ class EditValues extends React.Component {
 				          components={components}
 				          rowClassName={() => 'editable-row'}
 				          bordered
-				          dataSource={this.state.moveDurations[tabNames[3]]}
+				          dataSource={this.filterMoves(this.state.moveDurations, tabNames[3])}
 				          columns={columns}
 				          pagination={false} 
 				        />
@@ -404,7 +396,7 @@ class EditValues extends React.Component {
 				          components={components}
 				          rowClassName={() => 'editable-row'}
 				          bordered
-				          dataSource={this.state.moveDurations[tabNames[4]]}
+				          dataSource={this.filterMoves(this.state.moveDurations, tabNames[4])}
 				          columns={columns}
 				          pagination={false} 
 				        />
@@ -428,7 +420,7 @@ class EditValues extends React.Component {
 		          components={components}
 		          rowClassName={() => 'editable-row'}
 		          bordered
-		          dataSource={this.state.dataSource}
+		          dataSource={this.state.probs}
 		          columns={columns}
 		          pagination={false} 
 		        />
@@ -440,7 +432,7 @@ class EditValues extends React.Component {
 	    // validate each row, only do this for probs modal
 	    var valid = true
 	    if(this.props.valueType === editValueTypes.PROBS) {
-	    	this.state.dataSource.forEach(row => {
+	    	this.state.probs.forEach(row => {
 		    	var rowSum = parseFloat(row[tabNames[1]]) + parseFloat(row[tabNames[2]]) + parseFloat(row[tabNames[3]]) + parseFloat(row[tabNames[4]])
 		    	if(rowSum < 0.99 || rowSum > 1.01) {
 		    		valid = false
@@ -498,7 +490,7 @@ class EditValues extends React.Component {
 			        }
 			    </Modal.Body>
 			    <Modal.Footer>
-			      <Button type="primary" className={"SaveButton"} onClick={() => {this.closeModal();}}>Save</Button>
+			      <Button type="primary" className={"SaveButton"} onClick={() => {this.saveNewValues(); this.closeModal();}}>Save</Button>
 			    </Modal.Footer>
 			  </Modal>
 			</div>
