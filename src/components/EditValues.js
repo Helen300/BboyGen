@@ -136,29 +136,18 @@ class EditValues extends React.Component {
 		newDurations.types[tabNames[2]] = parseFloat(this.state.typeDurations[1]['Duration (s)'])
 		newDurations.types[tabNames[3]] = parseFloat(this.state.typeDurations[2]['Duration (s)'])
 		newDurations.types[tabNames[4]] = parseFloat(this.state.typeDurations[3]['Duration (s)'])
-		newDurations.moves = this.state.moveDurations
-		this.props.updateValues(newDurations)
-	}
 
-	saveNewMoveDurations() {
-		var newDurations = {
-			"types": {},
-			"moves": {}
-		}
 		this.state.moveDurations[tabNames[0]].forEach(moveData => {
 			if(moveData['Duration (s)'] > -1) {
 				newDurations.moves[moveData['Move']] = parseFloat(moveData['Duration (s)'])
 			}
 		})
-		newDurations.types = this.state.typeDurations
 		this.props.updateValues(newDurations)
 	}
 
 	saveNewValues() {
 		if(this.props.valueType === editValueTypes.PROBS) {
 			this.saveNewProbs()
-		} else if (this.props.valueType == editValueTypes.DURATIONS && this.state.showMoveDurations) {
-			this.saveNewMoveDurations()
 		} else if (this.props.valueType == editValueTypes.DURATIONS) {
 			this.saveNewDurations()
 		}
