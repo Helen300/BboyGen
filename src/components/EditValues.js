@@ -131,11 +131,13 @@ class EditValues extends React.Component {
 			"types": {},
 			"moves": {}
 		}
+		// save type durations
 		newDurations.types[tabNames[1]] = parseFloat(this.state.typeDurations[0]['Duration (s)'])
 		newDurations.types[tabNames[2]] = parseFloat(this.state.typeDurations[1]['Duration (s)'])
 		newDurations.types[tabNames[3]] = parseFloat(this.state.typeDurations[2]['Duration (s)'])
 		newDurations.types[tabNames[4]] = parseFloat(this.state.typeDurations[3]['Duration (s)'])
 
+		// save move durations, if value is not -1 we save it
 		this.state.moveDurations.forEach(moveData => {
 			if(moveData['Duration (s)'] > -1) {
 				newDurations.moves[moveData['Move']] = parseFloat(moveData['Duration (s)'])
@@ -153,6 +155,7 @@ class EditValues extends React.Component {
 	}
 
 	setProbCells() {
+		// change these to edit columns of the table
 		this.columns = [
 	      {
 	        title: 'Transition From',
@@ -184,6 +187,8 @@ class EditValues extends React.Component {
 	        editable: true,
 	      },
 	    ];
+	    // show state for showing/hiding modal
+	    // probs is the datasource for probs modal
 		this.state = {
 	    	show: false,
 			probs: [
@@ -224,6 +229,7 @@ class EditValues extends React.Component {
 	}
 
 	setDurationCells() {
+		// change these to edit columns of the table
 		this.columns = [
 	      {
 	        title: 'Move',
@@ -238,6 +244,9 @@ class EditValues extends React.Component {
 	      }
 	    ];
 
+	    // We must provide values for each column (Move and Duration (s))
+	    // we can add additional values that arent used by the table, like type
+	    // key can be anything, but must be unique
     	var moveMap = (move, idx) => {
     		return({
 	    		'key': idx.toString(),
@@ -246,6 +255,8 @@ class EditValues extends React.Component {
 	    		'type': move.type
 	    	})
     	}
+
+    	// showMoveDurations shows advanced view of move durations (durations for individual moves)
 		this.state = {
 	    	show: false,
 	    	showMoveDurations: false,
@@ -291,6 +302,7 @@ class EditValues extends React.Component {
   		})
   	}
 
+  	// we need a different save function for each view (probs, move durations, move durations advanced)
   	handleSave = row => {
 	    if(this.props.valueType === editValueTypes.PROBS) {
 	    	const newData = [...this.state.probs]
@@ -302,6 +314,7 @@ class EditValues extends React.Component {
 		    });
 	    } else if(this.props.valueType === editValueTypes.DURATIONS && this.state.showMoveDurations) {
 	    	const newData = [...this.state.moveDurations]
+	    	// we used the index as a key so we can get the index quickly like this
 	    	const index = parseInt(row.key, 10)
 		    const item = newData[index];
 		    newData.splice(index, 1, { ...item, ...row });
@@ -343,6 +356,9 @@ class EditValues extends React.Component {
 		})
 	}
 
+	// this.state.moveDurations is the list of all moves regardless of type
+	// we use this filter to display moves flitered by type for the tabs
+	// this way, when we edit a move in a type tab, the all tab will be modified as well
 	filterMoves(moves, moveType) {
 		return moves.filter(move => move.type === moveType || moveType === tabNames[0])
 	}
