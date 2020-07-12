@@ -25,11 +25,11 @@ const formItemLayoutWithOutLabel = {
 class CreateMove extends React.Component {
 
   onFinish = (values, requestType, action, currentMoves) => {
-    
+    const token = localStorage.getItem('token');
     console.log('Received values of form:', values);
     axios.defaults.headers = {
         "Content-Type": "application/json",
-        Authorization: this.props.token
+        Authorization: token
     }
     console.log(values['moves']);
     const moves = values['moves'];
@@ -120,12 +120,5 @@ class CreateMove extends React.Component {
   };
 }
 
-const mapStateToProps = state => {
-  return {
-    // whether or not token = null (isAuthenticated = False)
-    token: state.token
-  }
-}
 
-
-export default connect(mapStateToProps)(CreateMove);
+export default CreateMove;

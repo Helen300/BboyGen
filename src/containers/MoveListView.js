@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
@@ -23,7 +22,8 @@ class MoveListView extends React.Component {
 	state = {
 		moveList: [],
 		selectedMoveIdx: -1,
-		currentTab:tabNames[0]
+		currentTab:tabNames[0], 
+		token: null,
 	}
 
 	updateSelectedMoveIdx(newIdx) {
@@ -33,10 +33,11 @@ class MoveListView extends React.Component {
 	}
 
 	updateMoveList(newList) {
+
 		this.setState({
 			moveList: newList
 		})
-		if (this.props.token !== null) {
+		if (this.state.token !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
@@ -63,12 +64,14 @@ class MoveListView extends React.Component {
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 
 	componentDidMount() {
+		const token = localStorage.getItem('token');
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
 			this.setState({
-				moveList: res.data.moveList
+				moveList: res.data.moveList,
+				token: token, 
 			});
 		})
         .catch(error => console.error(error));
@@ -76,17 +79,19 @@ class MoveListView extends React.Component {
 
 	// when new props arrive, component rerenders
 	componentWillReceiveProps(newProps) {
-		if (newProps.token) {
+		const token = localStorage.getItem('token');
+		if (token) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
-				Authorization: newProps.token
+				Authorization: token
 			}
 			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 			apiUrl = apiUrl.concat('/')
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					moveList: res.data.moveList
+					moveList: res.data.moveList,
+					token: token,
 				});
 			})
 	        .catch(error => console.error(error));
@@ -138,12 +143,4 @@ class MoveListView extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
-
-	}
-}
-
-export default connect(mapStateToProps)(MoveListView);
+export default MoveListView;

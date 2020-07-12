@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import CardList from './CardList';
 
 import $ from 'jquery';
@@ -106,12 +105,6 @@ class MoveList extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
 
-export default connect(mapStateToProps)(MoveList);
+export default MoveList;

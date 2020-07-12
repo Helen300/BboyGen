@@ -7,16 +7,20 @@ import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Landing from './containers/Landing';
 import { Spin, Alert } from 'antd';
+import { withAuth0 } from '@auth0/auth0-react';
 
 class BaseRouter extends React.Component {
 
 	render() {
+		const token = localStorage.getItem('token');
+		console.log('tooooeken', token);
+ 		const { isAuthenticated } = this.props.auth0
 		return(
 
 			<div>
 				{/* for the path localhost/ displays MoveList */}
 				{
-					this.props.isAuthenticated ?
+					isAuthenticated ?
 					<Route exact path='/' component={MoveListView} />
 					:
 					<Route exact path='/' component={Landing} />
@@ -37,4 +41,4 @@ class BaseRouter extends React.Component {
 	}
 }
 
-export default BaseRouter;
+export default withAuth0(BaseRouter);

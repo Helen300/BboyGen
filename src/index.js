@@ -1,25 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
+import Auth0ProviderWithHistory from "./auth0-provider-with-history";
 import * as serviceWorker from './serviceWorker';
-import { createStore, compose, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 
-import reducer from './store/reducers/auth';
-
-
-// checking if we have this extension installed, else uses redux compose 
-const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducer, composeEnhances(
-	applyMiddleware(thunk)
-));
 
 // bring in provider 
 const app = (
-	<Provider store={store}>
-		<App />
-	</Provider>
+	<Router> 
+		<Auth0ProviderWithHistory
+		    domain="damp-voice-7544.us.auth0.com"
+		    clientId="S6CaK4fa5q9AHax9jRCWgRSrxcQK03f2"
+		    redirectUri={window.location.origin}
+	 	>
+			<App />
+		</Auth0ProviderWithHistory>
+	</Router>
 )
 
 ReactDOM.render(app, document.getElementById('root'));
