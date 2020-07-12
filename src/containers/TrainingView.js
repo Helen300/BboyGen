@@ -24,7 +24,7 @@ class TrainingView extends React.Component {
 		selectedSetIdx: -1,
 		trainingSetList: [],
 		durations: {},
-		voiceOn: false
+		voiceOn: true
 	}
 
 	updateProbs(newProbs) {
@@ -233,9 +233,9 @@ class TrainingView extends React.Component {
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
 						}
 						{ this.state.voiceOn ? 
-							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: false})}><AudioMutedOutlined/></Button>
+							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: false})}><AudioOutlined/></Button>
 							:
-							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: true})}><AudioOutlined/></Button>
+							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: true})}><AudioMutedOutlined/></Button>
 						}
 						{Object.keys(this.state.probs).length !== 0 ? 
 							<div>
