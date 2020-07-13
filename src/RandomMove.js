@@ -17,7 +17,7 @@ class RandomMove {
 	}
 
 	// adds a random move based on probabilities
-	static getRandomMove(currentSet, moveList, probs) {
+	static getRandomMove(currentSet, moveList, probs, reverseProb) {
 		if (moveList.length === 0) {
 			console.log('no moves')
 			return null
