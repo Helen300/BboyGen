@@ -143,6 +143,10 @@ class GeneratorView extends React.Component {
 	// adds a random move based on probabilities
 	addRandom() {
 		var randomMove = RandomMove.getRandomMove(this.state.setList[this.state.selectedSetIdx].moves, this.state.moveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
+		if (randomMove === null) {
+			console.log('no random move')
+			return null
+		}
 		this.addToSetMoveList(randomMove)
 	}
 

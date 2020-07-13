@@ -78,6 +78,9 @@ class TrainingView extends React.Component {
 		var addedMoves = []
 		while(fill > 0) {
 			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
+			if (nextMove === null) {
+				return; 
+			}
 			var moveDuration = (nextMove.name in this.state.durations.moves) ? 
 				this.state.durations.moves[nextMove.name] 
 				: 
