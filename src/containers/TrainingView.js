@@ -183,10 +183,10 @@ class TrainingView extends React.Component {
 		        var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
 		    	this.updateProbs(testProbs)
 	        }
-	        if (res.data.probs['reverseProb'] == null) {
+	        /* if (res.data.probs['reverseProb'] == null) {
 	        	 var newProbs = {"typeProbs": res.data.probs['typeProbs'], "reverseProb": 0.5}
 	        	 this.updateProbs(newProbs)
-	        }
+	        } */ 
 	        // if empty, initialize durations to uniform
 	        if(Object.keys(res.data.durations).length === 0) {
 	        	var initDurations = {}
