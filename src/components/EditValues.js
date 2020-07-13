@@ -98,7 +98,7 @@ class EditValues extends React.Component {
 	showModal() {
 		this.setState({
 			show: true,
-			reverseProb: this.props.reverseProb
+			reverseProb: this.props.reverseProb == null ? 0.5 : this.props.reverseProb
 		})
 	}
 	closeModal() {
@@ -446,17 +446,28 @@ class EditValues extends React.Component {
 			          columns={columns}
 			          pagination={false} 
 			        />
-			        Reverse (probability that a move will be the reverse): 
-			        <InputNumber 
-			        	id="forReverse"
-			        	className="ReverseProbs" 
-			        	min={0} max={1} 
-			        	defaultValue={this.props.reverseProb} 
-			        	step={0.1}
-			        	onChange={(value)=> this.updateReverseProbs(value)}
-			    		/* onPressEnter={(value)=> this.updateReverseProbs()}*/  />
-			    	(non-reverse move will have probability of {(1-this.state.reverseProb).toFixed(2)})
-
+			       {/* <Form> 
+			        	<Form.Item
+			        		name="reverse"
+			        		rules={[
+			        			{ required: true, message: 'Please enter a value between 0 and 1', type: 'number' },
+			        			{ pattern: /^(?:0*(?:\.\d+)?|1(\.0*)?)$/, message: 'Please enter a value between 0 and 1' },
+			        		]}
+			        	> */ }
+				        Reverse (probability that a move will be the reverse): 
+				        <InputNumber 
+				        	id="forReverse"
+				        	type="number"
+				        	className="ReverseProbs" 
+				        	min={0} max={1} 
+				        	defaultValue={this.state.reverseProb} 
+				        	step={0.1}
+				        	onChange={(value)=> this.updateReverseProbs(value)}
+				        	value={this.props.reverseProb}
+				    		/* onPressEnter={(value)=> this.updateReverseProbs()}*/  />
+				    	(non-reverse move will have probability of {(1-this.state.reverseProb).toFixed(2)})
+				    	{/* </Form.Item> 
+				    </Form> */}
 		        </div>
 	        )
   		}
@@ -464,6 +475,9 @@ class EditValues extends React.Component {
 
 
   	updateReverseProbs(value) {
+  		if (value > 1 || value < 0) {
+  			value = 0.5
+  		}
   		console.log('UPDATING REVERSE')
   		this.setState({
   			reverseProb: value,

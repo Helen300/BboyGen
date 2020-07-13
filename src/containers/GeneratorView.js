@@ -170,6 +170,10 @@ class GeneratorView extends React.Component {
 		        var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
 		    	this.updateProbs(newProbs)
 	        }
+	        if (res.data.probs['reverseProb'] == null) {
+	        	 var newProbs = {"typeProbs": res.data.probs['typeProbs'], "reverseProb": 0.5}
+	        	 this.updateProbs(newProbs)
+	        }
 		})
         .catch(error => console.error(error));
         localStorage.setItem('menuKey', menuKeys.GENERATOR)
