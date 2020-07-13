@@ -16,7 +16,7 @@ class TrainingView extends React.Component {
 
 	state = {
 		currSet: [],
-		probs: [],
+		probs: {},
 		allMoves: [],
 		currMoveList: [],
 		playing: false,
@@ -77,7 +77,7 @@ class TrainingView extends React.Component {
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs)
+			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
 			var moveDuration = (nextMove.name in this.state.durations.moves) ? 
 				this.state.durations.moves[nextMove.name] 
 				: 
@@ -180,6 +180,7 @@ class TrainingView extends React.Component {
 		        testProbs[tabNames[2]] = [uni, uni, uni, uni]
 		        testProbs[tabNames[3]] = [uni, uni, uni, uni]
 		        testProbs[tabNames[4]] = [uni, uni, uni, uni]
+		        var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
 		    	this.updateProbs(testProbs)
 	        }
 	        // if empty, initialize durations to uniform
@@ -221,7 +222,8 @@ class TrainingView extends React.Component {
 						{Object.keys(this.state.probs).length !== 0 ? 
 							<div>
 								<EditValues
-									values={this.state.probs}
+									values={this.state.probs['typeProbs']}
+									reverseProb={this.state.probs['reverseProb']}
 									updateValues={this.updateProbs.bind(this)}
 									valueType={editValueTypes.PROBS}
 								/>

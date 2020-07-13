@@ -2,10 +2,12 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { Table, Input, Form, Button } from 'antd';
+import { InputNumber } from 'antd';
 import { tabNames, editValueTypes } from "../constants";
 import Modal from 'react-bootstrap/Modal'
 import { Tabs } from 'antd';
 
+import $ from 'jquery';
 import "../css/components/EditValues.css"
 
 const { TabPane } = Tabs;
@@ -95,7 +97,8 @@ const EditableCell = ({
 class EditValues extends React.Component {
 	showModal() {
 		this.setState({
-			show: true
+			show: true,
+			reverseProb: this.props.reverseProb
 		})
 	}
 	closeModal() {
@@ -123,7 +126,9 @@ class EditValues extends React.Component {
 						        parseFloat(this.state.probs[3][tabNames[2]]), 
 						        parseFloat(this.state.probs[3][tabNames[3]]), 
 						        parseFloat(this.state.probs[3][tabNames[4]])]
-		this.props.updateValues(newProbs)
+		var reverse = parseFloat(this.state.reverseProb)
+		var newProbDict = {'typeProbs': newProbs, 'reverseProb': reverse}
+		this.props.updateValues(newProbDict)
 	}
 
 	saveNewDurations() {
@@ -432,16 +437,39 @@ class EditValues extends React.Component {
 	        )
   		} else if(this.props.valueType === editValueTypes.PROBS) {
    			return (
-	  			<Table
-		          components={components}
-		          rowClassName={() => 'editable-row'}
-		          bordered
-		          dataSource={this.state.probs}
-		          columns={columns}
-		          pagination={false} 
-		        />
+   				<div>
+		  			<Table
+			          components={components}
+			          rowClassName={() => 'editable-row'}
+			          bordered
+			          dataSource={this.state.probs}
+			          columns={columns}
+			          pagination={false} 
+			        />
+			        Reverse (probability that a move will be the reverse): 
+			        <InputNumber 
+			        	id="forReverse"
+			        	className="ReverseProbs" 
+			        	min={0} max={1} 
+			        	defaultValue={this.props.reverseProb} 
+			        	step={0.1}
+			        	onChange={(value)=> this.updateReverseProbs(value)}
+			    		/* onPressEnter={(value)=> this.updateReverseProbs()}*/  />
+			    	(non-reverse move will have probability of {(1-this.state.reverseProb).toFixed(2)})
+
+		        </div>
 	        )
   		}
+  	}
+
+
+  	updateReverseProbs(value) {
+  		console.log('UPDATING REVERSE')
+  		this.setState({
+  			reverseProb: value,
+  		})
+  		this.saveNewProbs()
+
   	}
 
   	render() {
