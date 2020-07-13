@@ -26,7 +26,7 @@ class GeneratorView extends React.Component {
 		moveList: [],
 		currentTab: tabNames[0],
 		currentSetTab: setTabNames[0],
-		probs: [],
+		probs: {},
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -76,6 +76,7 @@ class GeneratorView extends React.Component {
 		          .catch(error => console.error(error));
 		}
 	}
+
 
 	updateSelectedTab(newTab) {
 		this.setState({
@@ -141,7 +142,7 @@ class GeneratorView extends React.Component {
 
 	// adds a random move based on probabilities
 	addRandom() {
-		var randomMove = RandomMove.getRandomMove(this.state.setList[this.state.selectedSetIdx].moves, this.state.moveList, this.state.probs)
+		var randomMove = RandomMove.getRandomMove(this.state.setList[this.state.selectedSetIdx].moves, this.state.moveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
 		if (randomMove === null) {
 			console.log('no random move')
 			return null
@@ -159,8 +160,9 @@ class GeneratorView extends React.Component {
 			this.setState({
 				setList: res.data.setList,
 				moveList: res.data.moveList,
-				probs: res.data.probs
+				probs: res.data.probs,
 			});
+			console.log(res.data.probs)
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
@@ -169,8 +171,13 @@ class GeneratorView extends React.Component {
 		        testProbs[tabNames[2]] = [uni, uni, uni, uni]
 		        testProbs[tabNames[3]] = [uni, uni, uni, uni]
 		        testProbs[tabNames[4]] = [uni, uni, uni, uni]
-		    	this.updateProbs(testProbs)
+		        var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
+		    	this.updateProbs(newProbs)
 	        }
+	      /*  if (res.data.probs['reverseProb'] == null) {
+	        	 var newProbs = {"typeProbs": res.data.probs['typeProbs'], "reverseProb": 0.5}
+	        	 this.updateProbs(newProbs)
+	        } */ 
 		})
         .catch(error => console.error(error));
         localStorage.setItem('menuKey', menuKeys.GENERATOR)
@@ -234,8 +241,11 @@ class GeneratorView extends React.Component {
 								addToSetMoveList={this.addToSetMoveList.bind(this)}
 							/>
 							<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
+							{console.log(this.state.probs['typeProbs'])}
+							{console.log(this.state.probs)}
 							<EditValues
-								values={this.state.probs}
+								values={this.state.probs['typeProbs']}
+								reverseProb={this.state.probs['reverseProb']}
 								updateValues={this.updateProbs.bind(this)}
 								valueType={editValueTypes.PROBS}
 							/>

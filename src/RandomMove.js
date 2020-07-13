@@ -17,7 +17,7 @@ class RandomMove {
 	}
 
 	// adds a random move based on probabilities
-	static getRandomMove(currentSet, moveList, probs) {
+	static getRandomMove(currentSet, moveList, probs, reverseProb) {
 		if (moveList.length === 0) {
 			console.log('no moves')
 			return null
@@ -41,13 +41,23 @@ class RandomMove {
 		// get random move of that type and make shallow copy
 		var newMove = Object.assign({}, filteredList[Math.floor(Math.random() * filteredList.length)])
 
+		var reverseDistribution = {0: reverseProb, 1: (1-reverseProb).toFixed(2)}
+		// console.log(reverseDistribution)
 		// var reverse = Math.round(Math.random());
-		var reverse = Math.random();
+		var isReverse = this.weightedRand(reverseDistribution)
 		// add a random move reverse version half the time
-		if (reverse >= 0.5 && newMove.reversible) {
+		if (isReverse == 0 && newMove.reversible) {
 			newMove.reverseEnabled = true;
 		}
 		return newMove
+	}
+
+	static weightedRand(spec) {
+		var i, sum = 0, r = Math.random(); 
+		for (i in spec) {
+			sum += spec[i];
+			if (r <= sum) return i; 
+		}
 	}
 }
 
