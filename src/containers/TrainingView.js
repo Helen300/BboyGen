@@ -69,10 +69,6 @@ class TrainingView extends React.Component {
 	}
 
 	fillMoves() {
-		if (this.state.allMoves.length === 0 && this.state.currMoveList === 0) {
-			console.log('no moves')
-			return;
-		}
 		const maxBacklog = 20
 		var fill = maxBacklog - this.state.moveBacklog
 		if(fill <= 0) {
@@ -82,6 +78,9 @@ class TrainingView extends React.Component {
 		var addedMoves = []
 		while(fill > 0) {
 			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs)
+			if (nextMove === null) {
+				return; 
+			}
 			var moveDuration = (nextMove.name in this.state.durations.moves) ? 
 				this.state.durations.moves[nextMove.name] 
 				: 
