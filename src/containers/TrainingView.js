@@ -69,6 +69,10 @@ class TrainingView extends React.Component {
 	}
 
 	fillMoves() {
+		if (this.state.allMoves.length === 0 && this.state.currMoveList === 0) {
+			console.log('no moves')
+			return;
+		}
 		const maxBacklog = 20
 		var fill = maxBacklog - this.state.moveBacklog
 		if(fill <= 0) {

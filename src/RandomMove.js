@@ -18,6 +18,10 @@ class RandomMove {
 
 	// adds a random move based on probabilities
 	static getRandomMove(currentSet, moveList, probs) {
+		if (moveList.length === 0) {
+			console.log('no moves')
+			return 
+		}
 		var lastAddedType = tabNames[0]
 		// select uniform random if no previous added move
 		if(currentSet.length == 0) {
