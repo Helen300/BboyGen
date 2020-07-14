@@ -5,7 +5,7 @@ import EditValues from '../components/EditValues';
 import CardList from '../components/CardList';
 import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../constants";
 import { Button } from 'antd';
-import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
 
 
@@ -23,7 +23,8 @@ class TrainingView extends React.Component {
 		moveBacklog: 0,
 		selectedSetIdx: -1,
 		trainingSetList: [],
-		durations: {}
+		durations: {},
+		voiceOn: true
 	}
 
 	updateProbs(newProbs) {
@@ -99,6 +100,7 @@ class TrainingView extends React.Component {
 	}
 
 	startPlaying() {
+		var synth = window.speechSynthesis;
 		this.setState({
 			playing: true
 		})
@@ -110,6 +112,11 @@ class TrainingView extends React.Component {
 			// if no moves yet, fill
 			if(this.state.currSet.length == 0) {
 				this.fillMoves()
+				if(this.state.voiceOn) {
+					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
+					textToSay.rate = 2
+					synth.speak(textToSay)
+				}
 			}
 			// if first move is out of length, remove first and fill with more
 			else if(this.state.currSet[0].length <= 0) {
@@ -118,6 +125,13 @@ class TrainingView extends React.Component {
 					currSet: this.state.currSet.slice(1),
 				})
 				this.fillMoves()
+				if(this.state.voiceOn) {
+					// if moves are going too fast, then cut off previous speech midway
+					speechSynthesis.cancel()
+					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
+					textToSay.rate = 2
+					synth.speak(textToSay)
+				}
 			// otherwise, keep decreasing first move's length
 			} else {
 				var newList = this.state.currSet.slice()
@@ -225,6 +239,11 @@ class TrainingView extends React.Component {
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
 							:
 							<Button type="primary" className={"PlayButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
+						}
+						{ this.state.voiceOn ? 
+							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: false})}><AudioOutlined/></Button>
+							:
+							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: true})}><AudioMutedOutlined/></Button>
 						}
 						{Object.keys(this.state.probs).length !== 0 ? 
 							<div>
