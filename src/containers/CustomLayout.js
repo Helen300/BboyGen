@@ -54,7 +54,7 @@ class CustomLayout extends React.Component {
   render () {
     return (
 
-     <Layout>
+     <Layout className="layout">
       <Header>
       
         <Menu id="Menu" theme="dark" mode="horizontal" selectedKeys={[this.state.menuKey]}>
