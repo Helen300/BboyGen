@@ -54,7 +54,7 @@ class CustomLayout extends React.Component {
   render () {
     return (
 
-      <Layout className="layout">
+     <Layout>
       <Header>
       
         <Menu id="Menu" theme="dark" mode="horizontal" selectedKeys={[this.state.menuKey]}>
@@ -84,15 +84,16 @@ class CustomLayout extends React.Component {
 
         </Menu>
       </Header>
-      <Content style={{ padding: '0 50px' }}>
+      <Content style={{ padding: '0 0px'}}>
           <div className="site-layout-content"
-          style={{ background: '#fff', padding: '24px', minHeight: '50em' }}>
+          style={{ background: '#fff', padding: '2em 5em 1.5em 5em', minHeight: '50em', marginLeft: '0', marginRight: '0' }}>
             {/* class based takes this. */}
             {this.props.children}
           </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-    </Layout>
+
+      {/*<Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>*/}
+      </Layout>
     );
   }
 }

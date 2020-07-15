@@ -39,3 +39,14 @@ input[type=number]::-webkit-outer-spin-button {
 	margin-top: 3%;
 	display: inline-block;
 }
+
+
+@media only screen and (max-width: 500px)  {
+	.EditValuesContainer {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+		margin-top: 2%;
+	}
+
+}

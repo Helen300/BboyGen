@@ -15,6 +15,16 @@
 	
 }
 
+
+@media only screen and (max-width: 500px)  {
+	.TrainingCard {
+		max-width: 100%;
+		font-size: 0.5em;
+	}
+
+}
+
+
 .NormalTitle {
 	color: #5f6bb2;
 }
