@@ -3,31 +3,31 @@
 	border: 1px solid #d9d9d9;
 	border-radius: 0.2em;	
 	height:56vh;
-	background-color: #ededed
+	background-color: #ededed;
 }
 
 /* Custom Scrollbar*/
 
 /* width */
-::-webkit-scrollbar {
-  width: 2%;
+.Pane::-webkit-scrollbar {
+  width: 0.4em;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+.Pane::-webkit-scrollbar-track {
   background: #f1f1f1; 
 }
  
 /* Handle */
-::-webkit-scrollbar-thumb {
+.Pane::-webkit-scrollbar-thumb {
   background: lightgray; 
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+.Pane::-webkit-scrollbar-thumb:hover {
   background: gray; 
 }
 
-::-webkit-scrollbar-thumb {
+.Pane::-webkit-scrollbar-thumb {
     border-radius: 10px;
 }
