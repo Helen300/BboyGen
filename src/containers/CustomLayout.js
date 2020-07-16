@@ -9,6 +9,9 @@ import $ from 'jquery';
 import { menuKeys } from "../constants"
 import "../css/containers/CustomLayout.css"
 
+
+import { withAuth0 } from '@auth0/auth0-react';
+
 const { Header, Content, Footer } = Layout;
 
 class CustomLayout extends React.Component {
@@ -52,6 +55,15 @@ class CustomLayout extends React.Component {
   }
 
   render () {
+    const { user, error, getAccessTokenSilently, isAuthenticated, loginWithRedirect, logout } = this.props.auth0;
+    const logoutWithRedirect = () =>
+    logout({
+      returnTo: window.location.origin,
+    });
+    console.log(isAuthenticated);
+    console.log('AUTHOOOOO', this.props.auth0);
+    console.log(getAccessTokenSilently);
+
     return (
 
       <Layout className="layout">
@@ -60,12 +72,12 @@ class CustomLayout extends React.Component {
         <Menu id="Menu" theme="dark" mode="horizontal" selectedKeys={[this.state.menuKey]}>
         {
             // if authenticated = true we show logout 
-            this.props.isAuthenticated ? 
+            isAuthenticated ? 
             [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
-              Hello, {localStorage.getItem('username')}
+              Hello, {user['given_name']}
             </Menu.Item>,
-            <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.props.logout();}} style={{ float:'right' }}>
-              <Link to="/">Logout</Link>
+            <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); logoutWithRedirect();}} style={{ float:'right' }}>
+              <Link>Logout</Link>
             </Menu.Item>,
             <Menu.Item key={menuKeys.LIST} onClick={() => this.changeMenuKey(menuKeys.LIST)}>
               <Link to="/">List</Link>
@@ -77,8 +89,8 @@ class CustomLayout extends React.Component {
               <Link to="/training/">Training</Link>
             </Menu.Item>]
             :
-            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => this.changeMenuKey(menuKeys.LOGIN)}>
-              <Link to="/login/">Login</Link>
+            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.changeMenuKey(menuKeys.LIST); loginWithRedirect();}}>
+              <Link>Login</Link>
             </Menu.Item>
         }
 
@@ -99,14 +111,6 @@ class CustomLayout extends React.Component {
 
 
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => {
-      dispatch(actions.logout())
-    }
-  }
-}
-
-export default withRouter(connect(null, mapDispatchToProps)(CustomLayout));
+export default withAuth0(CustomLayout);
 
   

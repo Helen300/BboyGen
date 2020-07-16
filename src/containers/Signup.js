@@ -151,18 +151,4 @@ class Signup extends React.Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading, 
-    error: state.error
-  }
-}
-
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (username, email, password1, password2) => dispatch(actions.authSignup(username, email, password1, password2))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;

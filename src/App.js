@@ -5,46 +5,38 @@ import { connect } from 'react-redux';
 import BaseRouter from './routes';
 import 'antd/dist/antd.css'; 
 import * as actions from './store/actions/auth';
+import { Spin } from 'antd';
 
 import CustomLayout from './containers/CustomLayout';
 
-class App extends Component {
 
-	// calls dispatch below whenever rendered 
-	componentDidMount() {
-		this.props.onTryAutoSignup(); 
-	}
+import { useAuth0 } from "@auth0/auth0-react";
+import history from "./utils/history";
 
-	render() {
-		return (
-		    <div>
-			    <Router> 
-					{/* passes isAuthenticated down to CustomLayout component */}
-				    <CustomLayout {...this.props}>
-				    	<BaseRouter {...this.props}/>
-				    </CustomLayout>
-				</Router>
-		    </div>
-		  );
-	}
-}
-// everytime app rendered, checks if authenticated automatically 
-// maps states to props, input as state 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		isAuthenticated: state.token != null
-	}
-}
+const App = () => {
+  const { isLoading, error } = useAuth0();
 
-const mapDispatchToProps = dispatch => {
-	return {
-		// anonymous function call 
-		// checks if they are logged in or not 
-		// authCheckState = checks if token stored + if past expiration date or not
-		onTryAutoSignup: () => dispatch(actions.authCheckState())
-	}
-}
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <Spin tip="Signing up..." size="large" />;
+  }
+
+
+  return (
+  	 <div>
+	    <Router history={history}> 
+			{/* passes isAuthenticated down to CustomLayout component */}
+		    <CustomLayout>
+		    	<BaseRouter/>
+		    </CustomLayout>
+		</Router>
+	</div>
+  );
+};
+
 
 // allows us to gain access to property 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -16,9 +16,10 @@ import "../css/containers/Pane.css"
 import { tabNames, cardTypes } from "../constants"
 
 
+import { withAuth0 } from '@auth0/auth0-react';
+
+
 // contains List of Moves and Form to add moves 
-
-
 class MoveListView extends React.Component {
 	state = {
 		moveList: [],
@@ -33,6 +34,7 @@ class MoveListView extends React.Component {
 	}
 
 	updateMoveList(newList) {
+		const { user, error, getAccessTokenSilently } = this.props.auth0;
 		this.setState({
 			moveList: newList
 		})
@@ -63,7 +65,8 @@ class MoveListView extends React.Component {
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat('admin')
+		const { user, error, getAccessTokenSilently } = this.props.auth0;
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -81,7 +84,7 @@ class MoveListView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: newProps.token
 			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			var apiUrl = '/api/userprofiles/'.concat('admin')
 			apiUrl = apiUrl.concat('/')
 			axios.get(apiUrl)
 			.then(res => {
@@ -138,12 +141,5 @@ class MoveListView extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
-
-export default connect(mapStateToProps)(MoveListView);
+export default withAuth0(MoveListView);

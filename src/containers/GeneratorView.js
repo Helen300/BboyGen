@@ -258,12 +258,6 @@ class GeneratorView extends React.Component {
 }
 
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
 
-export default connect(mapStateToProps)(GeneratorView);
+export default GeneratorView;

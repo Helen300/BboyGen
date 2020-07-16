@@ -106,12 +106,6 @@ class MoveList extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
 
-export default connect(mapStateToProps)(MoveList);
+export default MoveList;

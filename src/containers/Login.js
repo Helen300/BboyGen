@@ -117,18 +117,5 @@ class Login extends React.Component {
 	}
 
 
-const mapStateToProps = (state) => {
-	return {
-		loading: state.loading, 
-		error: state.error
-	}
-}
 
-
-const mapDispatchToProps = dispatch => {
-	return {
-		onAuth: (username, password) => dispatch(actions.authLogin(username, password))
- 	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

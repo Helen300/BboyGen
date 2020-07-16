@@ -8,18 +8,21 @@ import Signup from './containers/Signup';
 import Landing from './containers/Landing';
 import { Spin, Alert } from 'antd';
 
+
+import { withAuth0 } from '@auth0/auth0-react';
+
 class BaseRouter extends React.Component {
 
 	render() {
+		const { isAuthenticated } = this.props.auth0;
 		return(
 
 			<div>
-				{/* for the path localhost/ displays MoveList */}
-				{
-					this.props.isAuthenticated ?
-					<Route exact path='/' component={MoveListView} />
-					:
-					<Route exact path='/' component={Landing} />
+				{ isAuthenticated ? 
+
+				<Route exact path='/' component={MoveListView} />
+				:
+				<Route exact path='/' component={Landing} />
 
 				}
 				{/*<Route exact path='/' component={this.loginPage()} /> */}
@@ -32,9 +35,7 @@ class BaseRouter extends React.Component {
 			</div>
 
 		)
-	//}
-
 	}
 }
 
-export default BaseRouter;
+export default withAuth0(BaseRouter);
