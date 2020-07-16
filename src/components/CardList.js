@@ -21,10 +21,34 @@ import PropTypes from 'prop-types';
 // contains List of Moves and Form to add moves 
 
 class CardList extends React.Component {
+	state = {
+		saveSelectedIdx: -1
+	}
+	// style issue, without this, dragging a selected card makes the selected card
+	// jump between source and destination for a split second
+	onBeforeCapture = result => {
+		const { draggableId } = result
+		if(parseInt(draggableId) === this.props.selectedIdx) {
+			this.setState({
+				saveSelectedIdx: parseInt(draggableId)
+			})
+			this.props.updateSelectedIdx(-1)
+		} else {
+			this.setState({
+				saveSelectedIdx: -1
+			})
+		}
+	}
 	onDragEnd = result => {
 		const { destination, source, draggableId } = result;
-		// if dropped outside of droppable area, do nothing
+		// if dropped outside of droppable area, do nothing. unless it was a selected card, then reselect it
 		if(!destination) {
+			console.log("outside!!")
+			console.log(this.state.saveSelectedIdx)
+			console.log(source.index)
+			if(this.state.saveSelectedIdx === source.index) {
+				this.props.updateSelectedIdx(source.index)
+			}
 			return;
 		}
 		// if dropped in the same area and index, do nothing
@@ -39,8 +63,9 @@ class CardList extends React.Component {
 		if(source.index > this.props.selectedIdx && destination.index <= this.props.selectedIdx) {
 			this.props.updateSelectedIdx(this.props.selectedIdx + 1)
 		}
-		// if we move the selected card
-		if(this.props.selectedIdx === source.index) {
+		// if we move the selected card (we reset the selectedIdx if we had dragged the selectedCard for style purposes
+		// we saved this val in the cardlist state)
+		if(this.state.saveSelectedIdx === source.index) {
 			this.props.updateSelectedIdx(destination.index)
 		}
 		// make a copy of list
@@ -161,7 +186,7 @@ class CardList extends React.Component {
 	render() {
 		if(this.props.enableDrag) {
 			return (
-				<DragDropContext onDragEnd={this.onDragEnd}>
+				<DragDropContext onDragEnd={this.onDragEnd} onBeforeCapture={this.onBeforeCapture}>
 				<Droppable droppableId={this.props.currentTab}>
 					{provided => (
 						<div
