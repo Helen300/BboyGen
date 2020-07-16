@@ -23,7 +23,8 @@ class MoveListView extends React.Component {
 	state = {
 		moveList: [],
 		selectedMoveIdx: -1,
-		currentTab:tabNames[0]
+		currentTab:tabNames[0],
+		loading: true
 	}
 
 	updateSelectedMoveIdx(newIdx) {
@@ -68,7 +69,8 @@ class MoveListView extends React.Component {
 		axios.get(apiUrl)
 		.then(res => {
 			this.setState({
-				moveList: res.data.moveList
+				moveList: res.data.moveList,
+				loading: false
 			});
 		})
         .catch(error => console.error(error));
@@ -86,7 +88,8 @@ class MoveListView extends React.Component {
 			axios.get(apiUrl)
 			.then(res => {
 				this.setState({
-					moveList: res.data.moveList
+					moveList: res.data.moveList,
+					loading: false
 				});
 			})
 	        .catch(error => console.error(error));
@@ -114,6 +117,7 @@ class MoveListView extends React.Component {
 							currentTab={this.state.currentTab}
 							enableDrag={true}
 							cardType={cardTypes.MOVE}
+							loading={this.state.loading}
 						/>
 						<MoveInput 
 							currentTab={this.state.currentTab} 

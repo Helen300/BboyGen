@@ -8,7 +8,7 @@ import SetCard from '../components/SetCard';
 import $ from 'jquery';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Droppable } from 'react-beautiful-dnd';
-import { animateScroll } from "react-scroll";
+import { Spin, Space } from 'antd';
 
 // import 'antd/dist/antd.css';
 
@@ -87,6 +87,14 @@ class CardList extends React.Component {
   	}
 
 	renderCards = (cardType) => {
+		// if no cards yet, show loading spinner
+		if(this.props.loading) {
+			return(
+				<Space size="middle">
+				    <Spin size="large" />
+				</Space>
+			)
+		}
 		switch(cardType) {
 			case cardTypes.MOVE:
 				return(
@@ -160,6 +168,10 @@ class CardList extends React.Component {
 
 	render() {
 		if(this.props.enableDrag) {
+			var containerClass = "MoveListDiv"
+			if(this.props.loading) {
+				containerClass = "CenteredLoading"
+			}
 			return (
 				<DragDropContext onDragEnd={this.onDragEnd}>
 				<Droppable droppableId={this.props.currentTab}>
@@ -168,7 +180,7 @@ class CardList extends React.Component {
 							ref={provided.innerRef}
 							{...provided.droppableProps}
 							id="MoveList" 
-							class="MoveListDiv"
+							class={containerClass}
 						>
 						{
 							this.renderCards(this.props.cardType)					
@@ -181,6 +193,9 @@ class CardList extends React.Component {
 			);
 		} else {
 			var containerClass = this.props.cardType === cardTypes.TRAINING_MOVE ? "SlidingContainer" : "MoveListDiv"
+			if(this.props.loading) {
+				containerClass = "CenteredLoading"
+			}
 			return(
 				<div id="MoveList" class={containerClass}>
 					{this.renderCards(this.props.cardType)}

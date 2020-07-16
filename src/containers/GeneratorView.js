@@ -27,6 +27,7 @@ class GeneratorView extends React.Component {
 		currentTab: tabNames[0],
 		currentSetTab: setTabNames[0],
 		probs: {},
+		loading: true
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -161,6 +162,7 @@ class GeneratorView extends React.Component {
 				setList: res.data.setList,
 				moveList: res.data.moveList,
 				probs: res.data.probs,
+				loading: false,
 			});
 			console.log(res.data.probs)
 			// if empty, initialize probabilities to uniform
@@ -196,7 +198,8 @@ class GeneratorView extends React.Component {
 			.then(res => {
 				this.setState({
 					setList: res.data.setList,
-					moveList: res.data.moveList
+					moveList: res.data.moveList,
+					loading: false,
 				});
 			})
 	        .catch(error => console.error(error));
@@ -213,6 +216,7 @@ class GeneratorView extends React.Component {
 						setList={this.state.setList}
 						selectedSetIdx={this.state.selectedSetIdx}
 						updateSetList={this.updateSetList.bind(this)}
+						loading={this.state.loading}
 					/>
 					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	

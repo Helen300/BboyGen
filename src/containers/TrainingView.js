@@ -8,7 +8,6 @@ import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
 
-
 import "../css/containers/TrainingView.css"
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -24,7 +23,8 @@ class TrainingView extends React.Component {
 		selectedSetIdx: -1,
 		trainingSetList: [],
 		durations: {},
-		voiceOn: true
+		voiceOn: true,
+		loading: true
 	}
 
 	updateProbs(newProbs) {
@@ -187,7 +187,8 @@ class TrainingView extends React.Component {
 				allMoves: res.data.moveList,
 				currMoveList: res.data.moveList,
 				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
-				durations: res.data.durations
+				durations: res.data.durations,
+				loading: false
 			});
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(res.data.probs).length === 0) {
@@ -255,7 +256,7 @@ class TrainingView extends React.Component {
 								/>
 							</div>
 							:
-							null 
+							null
 						}
 						{Object.keys(this.state.durations).length !== 0 ? 
 							<div>
@@ -267,7 +268,7 @@ class TrainingView extends React.Component {
 								/>
 							</div>
 							:
-							null 
+							null
 						}
 					</div>
 					<CardList
@@ -277,6 +278,7 @@ class TrainingView extends React.Component {
 						selectedIdx={this.state.selectedSetIdx}
 						currentTab={setTabNames[1]}
 						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
+						loading={this.state.loading}
 					/>
 			</div>
 		);
