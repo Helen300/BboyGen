@@ -114,7 +114,7 @@ class TrainingView extends React.Component {
 				this.fillMoves()
 				if(this.state.voiceOn) {
 					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
-					textToSay.rate = 2
+					textToSay.rate = 1.5
 					synth.speak(textToSay)
 				}
 			}
@@ -129,7 +129,7 @@ class TrainingView extends React.Component {
 					// if moves are going too fast, then cut off previous speech midway
 					speechSynthesis.cancel()
 					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
-					textToSay.rate = 2
+					textToSay.rate = 1.5
 					synth.speak(textToSay)
 				}
 			// otherwise, keep decreasing first move's length
@@ -220,6 +220,12 @@ class TrainingView extends React.Component {
         .catch(error => console.error(error));
         
         localStorage.setItem('menuKey', menuKeys.TRAINING)
+	}
+
+	componentWillUnmount() {
+		if(this.state.playing) {
+			this.stopPlaying()
+		}
 	}
 
 	render() {
