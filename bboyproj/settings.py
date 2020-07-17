@@ -38,20 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django.contrib.sites',
-    'allauth', 
-    'allauth.account',
-    'allauth.socialaccount',
-    'corsheaders',
+    #'django.contrib.sites',
+    #'allauth', 
+    #'allauth.account',
+    #'allauth.socialaccount',
+    #'corsheaders',
     # django rest framework auth 
     # DEMO shows you all urls included and the views that take care of them
     # if have time go through and see how its actually done 
-    'rest_auth',
-    'rest_auth.registration',
+    #'rest_auth',
+    #'rest_auth.registration',
     
     # django rest framework app 
     'rest_framework',
-    'rest_framework.authtoken',
+    #'rest_framework.authtoken',
     
     'bboyapp',
 
@@ -62,12 +62,11 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    #'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
@@ -160,50 +159,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-REST_FRAMEWORK = {
+"""REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         # this allows any read, write access permission, unrestricted access
         #'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny'
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ]
-}
+}"""
 
 
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+#ACCOUNT_EMAIL_VERIFICATION = 'none'
+#ACCOUNT_EMAIL_REQUIRED = False
+#ACCOUNT_AUTHENTICATION_METHOD = 'username'
 
 
 
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
-
-]
-
-
-
-JWT_AUTH = {
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
-        'auth0authorization.utils.jwt_get_username_from_payload_handler',
-    'JWT_DECODE_HANDLER':
-        'auth0authorization.utils.jwt_decode_token',
-    'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': 'https://bboygen-userprofiles/',
-    'JWT_ISSUER': 'https://damp-voice-7544.us.auth0.com/',
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-}

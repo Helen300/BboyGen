@@ -21,12 +21,15 @@ class CustomLayout extends React.Component {
   }
 
   componentDidMount() {
-      if (typeof window !== 'undefined') {
-          this.setState({
-            menuKey: localStorage.getItem('menuKey')
-          })
-          window.addEventListener('storage', this.updateMenuKey)
-      }
+    const { user, error, getAccessTokenSilently, isAuthenticated, loginWithRedirect, logout } = this.props.auth0
+    localStorage.setItem('userId', user['sub'])
+
+    if (typeof window !== 'undefined') {
+        this.setState({
+          menuKey: localStorage.getItem('menuKey')
+        })
+        window.addEventListener('storage', this.updateMenuKey)
+    }
   }
 
   componentWillUnmount(){
@@ -42,6 +45,8 @@ class CustomLayout extends React.Component {
   }
 
   componentWillReceiveProps() {
+    const { user, error, getAccessTokenSilently, isAuthenticated, loginWithRedirect, logout } = this.props.auth0
+    localStorage.setItem('userId', user['sub'])
     this.setState({
       menuKey: localStorage.getItem('menuKey')
     })
@@ -54,15 +59,34 @@ class CustomLayout extends React.Component {
     localStorage.setItem('menuKey', newKey)
   }
 
+  authLogin () {
+    const { loginWithRedirect } = this.props.auth0;
+
+    // call login 
+    loginWithRedirect(); 
+
+    // const token = res.data.key;
+    // const expirationDate = new Date(new Date().getTime() + 3600 * 24000);
+    // these are packages in the browser already 
+    // can't just store it in the application, must store it in something that persists
+  }
+
   render () {
     const { user, error, getAccessTokenSilently, isAuthenticated, loginWithRedirect, logout } = this.props.auth0;
-    const logoutWithRedirect = () =>
-    logout({
-      returnTo: window.location.origin,
-    });
+    const logoutWithRedirect = () => {
+      console.log('user id - ', localStorage.getItem('userId'))
+      logout({
+        returnTo: window.location.origin,
+      });
+      localStorage.removeItem('userId')
+    }
+
     console.log(isAuthenticated);
-    console.log('AUTHOOOOO', this.props.auth0);
-    console.log(getAccessTokenSilently);
+    console.log('AUTHOOOOO', this.props.auth0)
+    console.log(getAccessTokenSilently)
+    localStorage.setItem('userId', user['sub'])
+    console.log('user - ', localStorage.getItem('userId'))
+    console.log(window.btoa(localStorage.getItem('userId')))
 
     return (
 
@@ -74,7 +98,7 @@ class CustomLayout extends React.Component {
             // if authenticated = true we show logout 
             isAuthenticated ? 
             [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
-              Hello, {user['given_name']}
+              Hello, {user['email']}
             </Menu.Item>,
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); logoutWithRedirect();}} style={{ float:'right' }}>
               <Link>Logout</Link>
@@ -89,7 +113,7 @@ class CustomLayout extends React.Component {
               <Link to="/training/">Training</Link>
             </Menu.Item>]
             :
-            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.changeMenuKey(menuKeys.LIST); loginWithRedirect();}}>
+            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.changeMenuKey(menuKeys.LIST); this.authLogin();}}>
               <Link>Login</Link>
             </Menu.Item>
         }

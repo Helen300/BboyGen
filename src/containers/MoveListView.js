@@ -24,7 +24,7 @@ class MoveListView extends React.Component {
 	state = {
 		moveList: [],
 		selectedMoveIdx: -1,
-		currentTab:tabNames[0]
+		currentTab:tabNames[0],
 	}
 
 	updateSelectedMoveIdx(newIdx) {
@@ -34,26 +34,26 @@ class MoveListView extends React.Component {
 	}
 
 	updateMoveList(newList) {
-		const { user, error, getAccessTokenSilently } = this.props.auth0;
 		this.setState({
 			moveList: newList
 		})
-		if (this.props.token !== null) {
+		/* if (this.state.user !== null) {
 			axios.defaults.headers = {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateMoves/')
-			axios.post(apiUrl, {
-		              username: localStorage.getItem("username"),
-		              moveList: newList,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
-		}
+			} */ 
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/updateMoves/')
+		axios.post(apiUrl, {
+              userId: localStorage.getItem('userId'),
+              moveList: newList,
+          })
+          .then(res => {
+          })
+          .catch(error => console.error(error));
+
 	}
+
 
 	updateSelectedTab(newTab) {
 		this.setState({
@@ -65,8 +65,26 @@ class MoveListView extends React.Component {
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat('admin')
-		const { user, error, getAccessTokenSilently } = this.props.auth0;
+		// const { user, isAuthenticated, getAccessTokenSilently } = this.props.auth0; 
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				moveList: res.data.moveList,
+			});
+		})
+        .catch(error => console.error(error))
+	}
+
+	// when new props arrive, component rerenders
+	componentWillReceiveProps(newProps) {
+		/* if (newProps.token) {
+			axios.defaults.headers = {
+				"Content-Type": "application/json",
+				Authorization: newProps.token
+			} */ 
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -74,26 +92,7 @@ class MoveListView extends React.Component {
 				moveList: res.data.moveList
 			});
 		})
-        .catch(error => console.error(error));
-	}
-
-	// when new props arrive, component rerenders
-	componentWillReceiveProps(newProps) {
-		if (newProps.token) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: newProps.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat('admin')
-			apiUrl = apiUrl.concat('/')
-			axios.get(apiUrl)
-			.then(res => {
-				this.setState({
-					moveList: res.data.moveList
-				});
-			})
-	        .catch(error => console.error(error));
-		}
+        .catch(error => console.error(error))
 	}
 
 	scrollToBottom() {

@@ -24,7 +24,7 @@ class TrainingView extends React.Component {
 		selectedSetIdx: -1,
 		trainingSetList: [],
 		durations: {},
-		voiceOn: true
+		voiceOn: true, 
 	}
 
 	updateProbs(newProbs) {
@@ -36,10 +36,10 @@ class TrainingView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
 			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 			apiUrl = apiUrl.concat('/updateProbabilities/')
 			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
+					  username: localStorage.getItem('userId'),
 		              probs: newProbs,
 		          })
 		          .then(res => {
@@ -57,10 +57,10 @@ class TrainingView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
 			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 			apiUrl = apiUrl.concat('/updateDurations/')
 			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
+					  username: localStorage.getItem('userId'),
 		              durations: newDurations,
 		          })
 		          .then(res => {
@@ -178,7 +178,7 @@ class TrainingView extends React.Component {
 	}
 
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -187,7 +187,7 @@ class TrainingView extends React.Component {
 				allMoves: res.data.moveList,
 				currMoveList: res.data.moveList,
 				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
-				durations: res.data.durations
+				durations: res.data.durations,
 			});
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(res.data.probs).length === 0) {

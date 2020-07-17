@@ -44,10 +44,10 @@ class GeneratorView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
 			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 			apiUrl = apiUrl.concat('/updateSets/')
 			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
+					  username: localStorage.getItem('userId'),
 		              setList: newList,
 		          })
 		          .then(res => {
@@ -65,10 +65,10 @@ class GeneratorView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
 			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 			apiUrl = apiUrl.concat('/updateProbabilities/')
 			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
+					  username: localStorage.getItem('userId'),
 		              probs: newProbs,
 		          })
 		          .then(res => {
@@ -153,7 +153,7 @@ class GeneratorView extends React.Component {
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -162,7 +162,7 @@ class GeneratorView extends React.Component {
 				moveList: res.data.moveList,
 				probs: res.data.probs,
 			});
-			console.log(res.data.probs)
+			
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
@@ -190,7 +190,7 @@ class GeneratorView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: newProps.token
 			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 			apiUrl = apiUrl.concat('/')
 			axios.get(apiUrl)
 			.then(res => {

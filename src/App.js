@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 // grabs the store we created and allow us to access states 
 import { connect } from 'react-redux';
