@@ -15,6 +15,7 @@ import $ from 'jquery';
 import "../css/containers/Pane.css"
 import "../css/containers/GeneratorView.css"
 import 'bootstrap/dist/css/bootstrap.css';
+import { getCookie } from "../getCookie"
 
 const { TabPane } = Tabs;
 
@@ -39,42 +40,44 @@ class GeneratorView extends React.Component {
 		this.setState({
 			setList: newList
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
-			apiUrl = apiUrl.concat('/updateSets/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem('userId'),
-		              setList: newList,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/updateSets/')
+		axios.post(apiUrl, {
+				  username: localStorage.getItem('userId'),
+	              setList: newList,
+	          })
+	          .then(res => {
+	          })
+	          .catch(error => console.error(error));
 	}
 
 	updateProbs(newProbs) {
 		this.setState({
 			probs: newProbs
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
-			apiUrl = apiUrl.concat('/updateProbabilities/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem('userId'),
-		              probs: newProbs,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/updateProbabilities/')
+		axios.post(apiUrl, {
+				  username: localStorage.getItem('userId'),
+	              probs: newProbs,
+	          })
+	          .then(res => {
+	          })
+	          .catch(error => console.error(error));
+
 	}
 
 
@@ -185,22 +188,23 @@ class GeneratorView extends React.Component {
 
 
 	componentWillReceiveProps(newProps) {
-		if (newProps.token) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: newProps.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
-			apiUrl = apiUrl.concat('/')
-			axios.get(apiUrl)
-			.then(res => {
-				this.setState({
-					setList: res.data.setList,
-					moveList: res.data.moveList
-				});
-			})
-	        .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				setList: res.data.setList,
+				moveList: res.data.moveList
+			});
+		})
+        .catch(error => console.error(error));
+
 	}
 
 	render() {

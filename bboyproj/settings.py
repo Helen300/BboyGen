@@ -25,7 +25,7 @@ SECRET_KEY = '5&cea=odq)1*h$b70c6m2j1jxrii7v4+solfucunp%-s)c0=vs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bboygen.herokuapp.com', 'localhost', '*']
+ALLOWED_HOSTS = ['bboygen.herokuapp.com', 'localhost', '*', '127.0.0.1:8000']
 
 
 # Application definition
@@ -62,11 +62,12 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
@@ -159,16 +160,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-"""REST_FRAMEWORK = {
+REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_PERMISSION_CLASSES': (
         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         # this allows any read, write access permission, unrestricted access
         #'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.AllowAny'
-    ],
-}"""
+        #'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ),
+}
 
 
 
@@ -178,6 +180,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 #ACCOUNT_EMAIL_REQUIRED = False
 #ACCOUNT_AUTHENTICATION_METHOD = 'username'
-
 
 

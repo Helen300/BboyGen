@@ -11,6 +11,7 @@ import RandomMove from '../RandomMove';
 
 import "../css/containers/TrainingView.css"
 import 'bootstrap/dist/css/bootstrap.css';
+import { getCookie } from "../getCookie"
 
 class TrainingView extends React.Component {
 
@@ -31,42 +32,44 @@ class TrainingView extends React.Component {
 		this.setState({
 			probs: newProbs
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
-			apiUrl = apiUrl.concat('/updateProbabilities/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem('userId'),
-		              probs: newProbs,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/updateProbabilities/')
+		axios.post(apiUrl, {
+				  username: localStorage.getItem('userId'),
+	              probs: newProbs,
+	          })
+	          .then(res => {
+	          })
+	          .catch(error => console.error(error));
+
 	}
 
 	updateDurations(newDurations) {
 		this.setState({
 			durations: newDurations
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
-			apiUrl = apiUrl.concat('/updateDurations/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem('userId'),
-		              durations: newDurations,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/updateDurations/')
+		axios.post(apiUrl, {
+				  username: localStorage.getItem('userId'),
+	              durations: newDurations,
+	          })
+	          .then(res => {
+	          })
+	          .catch(error => console.error(error));
 	}
 
 	fillMoves() {

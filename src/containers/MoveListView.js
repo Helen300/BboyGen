@@ -1,22 +1,23 @@
-import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import MoveDetail from '../components/MoveDetail';
-import MoveList from '../components/MoveList';
-import MoveInput from '../components/MoveInput';
+import React from 'react'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import MoveDetail from '../components/MoveDetail'
+import MoveList from '../components/MoveList'
+import MoveInput from '../components/MoveInput'
 
-import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.css';
+import $ from 'jquery'
+import 'bootstrap/dist/css/bootstrap.css'
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
 
-import { Tabs } from 'antd';
+import { Tabs } from 'antd'
 import "../css/containers/Pane.css"
 
 import { tabNames, cardTypes } from "../constants"
 
 
-import { withAuth0 } from '@auth0/auth0-react';
+import { withAuth0 } from '@auth0/auth0-react'
+import { getCookie } from "../getCookie"
 
 
 // contains List of Moves and Form to add moves 
@@ -33,7 +34,11 @@ class MoveListView extends React.Component {
 		})
 	}
 
+
 	updateMoveList(newList) {
+		const { user, isAuthenticated, getAccessTokenSilently } = this.props.auth0; 
+		const csrftoken = getCookie('csrftoken');
+		console.log(csrftoken)
 		this.setState({
 			moveList: newList
 		})
@@ -42,6 +47,11 @@ class MoveListView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: this.props.token
 			} */ 
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
+		}
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/updateMoves/')
 		axios.post(apiUrl, {
@@ -84,6 +94,12 @@ class MoveListView extends React.Component {
 				"Content-Type": "application/json",
 				Authorization: newProps.token
 			} */ 
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
+		}
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
