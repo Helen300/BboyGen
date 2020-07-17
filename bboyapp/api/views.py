@@ -8,6 +8,7 @@ from .serializers import UserProfileSerializer
 class UserProfileViewSet(viewsets.ModelViewSet):
 	queryset = UserProfile.objects.all()
 	serializer_class = UserProfileSerializer
+	
 
 	@action(methods=['post'], detail=True, url_path='updateMoves', url_name='updateMoves')
 	def updateMoves(self, request, *args, **kwargs):

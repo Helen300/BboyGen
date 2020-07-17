@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -8,6 +9,7 @@ import $ from 'jquery';
 
 import { menuKeys } from "../constants"
 import "../css/containers/CustomLayout.css"
+import { getCookie } from "../getCookie"
 
 
 import { withAuth0 } from '@auth0/auth0-react';
@@ -60,7 +62,7 @@ class CustomLayout extends React.Component {
   }
 
   authLogin () {
-    const { loginWithRedirect } = this.props.auth0;
+    const { user, error, isAuthenticated, loginWithRedirect } = this.props.auth0;
 
     // call login 
     loginWithRedirect(); 
@@ -69,6 +71,41 @@ class CustomLayout extends React.Component {
     // const expirationDate = new Date(new Date().getTime() + 3600 * 24000);
     // these are packages in the browser already 
     // can't just store it in the application, must store it in something that persists
+    
+  }
+
+  checkUserProfile () {
+    const { user, error, isAuthenticated, loginWithRedirect } = this.props.auth0;
+    const csrftoken = getCookie('csrftoken');
+
+    var apiUrl = '/api/userprofiles/'.concat(user['sub'])
+    apiUrl = apiUrl.concat('/')
+    axios.get(apiUrl)
+    .then(res => {
+      console.log(res.data);
+      if (res.data != null) {
+        return true
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      console.log('DOES NOT EXIST')
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken
+      }
+      axios.post('/api/userprofiles/', {
+        // the data that gets posted 
+          username: user['email'],
+          email: user['email'],
+          userId: user['sub'], 
+          moveList: [],
+          setList: [],
+          probs: {},
+          durations: {}
+      })
+    })
+    return true
   }
 
   render () {
@@ -81,12 +118,12 @@ class CustomLayout extends React.Component {
       localStorage.removeItem('userId')
     }
 
-    console.log(isAuthenticated);
+    console.log(isAuthenticated)
     console.log('AUTHOOOOO', this.props.auth0)
     console.log(getAccessTokenSilently)
     localStorage.setItem('userId', user['sub'])
-    console.log('user - ', localStorage.getItem('userId'))
-    console.log(window.btoa(localStorage.getItem('userId')))
+    // console.log('user - ', localStorage.getItem('userId'))
+    // console.log(window.btoa(localStorage.getItem('userId')))
 
     return (
 
@@ -96,9 +133,9 @@ class CustomLayout extends React.Component {
         <Menu id="Menu" theme="dark" mode="horizontal" selectedKeys={[this.state.menuKey]}>
         {
             // if authenticated = true we show logout 
-            isAuthenticated ? 
+            isAuthenticated && this.checkUserProfile() ? 
             [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
-              Hello, {user['email']}
+              Hello, {user['given_name'] != null ? user['given_name'] : user['nickname']}
             </Menu.Item>,
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); logoutWithRedirect();}} style={{ float:'right' }}>
               <Link>Logout</Link>
