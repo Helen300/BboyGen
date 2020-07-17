@@ -13,6 +13,8 @@ import "../css/containers/TrainingView.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import { getCookie } from "../getCookie"
 
+import { withAuth0 } from '@auth0/auth0-react';
+
 class TrainingView extends React.Component {
 
 	state = {
@@ -29,6 +31,7 @@ class TrainingView extends React.Component {
 	}
 
 	updateProbs(newProbs) {
+		const { user, isAuthenticated, getAccessTokenSilently } = this.props.auth0; 
 		this.setState({
 			probs: newProbs
 		})
@@ -42,7 +45,7 @@ class TrainingView extends React.Component {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/updateProbabilities/')
 		axios.post(apiUrl, {
-				  username: localStorage.getItem('userId'),
+				  userId: localStorage.getItem('userId'),
 	              probs: newProbs,
 	          })
 	          .then(res => {
@@ -64,7 +67,7 @@ class TrainingView extends React.Component {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/updateDurations/')
 		axios.post(apiUrl, {
-				  username: localStorage.getItem('userId'),
+				  userId: localStorage.getItem('userId'),
 	              durations: newDurations,
 	          })
 	          .then(res => {
@@ -289,5 +292,5 @@ class TrainingView extends React.Component {
 
 
 
-export default TrainingView;
+export default withAuth0(TrainingView);
 

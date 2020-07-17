@@ -17,6 +17,8 @@ import "../css/containers/GeneratorView.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import { getCookie } from "../getCookie"
 
+import { withAuth0 } from '@auth0/auth0-react';
+
 const { TabPane } = Tabs;
 
 class GeneratorView extends React.Component {
@@ -37,19 +39,21 @@ class GeneratorView extends React.Component {
 	}
 
 	updateSetList(newList) {
+		const { user, isAuthenticated, getAccessTokenSilently } = this.props.auth0
 		this.setState({
 			setList: newList
 		})
-		const csrftoken = getCookie('csrftoken');
-
+		const csrftoken = getCookie('csrftoken')
+		console.log(csrftoken)
 		axios.defaults.headers = {
 			"Content-Type": "application/json",
 			"X-CSRFToken": csrftoken
 		}
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		console.log(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/updateSets/')
 		axios.post(apiUrl, {
-				  username: localStorage.getItem('userId'),
+				  userId: localStorage.getItem('userId'),
 	              setList: newList,
 	          })
 	          .then(res => {
@@ -71,7 +75,7 @@ class GeneratorView extends React.Component {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
 		apiUrl = apiUrl.concat('/updateProbabilities/')
 		axios.post(apiUrl, {
-				  username: localStorage.getItem('userId'),
+				  userId: localStorage.getItem('userId'),
 	              probs: newProbs,
 	          })
 	          .then(res => {
@@ -264,4 +268,4 @@ class GeneratorView extends React.Component {
 
 
 
-export default GeneratorView;
+export default withAuth0(GeneratorView);
