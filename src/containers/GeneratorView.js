@@ -11,10 +11,13 @@ import { Tabs } from 'antd';
 import { Button } from 'antd';
 import { tabNames, cardTypes, menuKeys, setTabNames, editValueTypes } from "../constants";
 import $ from 'jquery';
+import Slider from "react-slick";
 
 import "../css/containers/Pane.css"
 import "../css/containers/GeneratorView.css"
 import 'bootstrap/dist/css/bootstrap.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const { TabPane } = Tabs;
 
@@ -27,7 +30,8 @@ class GeneratorView extends React.Component {
 		currentTab: tabNames[0],
 		currentSetTab: setTabNames[0],
 		probs: {},
-		loading: true
+		loading: true,
+		windowWidth: 0
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -151,8 +155,16 @@ class GeneratorView extends React.Component {
 		this.addToSetMoveList(randomMove)
 	}
 
-	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
+	updateWindowWidth() {
+	  this.setState({ windowWidth: window.innerWidth });
+	}
 
+	constructor(props) {
+		super(props)
+		this.updateWindowWidth = this.updateWindowWidth.bind(this)
+	}
+
+	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 		apiUrl = apiUrl.concat('/')
@@ -164,7 +176,6 @@ class GeneratorView extends React.Component {
 				probs: res.data.probs,
 				loading: false,
 			});
-			console.log(res.data.probs)
 			// if empty, initialize probabilities to uniform
 	        if(Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
@@ -183,8 +194,11 @@ class GeneratorView extends React.Component {
 		})
         .catch(error => console.error(error));
         localStorage.setItem('menuKey', menuKeys.GENERATOR)
-	}
 
+        // keep track of window width
+        this.updateWindowWidth();
+  		window.addEventListener('resize', this.updateWindowWidth);
+	}
 
 	componentWillReceiveProps(newProps) {
 		if (newProps.token) {
@@ -206,58 +220,79 @@ class GeneratorView extends React.Component {
 		}
 	}
 
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateWindowWidth)
+	}
+
 	render() {
-		return (
-			<div className="row h-100">
-				<div className="col-md-4 h-100">
-					<SetList
-						updateSelectedSetIdx={this.updateSelectedSetIdx.bind(this)}
-						updateSelectedSetTab={this.updateSelectedSetTab.bind(this)}
-						setList={this.state.setList}
-						selectedSetIdx={this.state.selectedSetIdx}
-						updateSetList={this.updateSetList.bind(this)}
-						loading={this.state.loading}
-					/>
-					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
-				</div>	
-				<div className="col-md-4 h-100">
-					{this.state.selectedSetIdx == -1 ? null :
-						<div>
-							<SetMoveList
-								className={"SetMoveList"}
-								setList={this.state.setList}
-								selectedSetIdx={this.state.selectedSetIdx}
-								updateSetList={this.updateSetList.bind(this)}
-							/>
-							<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
-						</div>
-					}
+	    var settings = {
+	      speed: 500,
+	      slidesToShow: 1,
+	      slidesToScroll: 1
+	    };
+	    const panes = [ 
+					<div className="col-sm-12 col-md-4 h-100">
+						<SetList
+							updateSelectedSetIdx={this.updateSelectedSetIdx.bind(this)}
+							updateSelectedSetTab={this.updateSelectedSetTab.bind(this)}
+							setList={this.state.setList}
+							selectedSetIdx={this.state.selectedSetIdx}
+							updateSetList={this.updateSetList.bind(this)}
+							loading={this.state.loading}
+						/>
+						<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
+					</div>,
+
+					<div className="col-sm-12 col-md-4 h-100">
+						{this.state.selectedSetIdx == -1 ? null :
+							<div>
+								<SetMoveList
+									className={"SetMoveList"}
+									setList={this.state.setList}
+									selectedSetIdx={this.state.selectedSetIdx}
+									updateSetList={this.updateSetList.bind(this)}
+								/>
+								<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
+							</div>
+						}
+					</div>,
+
+					<div className="col-sm-12 col-md-4 h-100">
+						{this.state.selectedSetIdx == -1 ? null : 
+							<div>
+								<MoveList
+									updateSelectedTab={this.updateSelectedTab.bind(this)}
+									moveList={this.state.moveList}
+									currentTab={this.state.currentTab}
+									enableDrag={false}
+									cardType={cardTypes.MOVE_ADDABLE}
+									addToSetMoveList={this.addToSetMoveList.bind(this)}
+								/>
+								<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
+								<EditValues
+									values={this.state.probs['typeProbs']}
+									reverseProb={this.state.probs['reverseProb']}
+									updateValues={this.updateProbs.bind(this)}
+									valueType={editValueTypes.PROBS}
+								/>
+							</div>
+						}
+					</div>
+					]
+		// add slider for panes if window width is small (mobile)
+		if(this.state.windowWidth < 768) {
+			return (
+				<Slider {...settings}>
+					{panes}
+				</Slider>
+			)
+		} else {
+			return(
+				<div className="row h-100">
+					{panes}
 				</div>
-				<div className="col-md-4 h-100">
-					{this.state.selectedSetIdx == -1 ? null : 
-						<div>
-							<MoveList
-								updateSelectedTab={this.updateSelectedTab.bind(this)}
-								moveList={this.state.moveList}
-								currentTab={this.state.currentTab}
-								enableDrag={false}
-								cardType={cardTypes.MOVE_ADDABLE}
-								addToSetMoveList={this.addToSetMoveList.bind(this)}
-							/>
-							<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
-							{console.log(this.state.probs['typeProbs'])}
-							{console.log(this.state.probs)}
-							<EditValues
-								values={this.state.probs['typeProbs']}
-								reverseProb={this.state.probs['reverseProb']}
-								updateValues={this.updateProbs.bind(this)}
-								valueType={editValueTypes.PROBS}
-							/>
-						</div>
-					}
-				</div>
-			</div>
-		)
+			)
+		}
 	}
 }
 
