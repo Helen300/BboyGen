@@ -5,4 +5,4 @@ from bboyapp.models import UserProfile
 class UserProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserProfile
-		fields = ('username', 'email', 'moveList', 'setList', 'probs', 'durations')
+		fields = ('username', 'email', 'userId', 'moveList', 'setList', 'probs', 'durations')
