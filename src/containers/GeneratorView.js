@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetList from '../components/SetList';
-import SetMoveList from '../components/SetMoveList';
+import EditSetName from '../components/EditSetName';
 import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
 import { Tabs } from 'antd';
@@ -133,6 +133,21 @@ class GeneratorView extends React.Component {
 		this.scrollMovesToBottom()
 	}
 
+
+	updateSetMoveList(newList) {
+		var newSetList = this.state.setList;
+		newSetList[this.state.selectedSetIdx].moves = newList;
+		this.updateSetList(newSetList);
+
+	}
+
+	toggleReverseIcon(moveIdx) {
+		var newSetList = this.state.setList.slice();
+		newSetList[this.state.selectedSetIdx].moves[moveIdx].reverseEnabled = !newSetList[this.state.selectedSetIdx].moves[moveIdx].reverseEnabled
+		this.updateSetList(newSetList);
+
+	}
+
 	scrollMovesToBottom() {
 		$(".MovesPane").animate({
 			scrollTop: $('.MovesPane')[0].scrollHeight
@@ -240,12 +255,21 @@ class GeneratorView extends React.Component {
 
 					this.state.selectedSetIdx !== -1 ?
 					<div className="col-sm-12 col-md-4 h-100">
-						<SetMoveList
-							className={"SetMoveList"}
-							setList={this.state.setList}
+						<EditSetName
 							selectedSetIdx={this.state.selectedSetIdx}
 							updateSetList={this.updateSetList.bind(this)}
+							setList={this.state.setList}
 						/>
+						<div className="Pane MovesPane">
+						<CardList
+							cardType={cardTypes.SET_MOVE}
+							cardList={this.state.setList[this.state.selectedSetIdx].moves}
+							updateCardList={this.updateSetMoveList.bind(this)}
+							enableDrag={true}
+							currentTab={tabNames[0]}
+							toggleReverseIcon={this.toggleReverseIcon.bind(this)}
+						/>
+						</div>
 						<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
 					</div>
 					:
