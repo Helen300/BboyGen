@@ -142,7 +142,7 @@ class MoveListView extends React.Component {
 							updateMoveList={this.updateMoveList.bind(this)}
 						/>
 					</div>,
-					
+
 					this.state.selectedMoveIdx !== -1 ?
 					<div className="col-sm-12 col-md-8 h-100">
 						   	<MoveDetail 
@@ -159,7 +159,12 @@ class MoveListView extends React.Component {
 	    var settings = {
 	      speed: 500,
 	      slidesToShow: 1,
-	      slidesToScroll: 1
+	      slidesToScroll: 1,
+	      infinite: false,
+	      adaptiveHeight: true,
+	      draggable: true,
+	      swipe: true,
+	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)
 		if(this.state.windowWidth < 768) {

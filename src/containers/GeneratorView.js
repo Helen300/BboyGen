@@ -285,13 +285,15 @@ class GeneratorView extends React.Component {
 							cardType={cardTypes.MOVE_ADDABLE}
 							addToSetMoveList={this.addToSetMoveList.bind(this)}
 						/>
-						<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
-						<EditValues
-							values={this.state.probs['typeProbs']}
-							reverseProb={this.state.probs['reverseProb']}
-							updateValues={this.updateProbs.bind(this)}
-							valueType={editValueTypes.PROBS}
-						/>
+						<div class="ButtonsContainer">
+							<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
+							<EditValues
+								values={this.state.probs['typeProbs']}
+								reverseProb={this.state.probs['reverseProb']}
+								updateValues={this.updateProbs.bind(this)}
+								valueType={editValueTypes.PROBS}
+							/>
+						</div>
 					</div>
 					:
 					null
@@ -299,7 +301,12 @@ class GeneratorView extends React.Component {
 	    var settings = {
 	      speed: 500,
 	      slidesToShow: 1,
-	      slidesToScroll: 1
+	      slidesToScroll: 1,
+	      infinite: false,
+	      adaptiveHeight: true,
+	      draggable: true,
+	      swipe: true,
+	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)
 		if(this.state.windowWidth < 768) {

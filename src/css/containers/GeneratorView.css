@@ -4,11 +4,17 @@
 }
 
 .AddMoveButton {
-	margin-top: 3%;
 	margin-right: 3%;
-	width: 59%;
+	flex: 2 0 0;
 }
 
 .SetMoveList {
 	margin-top: 5.25%;
+}
+
+.ButtonsContainer {
+	display: flex;
+	margin-top: 3%;
+	margin-right: -3%;
+	overflow: hidden;
 }

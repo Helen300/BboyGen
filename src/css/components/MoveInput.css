@@ -1,14 +1,17 @@
 .SelectType {
-	width: 31%;
-	display:'inline-block';
-	margin-right:3%;
-	margin-top: 3%;
+	flex: 1 0 0;
+	margin-right: 3%;
 }
 
 .InputMove {
-	width: 66%;
-	display:'inline-block';
-	margin-top: 3%;
+	flex: 2 0 0;
+	margin-right: 3%;
+}
 
+.MoveInput {
+	display: flex;
+	margin-top: 3%;
+	margin-right: -3%;
+	overflow: hidden;
 }
 
