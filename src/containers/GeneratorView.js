@@ -225,11 +225,6 @@ class GeneratorView extends React.Component {
 	}
 
 	render() {
-	    var settings = {
-	      speed: 500,
-	      slidesToShow: 1,
-	      slidesToScroll: 1
-	    };
 	    const panes = [ 
 					<div className="col-sm-12 col-md-4 h-100">
 						<SetList
@@ -243,42 +238,45 @@ class GeneratorView extends React.Component {
 						<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 					</div>,
 
+					this.state.selectedSetIdx !== -1 ?
 					<div className="col-sm-12 col-md-4 h-100">
-						{this.state.selectedSetIdx == -1 ? null :
-							<div>
-								<SetMoveList
-									className={"SetMoveList"}
-									setList={this.state.setList}
-									selectedSetIdx={this.state.selectedSetIdx}
-									updateSetList={this.updateSetList.bind(this)}
-								/>
-								<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
-							</div>
-						}
-					</div>,
-
-					<div className="col-sm-12 col-md-4 h-100">
-						{this.state.selectedSetIdx == -1 ? null : 
-							<div>
-								<MoveList
-									updateSelectedTab={this.updateSelectedTab.bind(this)}
-									moveList={this.state.moveList}
-									currentTab={this.state.currentTab}
-									enableDrag={false}
-									cardType={cardTypes.MOVE_ADDABLE}
-									addToSetMoveList={this.addToSetMoveList.bind(this)}
-								/>
-								<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
-								<EditValues
-									values={this.state.probs['typeProbs']}
-									reverseProb={this.state.probs['reverseProb']}
-									updateValues={this.updateProbs.bind(this)}
-									valueType={editValueTypes.PROBS}
-								/>
-							</div>
-						}
+						<SetMoveList
+							className={"SetMoveList"}
+							setList={this.state.setList}
+							selectedSetIdx={this.state.selectedSetIdx}
+							updateSetList={this.updateSetList.bind(this)}
+						/>
+						<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
 					</div>
+					:
+					null,
+
+					this.state.selectedSetIdx !== -1 ?
+					<div className="col-sm-12 col-md-4 h-100">
+						<MoveList
+							updateSelectedTab={this.updateSelectedTab.bind(this)}
+							moveList={this.state.moveList}
+							currentTab={this.state.currentTab}
+							enableDrag={false}
+							cardType={cardTypes.MOVE_ADDABLE}
+							addToSetMoveList={this.addToSetMoveList.bind(this)}
+						/>
+						<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>
+						<EditValues
+							values={this.state.probs['typeProbs']}
+							reverseProb={this.state.probs['reverseProb']}
+							updateValues={this.updateProbs.bind(this)}
+							valueType={editValueTypes.PROBS}
+						/>
+					</div>
+					:
+					null
 					]
+	    var settings = {
+	      speed: 500,
+	      slidesToShow: 1,
+	      slidesToScroll: 1
+	    };
 		// add slider for panes if window width is small (mobile)
 		if(this.state.windowWidth < 768) {
 			return (

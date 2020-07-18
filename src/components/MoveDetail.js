@@ -63,13 +63,6 @@ class MoveDetail extends React.Component {
 
 
 	render() {
-		if (this.props.move == null) {
-			return (
-				// since we need to return one div
-				<div>
-				</div>
-			);
-		} else {
 			return (
 				// since we need to return one div
 				<div>
@@ -120,7 +113,6 @@ class MoveDetail extends React.Component {
 			    />
 				</div>
 			);
-		}
 	}
 
 }

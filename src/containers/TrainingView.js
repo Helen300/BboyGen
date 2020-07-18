@@ -10,6 +10,8 @@ import RandomMove from '../RandomMove';
 
 import "../css/containers/TrainingView.css"
 import 'bootstrap/dist/css/bootstrap.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 class TrainingView extends React.Component {
 
@@ -17,7 +19,7 @@ class TrainingView extends React.Component {
 		currSet: [],
 		probs: {},
 		allMoves: [],
-		currMoveList: [],
+		currSetMoveList: [],
 		playing: false,
 		moveBacklog: 0,
 		selectedSetIdx: -1,
@@ -78,7 +80,7 @@ class TrainingView extends React.Component {
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
+			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currSetMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
 			if (nextMove === null) {
 				return; 
 			}
@@ -104,7 +106,7 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
-		if(this.state.currMoveList.length === 0) {
+		if(this.state.currSetMoveList.length === 0) {
 			return
 		}
 		// 40 fps
@@ -147,7 +149,7 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: false
 		})
-		if(this.state.currMoveList.length === 0) {
+		if(this.state.currSetMoveList.length === 0) {
 			return
 		}
 		clearInterval(this.interval)
@@ -160,11 +162,11 @@ class TrainingView extends React.Component {
 		// use all moves if no set selected
 		if(newIdx === -1) {
 			this.setState({
-				currMoveList: this.state.allMoves
+				currSetMoveList: this.state.allMoves
 			})
 		} else {
 			this.setState({
-				currMoveList: this.state.trainingSetList[newIdx].moves
+				currSetMoveList: this.state.trainingSetList[newIdx].moves
 			})
 		}
 		// clear current playing and pause
@@ -185,7 +187,7 @@ class TrainingView extends React.Component {
 			this.setState({
 				probs: res.data.probs,
 				allMoves: res.data.moveList,
-				currMoveList: res.data.moveList,
+				currSetMoveList: res.data.moveList,
 				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
 				durations: res.data.durations,
 				loading: false
@@ -277,15 +279,27 @@ class TrainingView extends React.Component {
 							null
 						}
 					</div>
-					<CardList
-						cardType={cardTypes.SET}
-						cardList={this.state.trainingSetList}
-						enableDrag={false}
-						selectedIdx={this.state.selectedSetIdx}
-						currentTab={setTabNames[1]}
-						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
-						loading={this.state.loading}
-					/>
+					<div className="row h-100">
+						<div className="col-sm-12 col-md-6 h-100">
+							<CardList
+								cardType={cardTypes.SET}
+								cardList={this.state.trainingSetList}
+								enableDrag={false}
+								selectedIdx={this.state.selectedSetIdx}
+								currentTab={setTabNames[1]}
+								updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
+								loading={this.state.loading}
+							/>
+						</div>
+						<div className="col-sm-12 col-md-6 h-100">
+							<CardList
+								cardType={cardTypes.SET_MOVE}
+								cardList={this.state.currSetMoveList}
+								enableDrag={false}
+								currentTab={tabNames[0]}
+							/>
+						</div>
+					</div>
 			</div>
 		);
 	}
