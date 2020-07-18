@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from bboyapp.models import Move, UserProfile
+from bboyapp.models import UserProfile
 from .serializers import UserProfileSerializer
 
 class UserProfileViewSet(viewsets.ModelViewSet):

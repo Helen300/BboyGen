@@ -2,3 +2,17 @@ Pipfile
 Pipfile.lock
 node_modules
 /build/
+build/
+__pycache__/
+.Python
+lib/
+.cache
+local_settings.py
+db.sqlite3
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

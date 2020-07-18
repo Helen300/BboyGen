@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from bboyapp.models import Move, UserProfile 
+from bboyapp.models import UserProfile 
 
 # from JSON to model 
 class UserProfileSerializer(serializers.ModelSerializer):
