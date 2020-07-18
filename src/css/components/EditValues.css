@@ -8,9 +8,8 @@
 }
 
 .EditValuesContainer {
-	display: inline-block;
-	text-align: center;
-	width: 38%;
+	flex: 1 0 0;
+	margin-right: 3%;
 }
 
 .Warning {

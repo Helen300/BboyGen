@@ -41,8 +41,31 @@ class Move extends React.Component {
 
 
 	render() {
+		var cardButtons = 
+				<div>
+					<DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> 
+						{this.props.showReverseIcon ? 
+						<ReloadOutlined className={this.getReverseIconClass(this.props.move.reverseEnabled)} onClick={(e) => this.toggleReverse(e)}/>
+						:
+						null
+					}
+				</div>
+		var card =
+				<Card 
+					hoverable 
+					className={this.isSelected() ? "SelectedCard" : "NormalCard"}
+					onClick={() => this.props.selectMove(this.props.moveIdx)}
+				>
+					<Meta 
+						title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>
+									{this.props.move.name} 
+									{this.props.showButtons ? cardButtons : null}
+							   </div>} 
+					/>
+		  		</Card> 
 		if (this.props.shouldRender) {
 				return(
+					this.props.enableDrag ?
 					<Draggable draggableId={String(this.props.moveIdx)} index={this.props.moveIdx}>
 					{provided => (
 						<div 
@@ -50,25 +73,12 @@ class Move extends React.Component {
 							{...provided.draggableProps}
 							{...provided.dragHandleProps}
 						>
-							<Card 
-								hoverable 
-								className={this.isSelected() ? "SelectedCard" : "NormalCard"}
-								onClick={() => this.props.selectMove(this.props.moveIdx)}
-							>
-								<Meta 
-									title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>
-												{this.props.move.name} 
-												<DeleteOutlined className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} onClick={(e) => this.deleteMove(e)}/> 
-												{this.props.showReverseIcon ? 
-												<ReloadOutlined className={this.getReverseIconClass(this.props.move.reverseEnabled)} onClick={(e) => this.toggleReverse(e)}/>
-												:
-												null}
-										   </div>} 
-								/>
-					  		</Card> 
+							{card}
 				  		</div>
 					)}
 					</Draggable>
+					:
+					card
 		 		)
  		} else {
  			return(null)

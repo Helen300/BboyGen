@@ -7,9 +7,12 @@ import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../c
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
+import Slider from "react-slick";
 
 import "../css/containers/TrainingView.css"
 import 'bootstrap/dist/css/bootstrap.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 class TrainingView extends React.Component {
 
@@ -17,14 +20,15 @@ class TrainingView extends React.Component {
 		currSet: [],
 		probs: {},
 		allMoves: [],
-		currMoveList: [],
+		currSetMoveList: [],
 		playing: false,
 		moveBacklog: 0,
 		selectedSetIdx: -1,
 		trainingSetList: [],
 		durations: {},
 		voiceOn: true,
-		loading: true
+		loading: true,
+		windowWidth: 0
 	}
 
 	updateProbs(newProbs) {
@@ -78,7 +82,7 @@ class TrainingView extends React.Component {
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
+			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currSetMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
 			if (nextMove === null) {
 				return; 
 			}
@@ -104,7 +108,7 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
-		if(this.state.currMoveList.length === 0) {
+		if(this.state.currSetMoveList.length === 0) {
 			return
 		}
 		// 40 fps
@@ -147,7 +151,7 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: false
 		})
-		if(this.state.currMoveList.length === 0) {
+		if(this.state.currSetMoveList.length === 0) {
 			return
 		}
 		clearInterval(this.interval)
@@ -160,11 +164,11 @@ class TrainingView extends React.Component {
 		// use all moves if no set selected
 		if(newIdx === -1) {
 			this.setState({
-				currMoveList: this.state.allMoves
+				currSetMoveList: this.state.allMoves
 			})
 		} else {
 			this.setState({
-				currMoveList: this.state.trainingSetList[newIdx].moves
+				currSetMoveList: this.state.trainingSetList[newIdx].moves
 			})
 		}
 		// clear current playing and pause
@@ -177,6 +181,15 @@ class TrainingView extends React.Component {
 		})
 	}
 
+	updateWindowWidth() {
+	  this.setState({ windowWidth: window.innerWidth });
+	}
+
+	constructor(props) {
+		super(props)
+		this.updateWindowWidth = this.updateWindowWidth.bind(this)
+	}
+
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
 		apiUrl = apiUrl.concat('/')
@@ -185,7 +198,7 @@ class TrainingView extends React.Component {
 			this.setState({
 				probs: res.data.probs,
 				allMoves: res.data.moveList,
-				currMoveList: res.data.moveList,
+				currSetMoveList: res.data.moveList,
 				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
 				durations: res.data.durations,
 				loading: false
@@ -219,75 +232,122 @@ class TrainingView extends React.Component {
 	        }
 		})
         .catch(error => console.error(error));
-        
         localStorage.setItem('menuKey', menuKeys.TRAINING)
+
+        // keep track of window width
+        this.updateWindowWidth();
+  		window.addEventListener('resize', this.updateWindowWidth);
 	}
 
 	componentWillUnmount() {
 		if(this.state.playing) {
 			this.stopPlaying()
 		}
+		window.removeEventListener('resize', this.updateWindowWidth)
 	}
 
 	render() {
-		return (
-			<div className="col-md-12 h-100">
-				<h4>Training</h4>
-					<div>
+		const panes = [
+					<div class="col-md-12">
+						<h4>Training</h4>
 						<CardList
 							cardType={cardTypes.TRAINING_MOVE}
 							cardList={this.state.currSet}
 							enableDrag={false}
 							currentTab={tabNames[0]}
 						/>
-					</div>
-					<div class="ButtonsDiv">
-						{ this.state.playing ? 
-							<Button type="primary" className={"PlayButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
-							:
-							<Button type="primary" className={"PlayButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
-						}
-						{ this.state.voiceOn ? 
-							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: false})}><AudioOutlined/></Button>
-							:
-							<Button type="primary" className={"PlayButtons"} onClick={() => this.setState({voiceOn: true})}><AudioMutedOutlined/></Button>
-						}
-						{Object.keys(this.state.probs).length !== 0 ? 
-							<div>
+						<div class="ButtonsDiv">
+							{ this.state.playing ? 
+								<Button type="primary" className={"TrainingButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
+								:
+								<Button type="primary" className={"TrainingButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
+							}
+							{ this.state.voiceOn ? 
+								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: false})}><AudioOutlined/></Button>
+								:
+								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: true})}><AudioMutedOutlined/></Button>
+							}
+							{Object.keys(this.state.probs).length !== 0 ? 
 								<EditValues
 									values={this.state.probs['typeProbs']}
 									reverseProb={this.state.probs['reverseProb']}
 									updateValues={this.updateProbs.bind(this)}
 									valueType={editValueTypes.PROBS}
 								/>
-							</div>
-							:
-							null
-						}
-						{Object.keys(this.state.durations).length !== 0 ? 
-							<div>
+								:
+								null
+							}
+							{Object.keys(this.state.durations).length !== 0 ? 
 								<EditValues
 									values={this.state.durations}
 									updateValues={this.updateDurations.bind(this)}
 									valueType={editValueTypes.DURATIONS}
 									allMoves={this.state.allMoves}
 								/>
+								:
+								null
+							}
+						</div>
+					</div>,
+
+					<div className="col-md-6 col-sm-12">
+						<h5>Training Sets</h5>
+						<div class="Pane">
+							<CardList
+								cardType={cardTypes.SET}
+								cardList={this.state.trainingSetList}
+								enableDrag={false}
+								selectedIdx={this.state.selectedSetIdx}
+								currentTab={setTabNames[1]}
+								updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
+								loading={this.state.loading}
+							/>
+						</div>
+					</div>,
+
+					<div className="col-md-6 col-sm-12">
+						<h5>Moves in Set</h5>
+							<div class="Pane">
+							<CardList
+								cardType={cardTypes.SET_MOVE}
+								cardList={this.state.currSetMoveList}
+								enableDrag={false}
+								currentTab={tabNames[0]}
+							/>
 							</div>
-							:
-							null
-						}
 					</div>
-					<CardList
-						cardType={cardTypes.SET}
-						cardList={this.state.trainingSetList}
-						enableDrag={false}
-						selectedIdx={this.state.selectedSetIdx}
-						currentTab={setTabNames[1]}
-						updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
-						loading={this.state.loading}
-					/>
-			</div>
-		);
+		]
+
+	    var settings = {
+	      speed: 500,
+	      slidesToShow: 1,
+	      slidesToScroll: 1,
+	      infinite: false,
+	      adaptiveHeight: true,
+	      draggable: true,
+	      swipe: true,
+	      dots: true
+	    };
+		// add slider for panes if window width is small (mobile)
+		if(this.state.windowWidth < 768) {
+			return (
+				<Slider {...settings}>
+					{panes}
+				</Slider>
+			)
+		} else {
+			return(
+				<div>
+					<div class="row h-40">
+						{panes[0]}
+					</div>
+					<div className="row h-60">
+						{panes[1]}
+						{panes[2]}
+					</div>
+				</div>
+			)
+		}
 	}
 
 }
