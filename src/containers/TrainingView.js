@@ -1,19 +1,19 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import EditValues from '../components/EditValues';
-import CardList from '../components/CardList';
-import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../constants";
+
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
+import CardList from '../components/CardList';
+import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
-
+import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../constants";
 
 import "../css/containers/TrainingView.css"
 import 'bootstrap/dist/css/bootstrap.css';
-import { getCookie } from "../getCookie"
 
 import { withAuth0 } from '@auth0/auth0-react';
+import { getCookie } from "../utils/getCookie"
+import { connect } from 'react-redux';
 
 class TrainingView extends React.Component {
 

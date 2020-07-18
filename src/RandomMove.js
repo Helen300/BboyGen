@@ -24,7 +24,7 @@ class RandomMove {
 		}
 		var lastAddedType = tabNames[0]
 		// select uniform random if no previous added move
-		if(currentSet.length == 0) {
+		if(currentSet.length === 0) {
 			// subract first type
 			var uniformProbs = Array(tabNames.length - 1).fill(1/(tabNames.length - 1))
 			lastAddedType = this.getRandomType(uniformProbs)
@@ -33,7 +33,7 @@ class RandomMove {
 		}
 		var filteredList = []
 		// if user does not have moves in each category, keep picking random one until we find one with moves
-		while(filteredList.length == 0) {
+		while(filteredList.length === 0) {
 			var newType = this.getRandomType(probs[lastAddedType])
 			filteredList = moveList.filter(move => move.type == newType);
 		}
@@ -46,7 +46,7 @@ class RandomMove {
 		// var reverse = Math.round(Math.random());
 		var isReverse = this.weightedRand(reverseDistribution)
 		// add a random move reverse version half the time
-		if (isReverse == 0 && newMove.reversible) {
+		if (isReverse === 0 && newMove.reversible) {
 			newMove.reverseEnabled = true;
 		}
 		return newMove

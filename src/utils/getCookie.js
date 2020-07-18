@@ -1,3 +1,5 @@
+// used to retrieve cookie for the csrf token 
+
 export const getCookie = (name) => {
 		let cookieValue = null;
 		if (document.cookie && document.cookie !== '') {

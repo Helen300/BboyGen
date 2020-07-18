@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import $ from 'jquery';
+
 import { Tabs, Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
 import CardList from '../components/CardList';

@@ -1,8 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
+
 import { Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+
+import { connect } from 'react-redux';
 
 const formItemLayout = {
   labelCol: {

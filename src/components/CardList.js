@@ -1,21 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Move from '../components/Move';
-import MoveAddable from '../components/MoveAddable';
-import TrainingMove from '../components/TrainingMove';
-import SetCard from '../components/SetCard';
-
 import $ from 'jquery';
+import PropTypes from 'prop-types';
+
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Droppable } from 'react-beautiful-dnd';
 import { animateScroll } from "react-scroll";
 
-// import 'antd/dist/antd.css';
 
+import Move from '../components/Move';
+import MoveAddable from '../components/MoveAddable';
+import TrainingMove from '../components/TrainingMove';
+import SetCard from '../components/SetCard';
+import { cardTypes } from "../constants"
+
+// import 'antd/dist/antd.css';
 import "../css/components/CardList.css"
 
-import { cardTypes } from "../constants"
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 
 // contains List of Moves and Form to add moves 
@@ -80,7 +81,7 @@ class CardList extends React.Component {
 
 	cardFilter = (item) => {
 	    const key = this.props.currentTab;
-	    if (key == 'All') {
+	    if (key === 'All') {
 	      return true
 	    }
 	    return item.type === key

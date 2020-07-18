@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card } from 'antd';
 import { DeleteOutlined, ReloadOutlined } from '@ant-design/icons'
-import "../css/components/Move.css"
 import { Draggable } from 'react-beautiful-dnd';
+import "../css/components/Move.css"
+
 
 // what does the Meta do? 
 const { Meta } = Card;

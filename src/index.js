@@ -2,16 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createStore, compose, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import reducer from './store/reducers/auth';
-
 
 import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
 import config from "./auth_config.json";
 
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import reducer from './store/reducers/auth';
 
 
 // checking if we have this extension installed, else uses redux compose 

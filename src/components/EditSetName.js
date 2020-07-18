@@ -1,8 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import $ from 'jquery';
+
 import { Input, Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
+
 import "../css/components/EditSetName.css"
 
 const { TextArea } = Input;
@@ -26,7 +27,7 @@ class EditSetName extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.selectedSetIdx != -1) {
+		if (this.props.selectedSetIdx !== -1) {
 			this.setState({
 				currentName: this.props.setList[this.props.selectedSetIdx].name,
 			})
@@ -34,7 +35,7 @@ class EditSetName extends React.Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		if (newProps.selectedSetIdx != -1) {
+		if (newProps.selectedSetIdx !== -1) {
 			this.setState({
 				currentName: newProps.setList[newProps.selectedSetIdx].name,
 			})
@@ -85,11 +86,5 @@ class EditSetName extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
-	}
-}
 
 export default EditSetName;

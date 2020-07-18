@@ -1,25 +1,28 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import $ from 'jquery';
+
+import { Tabs } from 'antd';
+import { Button } from 'antd';
+// OTHER COMPONENTS (WRITTEN BY US)
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetList from '../components/SetList';
 import SetMoveList from '../components/SetMoveList';
 import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
-import { Tabs } from 'antd';
-import { Button } from 'antd';
 import { tabNames, cardTypes, menuKeys, setTabNames, editValueTypes } from "../constants";
-import $ from 'jquery';
-
+// CSS FILES 
 import "../css/containers/Pane.css"
 import "../css/containers/GeneratorView.css"
 import 'bootstrap/dist/css/bootstrap.css';
-import { getCookie } from "../getCookie"
 
+
+// CONNECTING AND REQUEST AUTH0, connect for store and react-redux 
+import { getCookie } from "../utils/getCookie"
 import { withAuth0 } from '@auth0/auth0-react';
 
-const { TabPane } = Tabs;
+// const { TabPane } = Tabs;
 
 class GeneratorView extends React.Component {
 
@@ -39,7 +42,7 @@ class GeneratorView extends React.Component {
 	}
 
 	updateSetList(newList) {
-		const { user, isAuthenticated, getAccessTokenSilently } = this.props.auth0
+		const { user, isAuthenticated } = this.props.auth0
 		this.setState({
 			setList: newList
 		})
@@ -225,7 +228,7 @@ class GeneratorView extends React.Component {
 					<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 				</div>	
 				<div className="col-md-4 h-100">
-					{this.state.selectedSetIdx == -1 ? null :
+					{this.state.selectedSetIdx === -1 ? null :
 						<div>
 							<SetMoveList
 								className={"SetMoveList"}
@@ -238,7 +241,7 @@ class GeneratorView extends React.Component {
 					}
 				</div>
 				<div className="col-md-4 h-100">
-					{this.state.selectedSetIdx == -1 ? null : 
+					{this.state.selectedSetIdx === -1 ? null : 
 						<div>
 							<MoveList
 								updateSelectedTab={this.updateSelectedTab.bind(this)}

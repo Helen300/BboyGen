@@ -135,7 +135,7 @@ export const authCheckState = () => {
 		// getting object, check if token is stored in local storage 
 		const token = localStorage.getItem('token');
 		// no such token 
-		if (token == undefined) {
+		if (token === undefined) {
 			dispatch(logout());
 		}
 		else {

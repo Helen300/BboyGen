@@ -1,17 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-// grabs the store we created and allow us to access states 
-import { connect } from 'react-redux';
-import BaseRouter from './routes';
-import 'antd/dist/antd.css'; 
-import * as actions from './store/actions/auth';
+
 import { Spin } from 'antd';
+import BaseRouter from './routes'
+import CustomLayout from './containers/CustomLayout'
 
-import CustomLayout from './containers/CustomLayout';
-
+import 'antd/dist/antd.css'
+import "./css/App.css"
 
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
+// grabs the store we created and allow us to access states 
+// import * as actions from './store/actions/auth';
+// import { connect } from 'react-redux';
 
 const App = () => {
   const { isLoading, error } = useAuth0();
@@ -21,7 +22,7 @@ const App = () => {
   }
 
   if (isLoading) {
-    return <Spin tip="Signing up..." size="large" />;
+    return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
   }
 
 

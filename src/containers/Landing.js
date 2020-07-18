@@ -2,9 +2,6 @@ import React from 'react';
 import { menuKeys } from "../constants";
 
 
-
-
-
 class Landing extends React.Component {
 
 	componentDidMount() {

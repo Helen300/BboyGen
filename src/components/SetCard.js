@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
-import "../css/components/Move.css"
 import { Draggable } from 'react-beautiful-dnd';
+import "../css/components/Move.css"
+
 
 
 const { Meta } = Card;

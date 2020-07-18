@@ -1,13 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import 'antd/dist/antd.css';
 import { Table, Input, Form, Button } from 'antd';
-import { InputNumber } from 'antd';
+import { InputNumber, Tabs } from 'antd';
 import { tabNames, editValueTypes } from "../constants";
 import Modal from 'react-bootstrap/Modal'
-import { Tabs } from 'antd';
 
-import $ from 'jquery';
 import "../css/components/EditValues.css"
 
 const { TabPane } = Tabs;

@@ -1,23 +1,21 @@
 import React from 'react'
 import axios from 'axios'
-import { connect } from 'react-redux'
-import MoveDetail from '../components/MoveDetail'
+import $ from 'jquery'
+
 import MoveList from '../components/MoveList'
 import MoveInput from '../components/MoveInput'
-
-import $ from 'jquery'
-import 'bootstrap/dist/css/bootstrap.css'
-
-import 'antd/dist/antd.css'
-
-import { Tabs } from 'antd'
-import "../css/containers/Pane.css"
-
+import MoveDetail from '../components/MoveDetail'
 import { tabNames, cardTypes } from "../constants"
 
 
+// import { Tabs } from 'antd'
+import 'antd/dist/antd.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import "../css/containers/Pane.css"
+
 import { withAuth0 } from '@auth0/auth0-react'
-import { getCookie } from "../getCookie"
+import { getCookie } from "../utils/getCookie"
+// import { connect } from 'react-redux'
 
 
 // contains List of Moves and Form to add moves 
@@ -36,7 +34,7 @@ class MoveListView extends React.Component {
 
 
 	updateMoveList(newList) {
-		const { user, isAuthenticated, getAccessTokenSilently } = this.props.auth0; 
+		const { user, isAuthenticated } = this.props.auth0; 
 		const csrftoken = getCookie('csrftoken');
 		console.log(csrftoken)
 		this.setState({
