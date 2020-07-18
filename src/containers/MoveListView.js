@@ -122,8 +122,9 @@ class MoveListView extends React.Component {
 	}	
 
 	render() {
+		const mobile = this.state.windowWidth < 576
 		const panes = [
-					<div className="col-sm-12 col-md-4 h-100">
+					<div className="col-xs-12 col-sm-4 h-100">
 						<MoveList
 							updateSelectedMoveIdx={this.updateSelectedMoveIdx.bind(this)}
 							updateMoveList={this.updateMoveList.bind(this)}
@@ -131,7 +132,7 @@ class MoveListView extends React.Component {
 							moveList={this.state.moveList}
 							selectedMoveIdx={this.state.selectedMoveIdx}
 							currentTab={this.state.currentTab}
-							enableDrag={true}
+							enableDrag={!mobile}
 							cardType={cardTypes.MOVE}
 							loading={this.state.loading}
 						/>
@@ -144,7 +145,7 @@ class MoveListView extends React.Component {
 					</div>,
 
 					this.state.selectedMoveIdx !== -1 ?
-					<div className="col-sm-12 col-md-8 h-100">
+					<div className="col-xs-12 col-sm-8 h-100">
 						   	<MoveDetail 
 						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
 						    	moveList={this.state.moveList}
@@ -167,7 +168,7 @@ class MoveListView extends React.Component {
 	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)
-		if(this.state.windowWidth < 768) {
+		if(mobile) {
 			return (
 				<Slider {...settings}>
 					{panes}

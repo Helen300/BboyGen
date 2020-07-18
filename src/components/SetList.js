@@ -40,7 +40,7 @@ class SetList extends React.Component {
 						selectedIdx={this.props.selectedSetIdx}
 						updateSelectedIdx={this.props.updateSelectedSetIdx}
 						updateCardList={this.props.updateSetList}
-						enableDrag={true}
+						enableDrag={this.props.enableDrag}
 						loading={this.props.loading}
 					/>
 				</TabPane>
@@ -52,7 +52,7 @@ class SetList extends React.Component {
 						selectedIdx={this.props.selectedSetIdx}
 						updateSelectedIdx={this.props.updateSelectedSetIdx}
 						updateCardList={this.props.updateSetList}
-						enableDrag={true}
+						enableDrag={this.props.enableDrag}
 						loading={this.props.loading}
 					/>
 				</TabPane>

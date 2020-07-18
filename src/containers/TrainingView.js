@@ -248,7 +248,7 @@ class TrainingView extends React.Component {
 
 	render() {
 		const panes = [
-					<div class="col-md-12">
+					<div class="col-sm-12">
 						<h4>Training</h4>
 						<CardList
 							cardType={cardTypes.TRAINING_MOVE}
@@ -290,7 +290,7 @@ class TrainingView extends React.Component {
 						</div>
 					</div>,
 
-					<div className="col-md-6 col-sm-12">
+					<div className="col-xs-12 col-sm-6">
 						<h5>Training Sets</h5>
 						<div class="Pane">
 							<CardList
@@ -305,7 +305,7 @@ class TrainingView extends React.Component {
 						</div>
 					</div>,
 
-					<div className="col-md-6 col-sm-12">
+					<div className="col-xs-12 col-sm-6">
 						<h5>Moves in Set</h5>
 							<div class="Pane">
 							<CardList
@@ -313,6 +313,7 @@ class TrainingView extends React.Component {
 								cardList={this.state.currSetMoveList}
 								enableDrag={false}
 								currentTab={tabNames[0]}
+								showCardButtons={false}
 							/>
 							</div>
 					</div>

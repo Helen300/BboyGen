@@ -240,8 +240,9 @@ class GeneratorView extends React.Component {
 	}
 
 	render() {
+		const mobile = this.state.windowWidth < 576
 	    const panes = [ 
-					<div className="col-sm-12 col-md-4 h-100">
+					<div className="col-xs-12 col-sm-4 h-100">
 						<SetList
 							updateSelectedSetIdx={this.updateSelectedSetIdx.bind(this)}
 							updateSelectedSetTab={this.updateSelectedSetTab.bind(this)}
@@ -249,12 +250,13 @@ class GeneratorView extends React.Component {
 							selectedSetIdx={this.state.selectedSetIdx}
 							updateSetList={this.updateSetList.bind(this)}
 							loading={this.state.loading}
+							enableDrag={!mobile}
 						/>
 						<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 					</div>,
 
 					this.state.selectedSetIdx !== -1 ?
-					<div className="col-sm-12 col-md-4 h-100">
+					<div className="col-xs-12 col-sm-4 h-100">
 						<EditSetName
 							selectedSetIdx={this.state.selectedSetIdx}
 							updateSetList={this.updateSetList.bind(this)}
@@ -265,9 +267,10 @@ class GeneratorView extends React.Component {
 							cardType={cardTypes.SET_MOVE}
 							cardList={this.state.setList[this.state.selectedSetIdx].moves}
 							updateCardList={this.updateSetMoveList.bind(this)}
-							enableDrag={true}
+							enableDrag={!mobile}
 							currentTab={tabNames[0]}
 							toggleReverseIcon={this.toggleReverseIcon.bind(this)}
+							showCardButtons={true}
 						/>
 						</div>
 						<Button type="primary" className={"AddSetButton"} onClick={()=>this.copySet()}>Copy Set</Button>
@@ -276,7 +279,7 @@ class GeneratorView extends React.Component {
 					null,
 
 					this.state.selectedSetIdx !== -1 ?
-					<div className="col-sm-12 col-md-4 h-100">
+					<div className="col-xs-12 col-sm-4 h-100">
 						<MoveList
 							updateSelectedTab={this.updateSelectedTab.bind(this)}
 							moveList={this.state.moveList}
@@ -309,7 +312,7 @@ class GeneratorView extends React.Component {
 	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)
-		if(this.state.windowWidth < 768) {
+		if(mobile) {
 			return (
 				<Slider {...settings}>
 					{panes}

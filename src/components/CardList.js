@@ -133,7 +133,7 @@ class CardList extends React.Component {
 				          selectedMoveIdx={this.props.selectedIdx}
 				          showReverseIcon={false}
 				          enableDrag={this.props.enableDrag}
-				          showButtons={true}
+				          showCardButtons={true}
 				        />
 					)
 				)
@@ -176,7 +176,7 @@ class CardList extends React.Component {
 						          toggleReverse={this.props.toggleReverseIcon}
 						          showReverseIcon={move.reversible}
 						          enableDrag={this.props.enableDrag}
-						          showButtons={false}
+						          showCardButtons={this.props.showCardButtons}
 						        />
 						)
 					})
