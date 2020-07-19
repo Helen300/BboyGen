@@ -192,7 +192,9 @@ class GeneratorView extends React.Component {
 	// this function runs after render so we write in the height after Slider writes its inline styles in
 	componentDidUpdate(){
 		const mainViewHeight = $("#mainViewContainer").height()
-		$(".Column").height(mainViewHeight)
+		// make space for slider dots if on mobile view
+		const slickDotsHeight = this.state.mobileView ? 25 : 0
+		$(".Column").height(mainViewHeight - slickDotsHeight)
 	}
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.

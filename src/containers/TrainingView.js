@@ -206,7 +206,9 @@ class TrainingView extends React.Component {
 		const mainViewHeight = $("#mainViewContainer").height()
 		// stack cols for desktop view (2 rows, half height each)
 		if(this.state.mobileView) {
-			$(".Column").height(mainViewHeight)
+			// make space for slider dots if on mobile view
+			const slickDotsHeight = 25
+			$(".Column").height(mainViewHeight - slickDotsHeight)
 		} else {
 			$(".Column").height(mainViewHeight / 2)
 		}
@@ -349,9 +351,6 @@ class TrainingView extends React.Component {
 	      slidesToShow: 1,
 	      slidesToScroll: 1,
 	      infinite: false,
-	      adaptiveHeight: true,
-	      draggable: true,
-	      swipe: true,
 	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)

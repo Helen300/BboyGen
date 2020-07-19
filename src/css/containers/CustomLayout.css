@@ -8,14 +8,16 @@
 
 .Content{
 	padding: 0 50px; 
-	height: 50em;
+	height: 100%;
+	overflow: hidden;
 }
 
 /* styles for mobile view <576px width*/
 @media screen and (max-width: 575px) {
 	.Content{
 		padding: 0 0px; 
-		height: 50em;
+		height: 100%;
+		overflow: hidden;
 	}
 	.ant-layout-footer{
 		padding: 0 0px;
@@ -26,5 +28,9 @@
 	/* Get rid of greeting menu item*/
 	.ant-menu-item-disabled{
 		display: none !important;
+	}
+	/* shrink menu buttons so they all show*/
+	.ant-menu-item{
+		padding: 0 15px;
 	}
 }

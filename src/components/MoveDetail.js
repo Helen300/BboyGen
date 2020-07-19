@@ -68,7 +68,7 @@ class MoveDetail extends React.Component {
 			return (
 				// since we need to return one div
 				<div class="Column">
-					<h4 className="MoveDescription">Move Description</h4>
+					<h4 className="ColumnTitle">Move Description</h4>
 					<div className="MoveName">Name of Move: 
 						<TextArea id="moveName"
 								  rows={1}
