@@ -4,6 +4,12 @@
 	margin-right: 3%;
 }
 
+.ButtonContainer-Train{
+	margin-right: 3%;
+	overflow: hidden;
+	flex: 1 0 0;
+}
+
 .SlidingContainer {
 	height: 100%;
 	border: 1px solid #d9d9d9;

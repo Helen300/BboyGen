@@ -165,30 +165,30 @@ class EditValues extends React.Component {
 	      {
 	        title: 'Transition From',
 	        dataIndex: 'Transition From',
-	        width: '30%',
+	        width: '15%',
 	      },
 	      {
 	        title: tabNames[1],
 	        dataIndex: tabNames[1],
-	        width: '30%',
+	        width: '15%',
 	        editable: true,
 	      },
 	      {
 	        title: tabNames[2],
 	        dataIndex: tabNames[2],
-	        width: '30%',
+	        width: '15%',
 	        editable: true,
 	      },
 	      {
 	        title: tabNames[3],
 	        dataIndex: tabNames[3],
-	        width: '30%',
+	        width: '15%',
 	        editable: true,
 	      },
 	      {
 	        title: tabNames[4],
 	        dataIndex: tabNames[4],
-	        width: '30%',
+	        width: '15%',
 	        editable: true,
 	      },
 	    ];
@@ -336,7 +336,29 @@ class EditValues extends React.Component {
 		    });
 	    }
   	};
+  	getIcon() {
+  		if(this.props.valueType === editValueTypes.PROBS) {
+  			return (
+  				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-dice-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M13 1H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+					<circle cx="4" cy="4" r="1.5"/>
+					<circle cx="12" cy="12" r="1.5"/>
+					<circle cx="8" cy="8" r="1.5"/>
+				</svg>
+			)
 
+  		} else if(this.props.valueType === editValueTypes.DURATIONS) {
+  			return(
+  				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z"/>
+					<path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5a.5.5 0 0 1 .5-.5zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"/>
+					<path d="M7 1h2v2H7V1z"/>
+				</svg>
+			)
+
+  		}
+
+  	}
   	getTitle() {
   		if(this.props.valueType === editValueTypes.PROBS) {
   			return("Edit Probabilities")
@@ -522,7 +544,7 @@ class EditValues extends React.Component {
 	    return (
 	    	<div className={this.props.buttonClass}>
 			  <Button className={"EditValuesButton"} type="primary" onClick={() => this.showModal()}>
-			    {this.getTitle()}
+			    {this.props.mobileView ? this.getIcon() : this.getTitle()}
 			  </Button>
 
 			  <Modal show={this.state.show} onHide={() => this.closeModal()}>

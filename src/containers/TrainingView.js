@@ -281,16 +281,20 @@ class TrainingView extends React.Component {
 							currentTab={tabNames[0]}
 						/>
 						<div class="ButtonsDiv">
+							<div className="ButtonContainer-Train">
 							{ this.state.playing ? 
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
 								:
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
 							}
+							</div>
+							<div className="ButtonContainer-Train">
 							{ this.state.voiceOn ? 
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: false})}><AudioOutlined/></Button>
 								:
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: true})}><AudioMutedOutlined/></Button>
 							}
+							</div>
 							{Object.keys(this.state.probs).length !== 0 ? 
 								<EditValues
 									values={this.state.probs['typeProbs']}
@@ -298,6 +302,7 @@ class TrainingView extends React.Component {
 									updateValues={this.updateProbs.bind(this)}
 									valueType={editValueTypes.PROBS}
 									buttonClass={"EditValuesContainer-Train"}
+									mobileView={this.state.mobileView}
 								/>
 								:
 								null
@@ -309,6 +314,7 @@ class TrainingView extends React.Component {
 									valueType={editValueTypes.DURATIONS}
 									allMoves={this.state.allMoves}
 									buttonClass={"EditValuesContainer-Train"}
+									mobileView={this.state.mobileView}
 								/>
 								:
 								null
