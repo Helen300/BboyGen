@@ -5,7 +5,7 @@ import { Tabs } from 'antd';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
-import { tabNames, cardTypes } from "../constants"
+import { tabNames, cardTypes, menuKeys } from "../constants"
 import Slider from "react-slick";
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -80,6 +80,7 @@ class MoveListView extends React.Component {
 		})
         .catch(error => console.error(error));
 
+        localStorage.setItem('menuKey', menuKeys.LIST)
         // keep track of window width
         this.updateWindowWidth();
   		window.addEventListener('resize', this.updateWindowWidth);

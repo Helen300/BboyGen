@@ -67,10 +67,10 @@ class TrainingView extends React.Component {
 			"Content-Type": "application/json",
 			"X-CSRFToken": csrftoken
 		}
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/updateDurations/')
 		axios.post(apiUrl, {
-		  username: localStorage.getItem("username"),
+		  userId: localStorage.getItem("userId"),
           durations: newDurations,
       	})
       	.then(res => {
@@ -197,7 +197,7 @@ class TrainingView extends React.Component {
 	}
 
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {

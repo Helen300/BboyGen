@@ -18,7 +18,8 @@ const { Header, Content, Footer } = Layout;
 class CustomLayout extends React.Component {
 
   state = {
-    menuKey: ''
+    menuKey: '', 
+    userExists: false, 
   }
 
   componentDidMount() {
@@ -70,8 +71,14 @@ class CustomLayout extends React.Component {
 
   authLogin () {
     const { user, error, isAuthenticated, loginWithRedirect } = this.props.auth0
+    if (user !== null && isAuthenticated) {
+      this.checkUserProfile()
+      this.changeMenuKey(menuKeys.LIST)
+    }
+  
     // call login 
-    loginWithRedirect(); 
+    loginWithRedirect()
+    console.log('afterr')
     
   }
 
@@ -85,54 +92,65 @@ class CustomLayout extends React.Component {
 
   }
 
+  createUserProfile(user) {
+    console.log('CREATING USER')
+    var testProbs = {}
+    var uni = 1 / (tabNames.length - 1)
+    testProbs[tabNames[1]] = [uni, uni, uni, uni]
+    testProbs[tabNames[2]] = [uni, uni, uni, uni]
+    testProbs[tabNames[3]] = [uni, uni, uni, uni]
+    testProbs[tabNames[4]] = [uni, uni, uni, uni]
+    var initDurations = {}
+    initDurations.types = {
+      [tabNames[1]]: 2,
+      [tabNames[2]]: 2,
+      [tabNames[3]]: 2,
+      [tabNames[4]]: 2
+    }
+    initDurations.moves = {}
+    var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
+    const csrftoken = getCookie('csrftoken')
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken
+    }
+    axios.post('/api/userprofiles/', {
+      // the data that gets posted 
+        username: user['email'],
+        email: user['email'],
+        userId: user['sub'], 
+        moveList: [],
+        setList: [],
+        probs: newProbs,
+        durations: initDurations
+    })
+    .then(res => {
+      this.setState({
+        userExists: true
+      })
+    })
+  }
 
   checkUserProfile () {
     const { user, error, isAuthenticated } = this.props.auth0
-    
+    if (user === null) {
+      return
+    }
     var apiUrl = '/api/userprofiles/'.concat(user['sub'])
     apiUrl = apiUrl.concat('/')
     axios.get(apiUrl)
     .then(res => {
-      console.log(res.data);
-      if (res.data != null) {
-        return true
-      }
+      console.log(res.data)
+      this.setState({
+        userExists: true
+      })
+      return
     })
     .catch(error => {
       console.error(error)
       console.log('DOES NOT EXIST')
-      var testProbs = {}
-      var uni = 1 / (tabNames.length - 1)
-      testProbs[tabNames[1]] = [uni, uni, uni, uni]
-      testProbs[tabNames[2]] = [uni, uni, uni, uni]
-      testProbs[tabNames[3]] = [uni, uni, uni, uni]
-      testProbs[tabNames[4]] = [uni, uni, uni, uni]
-      var initDurations = {}
-      initDurations.types = {
-        [tabNames[1]]: 2,
-        [tabNames[2]]: 2,
-        [tabNames[3]]: 2,
-        [tabNames[4]]: 2
-      }
-      initDurations.moves = {}
-      var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
-      const csrftoken = getCookie('csrftoken')
-      axios.defaults.headers = {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrftoken
-      }
-      axios.post('/api/userprofiles/', {
-        // the data that gets posted 
-          username: user['email'],
-          email: user['email'],
-          userId: user['sub'], 
-          moveList: [],
-          setList: [],
-          probs: newProbs,
-          durations: initDurations
-      })
+      this.createUserProfile(user)
     })
-    return true
   }
 
 
@@ -141,6 +159,7 @@ class CustomLayout extends React.Component {
     if (user != null) {
       localStorage.setItem('userId', user['sub'])
     }
+
     return (
 
       <Layout className="layout">
@@ -149,7 +168,7 @@ class CustomLayout extends React.Component {
         <Menu id="Menu" theme="dark" mode="horizontal" selectedKeys={[this.state.menuKey]}>
         {
             // if authenticated = true we show logout 
-            isAuthenticated && this.checkUserProfile() ? 
+            isAuthenticated && this.state.userExists ? 
             [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
               Hello, {user['given_name'] != null ? user['given_name'] : user['nickname']}
             </Menu.Item>,
@@ -166,7 +185,7 @@ class CustomLayout extends React.Component {
               <Link to="/training/">Training</Link>
             </Menu.Item>]
             :
-            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.changeMenuKey(menuKeys.LIST); this.authLogin();}}>
+            <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.authLogin();}}>
               <Link>Login/Signup</Link>
             </Menu.Item>
         }
