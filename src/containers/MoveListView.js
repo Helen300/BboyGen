@@ -76,6 +76,7 @@ class MoveListView extends React.Component {
 				moveList: res.data.moveList,
 				loading: false
 			});
+			console.log('in component did mount')
 		})
         .catch(error => console.error(error));
 

@@ -88,8 +88,7 @@ class CustomLayout extends React.Component {
 
   checkUserProfile () {
     const { user, error, isAuthenticated } = this.props.auth0
-
-    const csrftoken = getCookie('csrftoken')
+    
     var apiUrl = '/api/userprofiles/'.concat(user['sub'])
     apiUrl = apiUrl.concat('/')
     axios.get(apiUrl)
@@ -117,6 +116,7 @@ class CustomLayout extends React.Component {
       }
       initDurations.moves = {}
       var newProbs = {"typeProbs": testProbs, "reverseProb": 0.5}
+      const csrftoken = getCookie('csrftoken')
       axios.defaults.headers = {
         "Content-Type": "application/json",
         "X-CSRFToken": csrftoken
