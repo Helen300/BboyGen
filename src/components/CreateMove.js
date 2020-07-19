@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -120,12 +119,5 @@ class CreateMove extends React.Component {
   };
 }
 
-const mapStateToProps = state => {
-  return {
-    // whether or not token = null (isAuthenticated = False)
-    token: state.token
-  }
-}
 
-
-export default connect(mapStateToProps)(CreateMove);
+export default CreateMove;

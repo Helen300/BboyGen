@@ -1,9 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import "../css/components/MoveDetail.css"
-import { Input, Select, Button } from 'antd';
-import axios from 'axios';
 import $ from 'jquery';
+
+
+import { Input, Select, Button } from 'antd';
+
+import "../css/components/MoveDetail.css"
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -117,11 +118,6 @@ class MoveDetail extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
-	}
-}
 
-export default connect(mapStateToProps)(MoveDetail);
+
+export default MoveDetail;

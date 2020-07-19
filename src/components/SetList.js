@@ -1,9 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
+import $ from 'jquery';
 import CardList from './CardList';
 
-import $ from 'jquery';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
 
@@ -62,12 +61,6 @@ class SetList extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
 
-export default connect(mapStateToProps)(SetList);
+export default SetList;

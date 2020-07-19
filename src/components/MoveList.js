@@ -1,16 +1,14 @@
 import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import CardList from './CardList';
-
-import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
+import CardList from './CardList';
+import { tabNames } from "../constants"
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'antd/dist/antd.css';
 import "../css/containers/Pane.css"
 
-import { tabNames } from "../constants"
+
 
 
 
@@ -110,12 +108,6 @@ class MoveList extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
 
-export default connect(mapStateToProps)(MoveList);
+export default MoveList;

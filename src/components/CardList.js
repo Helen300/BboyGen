@@ -234,13 +234,6 @@ class CardList extends React.Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
-
-	}
-}
 
 CardList.propTypes = {
 	cardList: PropTypes.array.isRequired,
@@ -254,4 +247,4 @@ CardList.propTypes = {
 	toggleReverseIcon: PropTypes.func,
 }
 
-export default connect(mapStateToProps)(CardList);
+export default CardList;

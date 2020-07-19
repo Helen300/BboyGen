@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import $ from 'jquery';
 import { Input, Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
@@ -85,11 +84,5 @@ class EditSetName extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
-	}
-}
 
 export default EditSetName;
