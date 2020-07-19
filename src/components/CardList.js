@@ -148,6 +148,7 @@ class CardList extends React.Component {
 				          selectedSetIdx={this.props.selectedIdx}
 				          shouldRender={this.cardFilter(moveSet)}
 				          enableDrag={this.props.enableDrag}
+				          showCardButtons={this.props.showCardButtons}
 				        />
 					)
 				)

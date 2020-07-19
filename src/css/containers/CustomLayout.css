@@ -1,5 +1,30 @@
 .ant-menu-item-selected {
 	background-color: #939BCB !important;
-
 }
 
+.layout{
+	height: 100vh;
+}
+
+.Content{
+	padding: 0 50px; 
+	height: 50em;
+}
+
+/* styles for mobile view <576px width*/
+@media screen and (max-width: 575px) {
+	.Content{
+		padding: 0 0px; 
+		height: 50em;
+	}
+	.ant-layout-footer{
+		padding: 0 0px;
+	}
+	.ant-layout-header{
+		padding: 0 0px;
+	}
+	/* Get rid of greeting menu item*/
+	.ant-menu-item-disabled{
+		display: none !important;
+	}
+}

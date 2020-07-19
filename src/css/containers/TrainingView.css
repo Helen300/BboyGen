@@ -5,7 +5,7 @@
 }
 
 .SlidingContainer {
-	height: 15vh;
+	height: 100%;
 	border: 1px solid #d9d9d9;
 	border-radius: 0.2em;	
 	background-color: #ededed;
@@ -22,4 +22,12 @@
 	margin-right: -3%;
 	margin-bottom: 2%;
 	display: flex;
+}
+
+.TrainingViewContainer{
+	height: 100%;
+}
+
+.TrainingViewRow{
+	height: 50%;
 }

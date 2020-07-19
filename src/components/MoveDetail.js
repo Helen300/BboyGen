@@ -5,6 +5,8 @@ import { Input, Select, Button } from 'antd';
 import axios from 'axios';
 import $ from 'jquery';
 
+import "../css/containers/Column.css"
+
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -65,52 +67,52 @@ class MoveDetail extends React.Component {
 	render() {
 			return (
 				// since we need to return one div
-				<div>
-				<h4 className="MoveDescription">Move Description</h4>
-				<div className="MoveName">Name of Move: 
-					<TextArea id="moveName"
-							  rows={1}
-							  value={this.props.move.name}
-							  onChange={() => this.updateName()}
-					/>
-				</div>
-				<div>
-					<Select
-				  	id="selectType"
-				    showSearch
-				    optionFilterProp="children"
-				    onChange={this.updateType}
-				    onFocus={this.onTypeFocus}
-				    onBlur={this.onTypeBlur}
-				    onSearch={this.onTypeSearch}
-				    // defaultValue={this.state.selectedMoveType}
-				    value={this.props.move.type}
-				    filterOption={(input, option) =>
-				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-				    }
-				    className="SelectType"
-				  >
-				    <Option value="Toprock">Toprock</Option>
-				    <Option value="Footwork">Footwork</Option>
-				    <Option value="Freezes">Freezes</Option>
-				    <Option value="Power">Power</Option>
-				  </Select>
-				 </div>
-				 <div>
-				  	<br/>
-						<Button
-							id="ReversibleButton"
-							className={this.props.move.reversible ? "Reversible" : null }
-							onClick={(e) => this.toggleReverse(e)}>
-							{this.props.move.reversible ? "Reversible" :"Not Reversible"}
-						</Button>
-				</div>
-				<br/>
-				<TextArea id="moveDescription" 
-						  rows={4} 
-						  value={this.props.move.description} 
-						  onChange={() => this.updateDescription()}
-			    />
+				<div class="Column">
+					<h4 className="MoveDescription">Move Description</h4>
+					<div className="MoveName">Name of Move: 
+						<TextArea id="moveName"
+								  rows={1}
+								  value={this.props.move.name}
+								  onChange={() => this.updateName()}
+						/>
+					</div>
+					<div>
+						<Select
+					  	id="selectType"
+					    showSearch
+					    optionFilterProp="children"
+					    onChange={this.updateType}
+					    onFocus={this.onTypeFocus}
+					    onBlur={this.onTypeBlur}
+					    onSearch={this.onTypeSearch}
+					    // defaultValue={this.state.selectedMoveType}
+					    value={this.props.move.type}
+					    filterOption={(input, option) =>
+					      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					    }
+					    className="SelectType"
+					  >
+					    <Option value="Toprock">Toprock</Option>
+					    <Option value="Footwork">Footwork</Option>
+					    <Option value="Freezes">Freezes</Option>
+					    <Option value="Power">Power</Option>
+					  </Select>
+					 </div>
+					 <div>
+					  	<br/>
+							<Button
+								id="ReversibleButton"
+								className={this.props.move.reversible ? "Reversible" : null }
+								onClick={(e) => this.toggleReverse(e)}>
+								{this.props.move.reversible ? "Reversible" :"Not Reversible"}
+							</Button>
+					</div>
+					<br/>
+					<TextArea id="moveDescription" 
+							  rows={4} 
+							  value={this.props.move.description} 
+							  onChange={() => this.updateDescription()}
+				    />
 				</div>
 			);
 	}

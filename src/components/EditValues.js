@@ -520,7 +520,7 @@ class EditValues extends React.Component {
 	      };
 	    });
 	    return (
-	    	<div className={"EditValuesContainer"}>
+	    	<div className={this.props.buttonClass}>
 			  <Button className={"EditValuesButton"} type="primary" onClick={() => this.showModal()}>
 			    {this.getTitle()}
 			  </Button>

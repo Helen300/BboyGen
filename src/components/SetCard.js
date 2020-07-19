@@ -27,9 +27,14 @@ class SetCard extends React.Component {
 					>
 						<Meta 
 							title={<div className={(this.isSelected() ? "SelectedTitle" : "NormalTitle")}>{this.props.moveSet.name} 
-									<DeleteOutlined 
-										className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} 
-										onClick={(e) => this.deleteSet(e)}/>
+									{this.props.showCardButtons ?
+										<DeleteOutlined 
+											className={this.isSelected() ? "SelectedDelete" : "NormalDelete"} 
+											onClick={(e) => this.deleteSet(e)}
+										/>
+										:
+										null
+									}
 								   </div>} 
 						/>
 			  		</Card> 

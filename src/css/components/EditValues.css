@@ -5,11 +5,20 @@
 
 .EditValuesButton {
 	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.EditValuesContainer {
-	flex: 1 0 0;
+.EditValuesContainer-Gen{
 	margin-right: 3%;
+	overflow: hidden;
+	flex: 3 0 0;
+}
+
+.EditValuesContainer-Train{
+	margin-right: 3%;
+	overflow: hidden;
+	flex: 1 0 0;
 }
 
 .Warning {

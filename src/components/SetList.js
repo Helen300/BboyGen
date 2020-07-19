@@ -42,6 +42,7 @@ class SetList extends React.Component {
 						updateCardList={this.props.updateSetList}
 						enableDrag={this.props.enableDrag}
 						loading={this.props.loading}
+						showCardButtons={true}
 					/>
 				</TabPane>
 				<TabPane className="Pane SetsPane" tab={setTabNames[1]} key={setTabNames[1]}>
@@ -54,6 +55,7 @@ class SetList extends React.Component {
 						updateCardList={this.props.updateSetList}
 						enableDrag={this.props.enableDrag}
 						loading={this.props.loading}
+						showCardButtons={true}
 					/>
 				</TabPane>
 			</Tabs>

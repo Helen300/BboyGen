@@ -14,6 +14,7 @@ import $ from 'jquery';
 import Slider from "react-slick";
 
 import "../css/containers/Pane.css"
+import "../css/containers/Column.css"
 import "../css/containers/GeneratorView.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
@@ -31,7 +32,7 @@ class GeneratorView extends React.Component {
 		currentSetTab: setTabNames[0],
 		probs: {},
 		loading: true,
-		windowWidth: 0
+		mobileView: false
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -171,12 +172,27 @@ class GeneratorView extends React.Component {
 	}
 
 	updateWindowWidth() {
-	  this.setState({ windowWidth: window.innerWidth });
+		if(window.innerWidth < 576){
+			this.setState({
+				mobileView: true
+			})
+		} else {
+			this.setState({
+				mobileView: false
+			})
+		}
 	}
 
 	constructor(props) {
 		super(props)
 		this.updateWindowWidth = this.updateWindowWidth.bind(this)
+	}
+
+	// set height of columns equal to view height, must do this here since Slider overrides columns inline styles
+	// this function runs after render so we write in the height after Slider writes its inline styles in
+	componentDidUpdate(){
+		const mainViewHeight = $("#mainViewContainer").height()
+		$(".Column").height(mainViewHeight)
 	}
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
@@ -240,9 +256,8 @@ class GeneratorView extends React.Component {
 	}
 
 	render() {
-		const mobile = this.state.windowWidth < 576
 	    const panes = [ 
-					<div className="col-xs-12 col-sm-4 h-100">
+					<div className="col-xs-12 col-sm-4 Column">
 						<SetList
 							updateSelectedSetIdx={this.updateSelectedSetIdx.bind(this)}
 							updateSelectedSetTab={this.updateSelectedSetTab.bind(this)}
@@ -250,13 +265,13 @@ class GeneratorView extends React.Component {
 							selectedSetIdx={this.state.selectedSetIdx}
 							updateSetList={this.updateSetList.bind(this)}
 							loading={this.state.loading}
-							enableDrag={!mobile}
+							enableDrag={!this.state.mobileView}
 						/>
 						<Button type="primary" className={"AddSetButton"} onClick={()=>this.addSet()}>Add Set</Button>
 					</div>,
 
 					this.state.selectedSetIdx !== -1 ?
-					<div className="col-xs-12 col-sm-4 h-100">
+					<div className="col-xs-12 col-sm-4 Column">
 						<EditSetName
 							selectedSetIdx={this.state.selectedSetIdx}
 							updateSetList={this.updateSetList.bind(this)}
@@ -267,7 +282,7 @@ class GeneratorView extends React.Component {
 							cardType={cardTypes.SET_MOVE}
 							cardList={this.state.setList[this.state.selectedSetIdx].moves}
 							updateCardList={this.updateSetMoveList.bind(this)}
-							enableDrag={!mobile}
+							enableDrag={!this.state.mobileView}
 							currentTab={tabNames[0]}
 							toggleReverseIcon={this.toggleReverseIcon.bind(this)}
 							showCardButtons={true}
@@ -279,7 +294,7 @@ class GeneratorView extends React.Component {
 					null,
 
 					this.state.selectedSetIdx !== -1 ?
-					<div className="col-xs-12 col-sm-4 h-100">
+					<div className="col-xs-12 col-sm-4 Column">
 						<MoveList
 							updateSelectedTab={this.updateSelectedTab.bind(this)}
 							moveList={this.state.moveList}
@@ -295,6 +310,7 @@ class GeneratorView extends React.Component {
 								reverseProb={this.state.probs['reverseProb']}
 								updateValues={this.updateProbs.bind(this)}
 								valueType={editValueTypes.PROBS}
+								buttonClass={"EditValuesContainer-Gen"}
 							/>
 						</div>
 					</div>
@@ -312,7 +328,7 @@ class GeneratorView extends React.Component {
 	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)
-		if(mobile) {
+		if(this.state.mobileView) {
 			return (
 				<Slider {...settings}>
 					{panes}

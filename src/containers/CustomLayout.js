@@ -84,14 +84,14 @@ class CustomLayout extends React.Component {
 
         </Menu>
       </Header>
-      <Content style={{ padding: '0 50px' }}>
+      <Content className="Content">
           <div className="site-layout-content"
-          style={{ background: '#fff', padding: '24px', minHeight: '50em' }}>
+          style={{ background: '#fff', padding: '3%', height: '100%' }}>
             {/* class based takes this. */}
             {this.props.children}
           </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      <Footer style={{ textAlign: 'center' }}>{/*Ant Design ©2018 Created by Ant UED*/}</Footer>
     </Layout>
     );
   }

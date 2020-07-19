@@ -2,8 +2,17 @@
 	overflow-y: auto;
 	border: 1px solid #d9d9d9;
 	border-radius: 0.2em;	
-	height:56vh;
+	height: 100%;
 	background-color: #ededed;
+}
+
+/* makes sure tabbed panes fill up whole screen (bootstrap column is the flexbox)*/
+.ant-tabs {
+	flex: auto;
+}
+
+.ant-tabs-content {
+	height: 100%
 }
 
 /* Custom Scrollbar*/

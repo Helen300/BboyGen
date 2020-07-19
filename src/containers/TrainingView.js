@@ -7,9 +7,11 @@ import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../c
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
+import $ from 'jquery';
 import Slider from "react-slick";
 
 import "../css/containers/TrainingView.css"
+import "../css/containers/Column.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -28,7 +30,7 @@ class TrainingView extends React.Component {
 		durations: {},
 		voiceOn: true,
 		loading: true,
-		windowWidth: 0
+		mobileView: false
 	}
 
 	updateProbs(newProbs) {
@@ -182,12 +184,32 @@ class TrainingView extends React.Component {
 	}
 
 	updateWindowWidth() {
-	  this.setState({ windowWidth: window.innerWidth });
+		if(window.innerWidth < 576){
+			this.setState({
+				mobileView: true
+			})
+		} else {
+			this.setState({
+				mobileView: false
+			})
+		}
 	}
 
 	constructor(props) {
 		super(props)
 		this.updateWindowWidth = this.updateWindowWidth.bind(this)
+	}
+
+	// set height of columns equal to view height, must do this here since Slider overrides columns inline styles
+	// this function runs after render so we write in the height after Slider writes its inline styles in
+	componentDidUpdate(){
+		const mainViewHeight = $("#mainViewContainer").height()
+		// stack cols for desktop view (2 rows, half height each)
+		if(this.state.mobileView) {
+			$(".Column").height(mainViewHeight)
+		} else {
+			$(".Column").height(mainViewHeight / 2)
+		}
 	}
 
 	componentDidMount() {
@@ -248,7 +270,7 @@ class TrainingView extends React.Component {
 
 	render() {
 		const panes = [
-					<div class="col-sm-12">
+					<div class="col-sm-12 Column">
 						<h4>Training</h4>
 						<CardList
 							cardType={cardTypes.TRAINING_MOVE}
@@ -273,6 +295,7 @@ class TrainingView extends React.Component {
 									reverseProb={this.state.probs['reverseProb']}
 									updateValues={this.updateProbs.bind(this)}
 									valueType={editValueTypes.PROBS}
+									buttonClass={"EditValuesContainer-Train"}
 								/>
 								:
 								null
@@ -283,6 +306,7 @@ class TrainingView extends React.Component {
 									updateValues={this.updateDurations.bind(this)}
 									valueType={editValueTypes.DURATIONS}
 									allMoves={this.state.allMoves}
+									buttonClass={"EditValuesContainer-Train"}
 								/>
 								:
 								null
@@ -290,7 +314,7 @@ class TrainingView extends React.Component {
 						</div>
 					</div>,
 
-					<div className="col-xs-12 col-sm-6">
+					<div className="col-xs-12 col-sm-6 Column">
 						<h5>Training Sets</h5>
 						<div class="Pane">
 							<CardList
@@ -301,11 +325,12 @@ class TrainingView extends React.Component {
 								currentTab={setTabNames[1]}
 								updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
 								loading={this.state.loading}
+								showCardButtons={false}
 							/>
 						</div>
 					</div>,
 
-					<div className="col-xs-12 col-sm-6">
+					<div className="col-xs-12 col-sm-6 Column">
 						<h5>Moves in Set</h5>
 							<div class="Pane">
 							<CardList
@@ -330,7 +355,7 @@ class TrainingView extends React.Component {
 	      dots: true
 	    };
 		// add slider for panes if window width is small (mobile)
-		if(this.state.windowWidth < 768) {
+		if(this.state.mobileView) {
 			return (
 				<Slider {...settings}>
 					{panes}
@@ -338,11 +363,11 @@ class TrainingView extends React.Component {
 			)
 		} else {
 			return(
-				<div>
-					<div class="row h-40">
+				<div class="TrainingViewContainer">
+					<div class="row TrainingViewRow">
 						{panes[0]}
 					</div>
-					<div className="row h-60">
+					<div className="row TrainingViewRow">
 						{panes[1]}
 						{panes[2]}
 					</div>
@@ -350,7 +375,6 @@ class TrainingView extends React.Component {
 			)
 		}
 	}
-
 }
 
 
