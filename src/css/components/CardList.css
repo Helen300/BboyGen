@@ -11,17 +11,33 @@
 .SlidingContainer{
 	display: flex;
 	flex-wrap: nowrap;
-	overflow-x: hidden;
-	flex: 2 0 0;
-	margin-bottom: 2%;
+	overflow: hidden;
+	height: 60%;
 }
 
 .SlidingContainerBacklog{
 	display: flex;
 	flex-wrap: nowrap;
-	overflow-x: hidden;
-	flex: 1 0 0;
+	overflow: hidden;
+	height: 30%;
 }
+
+/* styles for mobile view <576px width and <575px height*/
+@media screen and (max-width: 575px){
+	.SlidingContainer{
+		display: flex;
+		flex-wrap: nowrap;
+		overflow: hidden;
+		height: 45%;
+	}
+
+	.SlidingContainerBacklog{
+		display: flex;
+		flex-wrap: wrap;
+		height: 45%;
+	}
+}
+
 
 .CenteredLoading {
 	right: 50%;

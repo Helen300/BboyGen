@@ -188,6 +188,7 @@ class CardList extends React.Component {
 						return (
 								<TrainingMove
 						          move={move}
+						          listType={this.props.divClass}
 						        />
 
 						)

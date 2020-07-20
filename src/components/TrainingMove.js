@@ -24,7 +24,9 @@ class TrainingMove extends React.Component {
 
 
 	render() {
-			var cardWidth = this.props.move.length * 10
+		    // render shorter width for backlog list
+			var factor = this.props.listType === "SlidingContainerBacklog" ? 7.5 : 10
+			var cardWidth = this.props.move.length * factor
 			cardWidth = cardWidth.toString() + "%"
 			return(
 					<Card 
