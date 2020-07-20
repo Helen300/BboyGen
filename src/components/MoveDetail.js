@@ -101,7 +101,7 @@ class MoveDetail extends React.Component {
 					 <div>
 							<Button
 								id="ReversibleButton"
-								className={this.props.move.reversible ? "Reversible" : null }
+								className={this.props.move.reversible ? "Reversible" : "NotReversible" }
 								onClick={(e) => this.toggleReverse(e)}>
 								{this.props.move.reversible ? "Reversible" :"Not Reversible"}
 							</Button>

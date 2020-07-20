@@ -182,6 +182,11 @@ class TrainingView extends React.Component {
 			currSet: [],
 			moveBacklog: 0
 		})
+
+		// slide to set move list when selecting a set
+		if(this.state.mobileView){
+			this.slider.slickGoTo(2)
+		}
 	}
 
 	updateWindowWidth() {
@@ -225,7 +230,7 @@ class TrainingView extends React.Component {
 		} else {
 			$(".Column").height(mainViewHeight / 2)
 		}
-
+		console.log("updated")
 	}
 
 	componentDidMount() {
@@ -376,7 +381,7 @@ class TrainingView extends React.Component {
 		// add slider for panes if window width is small (mobile) vertical 
 		if (this.state.mobileView) {
 			return (
-				<Slider {...settings}>
+				<Slider ref={slider => (this.slider = slider)} {...settings}>
 					{panes}
 				</Slider>
 			)

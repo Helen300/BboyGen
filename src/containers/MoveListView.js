@@ -27,13 +27,17 @@ class MoveListView extends React.Component {
 		selectedMoveIdx: -1,
 		currentTab:tabNames[0],
 		loading: true,
-		mobileView: false
+		mobileView: false,
 	}
 
 	updateSelectedMoveIdx(newIdx) {
 		this.setState({
 			selectedMoveIdx: newIdx
 		})
+		// slide to move detail when selecting a card
+		if(this.state.mobileView){
+			this.slider.slickGoTo(1)
+		}
 	}
 
 	updateMoveList(newList) {
@@ -179,12 +183,13 @@ class MoveListView extends React.Component {
 	      infinite: false,
 	      draggable: true,
 	      swipe: true,
-	      dots: true
+	      dots: true,
+	      initialSlide: 1
 	    };
 		// add slider for panes if window width is small (mobile)
 		if(this.state.mobileView) {
 			return (
-				<Slider {...settings}>
+				<Slider ref={slider => (this.slider = slider)} {...settings}>
 					{panes}
 				</Slider>
 			)

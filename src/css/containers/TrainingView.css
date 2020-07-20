@@ -41,3 +41,10 @@
 .HorizontalTrainSets {
 	display: flex !important;
 }
+
+/* fix offcenter columns */
+@media screen and (max-width: 575px), screen and (max-height: 575px){
+	.row {
+		margin-left: 0px !important
+	}
+}

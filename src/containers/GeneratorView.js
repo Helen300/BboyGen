@@ -40,6 +40,10 @@ class GeneratorView extends React.Component {
 		this.setState({
 			selectedSetIdx: selectedSetIdx,
 		})
+		// slide to set move list when selecting a set
+		if(this.state.mobileView){
+			this.slider.slickGoTo(1)
+		}
 	}
 
 	updateSetList(newList) {
@@ -344,7 +348,7 @@ class GeneratorView extends React.Component {
 		// add slider for panes if window width is small (mobile)
 		if(this.state.mobileView) {
 			return (
-				<Slider {...settings}>
+				<Slider ref={slider => (this.slider = slider)} {...settings}>
 					{panes}
 				</Slider>
 			)
