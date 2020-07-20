@@ -8,6 +8,21 @@
 	padding-bottom: 0.1%;
 }
 
+.SlidingContainer{
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: hidden;
+	flex: 2 0 0;
+	margin-bottom: 2%;
+}
+
+.SlidingContainerBacklog{
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: hidden;
+	flex: 1 0 0;
+}
+
 .CenteredLoading {
 	right: 50%;
     bottom: 50%;

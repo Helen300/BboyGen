@@ -4,6 +4,7 @@ import "../css/components/MoveDetail.css"
 import { Input, Select, Button } from 'antd';
 import axios from 'axios';
 import $ from 'jquery';
+import { tabNames } from "../constants";
 
 import "../css/containers/Column.css"
 
@@ -75,10 +76,10 @@ class MoveDetail extends React.Component {
 					    }
 					    className="MoveDetailType"
 					  >
-					    <Option value="Toprock">Toprock</Option>
-					    <Option value="Footwork">Footwork</Option>
-					    <Option value="Freezes">Freezes</Option>
-					    <Option value="Power">Power</Option>
+					    <Option value={tabNames[1]}>{tabNames[1]}</Option>
+					    <Option value={tabNames[2]}>{tabNames[2]}</Option>
+					    <Option value={tabNames[3]}>{tabNames[3]}</Option>
+					    <Option value={tabNames[4]}>{tabNames[4]}</Option>
 					  </Select>
 					 </div>
 					 <div>

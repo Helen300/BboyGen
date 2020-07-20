@@ -222,7 +222,7 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
-			var containerClass = this.props.cardType === cardTypes.TRAINING_MOVE ? "SlidingContainer" : "MoveListDiv"
+			var containerClass = this.props.cardType === cardTypes.TRAINING_MOVE ? this.props.divClass : "MoveListDiv"
 			if(this.props.loading) {
 				containerClass = "CenteredLoading"
 			}

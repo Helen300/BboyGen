@@ -20,11 +20,13 @@ class TrainingView extends React.Component {
 
 	state = {
 		currSet: [],
+		backlogSet: [],
+		currSetSize: 0,
+		backlogSetSize: 0,
 		probs: {},
 		allMoves: [],
-		currSetMoveList: [],
+		currMoveList: [],
 		playing: false,
-		moveBacklog: 0,
 		selectedSetIdx: -1,
 		trainingSetList: [],
 		durations: {},
@@ -76,16 +78,16 @@ class TrainingView extends React.Component {
 		}
 	}
 
-	fillMoves() {
+	fillBacklog() {
 		const maxBacklog = 20
-		var fill = maxBacklog - this.state.moveBacklog
+		var fill = maxBacklog - this.state.backlogSetSize
 		if(fill <= 0) {
 			return
 		}
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currSetMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
+			var nextMove = RandomMove.getRandomMove(this.state.backlogSet, this.state.currMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
 			if (nextMove === null) {
 				return; 
 			}
@@ -99,10 +101,41 @@ class TrainingView extends React.Component {
 			addedMoves.push(nextMove)
 		}
 		this.setState({
+			backlogSet: this.state.backlogSet.concat(addedMoves)
+		})
+		this.setState({
+			backlogSetSize: this.state.backlogSetSize + totalAdded
+		})
+	}
+
+	// similar to fillMoves but we fill currSet drawing from backlogSet instead
+	addMovesFromBacklog() {
+		const maxCurrSet = 11
+		var fill = maxCurrSet - this.state.currSetSize
+		if(fill <= 0) {
+			return
+		}
+		var totalAdded = 0
+		var addedMoves = []
+		var i;
+		for (i = 0; i < this.state.backlogSet.length && fill > 0; i++) {
+			var currMove = this.state.backlogSet[i]
+			fill -= currMove.length
+			totalAdded += currMove.length
+			addedMoves.push(currMove)
+		}
+		this.setState({
+			backlogSet: this.state.backlogSet.slice(i)
+		})
+		this.setState({
+			backlogSetSize: this.state.backlogSetSize - totalAdded
+		})
+
+		this.setState({
 			currSet: this.state.currSet.concat(addedMoves)
 		})
 		this.setState({
-			moveBacklog: this.state.moveBacklog + totalAdded
+			currSetSize: this.state.currSetSize + totalAdded
 		})
 	}
 
@@ -111,14 +144,16 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
-		if(this.state.currSetMoveList.length === 0) {
+		if(this.state.currMoveList.length === 0) {
 			return
 		}
 		// 40 fps
 		this.interval = setInterval(() => {
-			// if no moves yet, fill
+			// if no moves yet, fill backlog, then fill currset with backlog, then refill backlog
 			if(this.state.currSet.length == 0) {
-				this.fillMoves()
+				this.fillBacklog()
+				this.addMovesFromBacklog()
+				this.fillBacklog()
 				if(this.state.voiceOn) {
 					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
 					textToSay.rate = 1.5
@@ -128,10 +163,11 @@ class TrainingView extends React.Component {
 			// if first move is out of length, remove first and fill with more
 			else if(this.state.currSet[0].length <= 0) {
 				this.setState({
-					moveBacklog: this.state.moveBacklog - this.state.currSet[0].originalLength,
+					currSetSize: this.state.currSetSize - this.state.currSet[0].originalLength,
 					currSet: this.state.currSet.slice(1),
 				})
-				this.fillMoves()
+				this.addMovesFromBacklog()
+				this.fillBacklog()
 				if(this.state.voiceOn) {
 					// if moves are going too fast, then cut off previous speech midway
 					speechSynthesis.cancel()
@@ -154,7 +190,7 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: false
 		})
-		if(this.state.currSetMoveList.length === 0) {
+		if(this.state.currMoveList.length === 0) {
 			return
 		}
 		clearInterval(this.interval)
@@ -167,11 +203,11 @@ class TrainingView extends React.Component {
 		// use all moves if no set selected
 		if(newIdx === -1) {
 			this.setState({
-				currSetMoveList: this.state.allMoves
+				currMoveList: this.state.allMoves
 			})
 		} else {
 			this.setState({
-				currSetMoveList: this.state.trainingSetList[newIdx].moves
+				currMoveList: this.state.trainingSetList[newIdx].moves
 			})
 		}
 		// clear current playing and pause
@@ -180,7 +216,9 @@ class TrainingView extends React.Component {
 		}
 		this.setState({
 			currSet: [],
-			moveBacklog: 0
+			backlogSet: [],
+			currSetSize: 0,
+			backlogSetSize: 0
 		})
 
 		// slide to set move list when selecting a set
@@ -230,7 +268,6 @@ class TrainingView extends React.Component {
 		} else {
 			$(".Column").height(mainViewHeight / 2)
 		}
-		console.log("updated")
 	}
 
 	componentDidMount() {
@@ -241,7 +278,7 @@ class TrainingView extends React.Component {
 			this.setState({
 				probs: res.data.probs,
 				allMoves: res.data.moveList,
-				currSetMoveList: res.data.moveList,
+				currMoveList: res.data.moveList,
 				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
 				durations: res.data.durations,
 				loading: false
@@ -293,12 +330,22 @@ class TrainingView extends React.Component {
 		const panes = [
 					<div class="col-sm-12 Column">
 						<h4>Training</h4>
-						<CardList
-							cardType={cardTypes.TRAINING_MOVE}
-							cardList={this.state.currSet}
-							enableDrag={false}
-							currentTab={tabNames[0]}
-						/>
+						<div class="SlidingMovesContainer">
+							<CardList
+								cardType={cardTypes.TRAINING_MOVE}
+								cardList={this.state.currSet}
+								enableDrag={false}
+								currentTab={tabNames[0]}
+								divClass={"SlidingContainer"}
+							/>
+							<CardList
+								cardType={cardTypes.TRAINING_MOVE}
+								cardList={this.state.backlogSet}
+								enableDrag={false}
+								currentTab={tabNames[0]}
+								divClass={"SlidingContainerBacklog"}
+							/>
+						</div>
 						<div class="ButtonsDiv">
 							<div className="ButtonContainer-Train">
 							{ this.state.playing ? 
@@ -362,7 +409,7 @@ class TrainingView extends React.Component {
 							<div class="Pane">
 							<CardList
 								cardType={cardTypes.SET_MOVE}
-								cardList={this.state.currSetMoveList}
+								cardList={this.state.currMoveList}
 								enableDrag={false}
 								currentTab={tabNames[0]}
 								showCardButtons={false}

@@ -24,7 +24,7 @@ class TrainingMove extends React.Component {
 
 
 	render() {
-			var cardWidth = this.props.move.length * 15
+			var cardWidth = this.props.move.length * 10
 			cardWidth = cardWidth.toString() + "%"
 			return(
 					<Card 

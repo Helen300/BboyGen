@@ -10,17 +10,14 @@
 	flex: 1 0 0;
 }
 
-.SlidingContainer {
+.SlidingMovesContainer {
 	height: 100%;
 	border: 1px solid #d9d9d9;
 	border-radius: 0.2em;	
 	background-color: #ededed;
-	width: 100%;
-	display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow: hidden;
     padding: 0.75%;
+    display: flex;
+    flex-direction: column;
 }
 
 .ButtonsDiv {
