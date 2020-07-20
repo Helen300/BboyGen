@@ -22,7 +22,7 @@
 	height: 30%;
 }
 
-/* styles for mobile view <576px width and <575px height*/
+/* styles for mobile view <576px width*/
 @media screen and (max-width: 575px){
 	.SlidingContainer{
 		display: flex;
@@ -35,6 +35,16 @@
 		display: flex;
 		flex-wrap: wrap;
 		height: 45%;
+	}
+}
+
+/* styles for mobile view <576px height*/
+@media screen and (max-height: 575px){
+	.SlidingContainer{
+		display: flex;
+		flex-wrap: nowrap;
+		overflow: hidden;
+		height: 100% !important;
 	}
 }
 

@@ -338,13 +338,18 @@ class TrainingView extends React.Component {
 								currentTab={tabNames[0]}
 								divClass={"SlidingContainer"}
 							/>
-							<CardList
-								cardType={cardTypes.TRAINING_MOVE}
-								cardList={this.state.backlogSet}
-								enableDrag={false}
-								currentTab={tabNames[0]}
-								divClass={"SlidingContainerBacklog"}
-							/>
+							{//dont show backlog on horizontal mobile view
+								this.state.horizontalMobileView ?
+								null
+								:
+								<CardList
+									cardType={cardTypes.TRAINING_MOVE}
+									cardList={this.state.backlogSet}
+									enableDrag={false}
+									currentTab={tabNames[0]}
+									divClass={"SlidingContainerBacklog"}
+								/>
+							}
 						</div>
 						<div class="ButtonsDiv">
 							<div className="ButtonContainer-Train">
