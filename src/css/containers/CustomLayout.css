@@ -12,6 +12,7 @@
 	overflow: hidden;
 }
 
+
 /* styles for mobile view <576px width and <575px height*/
 @media screen and (max-width: 575px), screen and (max-height: 575px){
 	.Content{

@@ -30,7 +30,8 @@ class TrainingView extends React.Component {
 		durations: {},
 		voiceOn: true,
 		loading: true,
-		mobileView: false
+		mobileView: false, 
+		horizontalMobileView: false, 
 	}
 
 	updateProbs(newProbs) {
@@ -188,11 +189,23 @@ class TrainingView extends React.Component {
 			this.setState({
 				mobileView: true
 			})
-		} else {
+		} 
+		else {
 			this.setState({
 				mobileView: false
 			})
 		}
+		if(window.innerHeight < 576) {
+			this.setState({
+				horizontalMobileView: true
+			})
+		}
+		else {
+			this.setState({
+				horizontalMobileView: false
+			})
+		}
+		
 	}
 
 	constructor(props) {
@@ -205,13 +218,14 @@ class TrainingView extends React.Component {
 	componentDidUpdate(){
 		const mainViewHeight = $("#mainViewContainer").height()
 		// stack cols for desktop view (2 rows, half height each)
-		if(this.state.mobileView) {
+		if (this.state.mobileView || this.state.horizontalMobileView) {
 			// make space for slider dots if on mobile view
 			const slickDotsHeight = 25
 			$(".Column").height(mainViewHeight - slickDotsHeight)
 		} else {
 			$(".Column").height(mainViewHeight / 2)
 		}
+
 	}
 
 	componentDidMount() {
@@ -243,7 +257,7 @@ class TrainingView extends React.Component {
 	        	 this.updateProbs(newProbs)
 	        } */ 
 	        // if empty, initialize durations to uniform
-	        if(Object.keys(res.data.durations).length === 0) {
+	        if (Object.keys(res.data.durations).length === 0) {
 	        	var initDurations = {}
 	        	initDurations.types = {
 	        		[tabNames[1]]: 2,
@@ -264,7 +278,7 @@ class TrainingView extends React.Component {
 	}
 
 	componentWillUnmount() {
-		if(this.state.playing) {
+		if (this.state.playing) {
 			this.stopPlaying()
 		}
 		window.removeEventListener('resize', this.updateWindowWidth)
@@ -359,14 +373,28 @@ class TrainingView extends React.Component {
 	      infinite: false,
 	      dots: true
 	    };
-		// add slider for panes if window width is small (mobile)
-		if(this.state.mobileView) {
+		// add slider for panes if window width is small (mobile) vertical 
+		if (this.state.mobileView) {
 			return (
 				<Slider {...settings}>
 					{panes}
 				</Slider>
 			)
-		} else {
+		} 
+		// detect for horizontal mobile view 
+		else if (this.state.horizontalMobileView) {
+			const horizontalPanes = 
+			[
+				panes[0], 
+				<div class="row HorizontalTrainSets">{panes[1]}{panes[2]}</div>
+			]
+			return (
+				<Slider {...settings}>
+					{horizontalPanes}
+				</Slider>
+			)
+		}
+		else {
 			return(
 				<div class="TrainingViewContainer">
 					<div class="row TrainingViewRow">

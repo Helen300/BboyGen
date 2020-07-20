@@ -90,7 +90,7 @@ class MoveDetail extends React.Component {
 					    filterOption={(input, option) =>
 					      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 					    }
-					    className="SelectType"
+					    className="MoveDetailType"
 					  >
 					    <Option value="Toprock">Toprock</Option>
 					    <Option value="Footwork">Footwork</Option>
@@ -99,7 +99,6 @@ class MoveDetail extends React.Component {
 					  </Select>
 					 </div>
 					 <div>
-					  	<br/>
 							<Button
 								id="ReversibleButton"
 								className={this.props.move.reversible ? "Reversible" : null }
@@ -107,7 +106,6 @@ class MoveDetail extends React.Component {
 								{this.props.move.reversible ? "Reversible" :"Not Reversible"}
 							</Button>
 					</div>
-					<br/>
 					<TextArea id="moveDescription" 
 							  rows={4} 
 							  value={this.props.move.description} 

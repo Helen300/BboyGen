@@ -32,7 +32,8 @@ class GeneratorView extends React.Component {
 		currentSetTab: setTabNames[0],
 		probs: {},
 		loading: true,
-		mobileView: false
+		mobileView: false, 
+		horizontalMobileView: false
 	}
 
 	updateSelectedSetIdx(selectedSetIdx) {
@@ -181,6 +182,16 @@ class GeneratorView extends React.Component {
 				mobileView: false
 			})
 		}
+		if(window.innerHeight < 576) {
+			this.setState({
+				horizontalMobileView: true
+			})
+		}
+		else {
+			this.setState({
+				horizontalMobileView: false
+			})
+		}
 	}
 
 	constructor(props) {
@@ -313,6 +324,7 @@ class GeneratorView extends React.Component {
 								updateValues={this.updateProbs.bind(this)}
 								valueType={editValueTypes.PROBS}
 								buttonClass={"EditValuesContainer-Gen"}
+								mobileView={this.state.horizontalMobileView}
 							/>
 						</div>
 					</div>

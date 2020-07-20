@@ -37,3 +37,7 @@
 .TrainingViewRow{
 	height: 50%;
 }
+
+.HorizontalTrainSets {
+	display: flex !important;
+}

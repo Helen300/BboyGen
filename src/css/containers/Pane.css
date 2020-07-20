@@ -8,7 +8,7 @@
 
 /* makes sure tabbed panes fill up whole screen (bootstrap column is the flexbox)*/
 .ant-tabs {
-	flex: auto;
+	flex: 1 0 0;
 }
 
 .ant-tabs-content {
