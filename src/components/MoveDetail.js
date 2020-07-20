@@ -24,15 +24,6 @@ class MoveDetail extends React.Component {
 		this.props.updateMoveList(newList);
 	}
 
-
-	updateName() {
-		var newName = $("#moveName").val()
-		// make copy of array
-		var newList = this.props.moveList.slice()
-		newList[this.props.selectedMoveIdx].name = newName;
-		this.props.updateMoveList(newList);
-	}
-
 	updateType = (value) => {
 		var newType = value;
 		// make copy of array
@@ -67,15 +58,7 @@ class MoveDetail extends React.Component {
 	render() {
 			return (
 				// since we need to return one div
-				<div class="Column">
-					<h4 className="ColumnTitle">Move Description</h4>
-					<div className="MoveName">Name of Move: 
-						<TextArea id="moveName"
-								  rows={1}
-								  value={this.props.move.name}
-								  onChange={() => this.updateName()}
-						/>
-					</div>
+				<div class="MoveDetailContainer">
 					<div>
 						<Select
 					  	id="selectType"
@@ -106,8 +89,7 @@ class MoveDetail extends React.Component {
 								{this.props.move.reversible ? "Reversible" :"Not Reversible"}
 							</Button>
 					</div>
-					<TextArea id="moveDescription" 
-							  rows={4} 
+					<TextArea id="moveDescription"  
 							  value={this.props.move.description} 
 							  onChange={() => this.updateDescription()}
 				    />

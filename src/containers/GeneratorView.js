@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetList from '../components/SetList';
-import EditSetName from '../components/EditSetName';
+import EditCardName from '../components/EditCardName';
 import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
 import { Tabs } from 'antd';
@@ -289,10 +289,10 @@ class GeneratorView extends React.Component {
 
 					this.state.selectedSetIdx !== -1 ?
 					<div className="col-xs-12 col-sm-4 Column">
-						<EditSetName
-							selectedSetIdx={this.state.selectedSetIdx}
-							updateSetList={this.updateSetList.bind(this)}
-							setList={this.state.setList}
+						<EditCardName
+							selectedIdx={this.state.selectedSetIdx}
+							updateCardList={this.updateSetList.bind(this)}
+							cardList={this.state.setList}
 						/>
 						<div className="Pane MovesPane">
 						<CardList

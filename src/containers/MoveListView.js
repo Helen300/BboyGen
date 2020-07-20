@@ -6,6 +6,7 @@ import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
 import $ from 'jquery';
 import Slider from "react-slick";
+import EditCardName from '../components/EditCardName';
 
 import "../css/containers/Pane.css"
 import "../css/containers/Column.css"
@@ -164,7 +165,12 @@ class MoveListView extends React.Component {
 					</div>,
 
 					this.state.selectedMoveIdx !== -1 ?
-					<div className="col-xs-12 col-sm-8">
+					<div className="col-xs-12 col-sm-8 Column">
+							<EditCardName
+								selectedIdx={this.state.selectedMoveIdx}
+								updateCardList={this.updateMoveList.bind(this)}
+								cardList={this.state.moveList}
+							/>
 						   	<MoveDetail 
 						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
 						    	moveList={this.state.moveList}
