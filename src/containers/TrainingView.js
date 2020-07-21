@@ -414,7 +414,7 @@ class TrainingView extends React.Component {
 					</div>,
 
 					<div className="col-xs-12 col-sm-6 Column">
-						<h5>Moves in Set</h5>
+						<h5>{this.state.selectedSetIdx !== -1 ? "Moves in Set" : "All Moves"}</h5>
 							<div class="Pane">
 							<CardList
 								cardType={cardTypes.SET_MOVE}

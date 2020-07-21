@@ -10,6 +10,7 @@
 	flex: 1 0 0;
 }
 
+/* set min height and width to 0 bc they are set to auto by default of flex display*/
 .SlidingMovesContainer {
 	height: 100%;
 	border: 1px solid #d9d9d9;
@@ -19,6 +20,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    min-height: 0px;
+    min-width: 0px;
 }
 
 .ButtonsDiv {

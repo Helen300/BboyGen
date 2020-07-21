@@ -9,10 +9,15 @@
 /* makes sure tabbed panes fill up whole screen (bootstrap column is the flexbox)*/
 .ant-tabs {
 	flex: 1 0 0;
+	display: flex;
+	flex-direction: column;
 }
 
+/* set min height and width to 0 bc they are set to auto by default of flex display*/
 .ant-tabs-content {
-	height: 100%
+	height: 100%;
+	min-height: 0px;
+	min-width: 0px;
 }
 
 /* Custom Scrollbar*/
