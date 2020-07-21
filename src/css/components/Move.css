@@ -19,6 +19,24 @@
 	margin-bottom: 0% !important;	
 }
 
+.TrainingCard .ant-card-body {
+	padding: 0px !important;
+}
+
+.TrainingCard .SelectedTitle {
+	padding: 1.5em;
+	font-size: 14px;
+	float: left;
+}
+
+@media screen and (max-height: 575px){
+	.TrainingCard .SelectedTitle {
+		padding: 1em 1.5em;
+		font-size: 14px;
+		float: left;
+	}
+}
+
 .NormalTitle {
 	color: #5f6bb2;
 }

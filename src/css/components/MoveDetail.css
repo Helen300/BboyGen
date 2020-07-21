@@ -1,7 +1,10 @@
+/* set min height and width to 0 bc they are set to auto by default of flex display*/
 .MoveDetailContainer{
 	display: flex;
 	flex-direction: column;
 	flex: auto;
+	min-height: 0px;
+	min-width: 0px
 }
 
 #moveDescription{
