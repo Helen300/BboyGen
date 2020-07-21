@@ -2,3 +2,4 @@ Pipfile
 Pipfile.lock
 node_modules
 /build/
+.DS_Store

@@ -5,14 +5,36 @@
 	margin-right: 1.25%;
 }
 
+/* flex box sets all min-height and min-width to auto */ 
 .TrainingCard {
 	float: left;
 	flex: 0 0 auto;
+	/* so that cards disappear little by little */ 
+	min-height: 0px;
+	min-width: 0px;
+	overflow: hidden;
 	transition: width 0s !important;
 	margin-right: 0.5% !important;
 	margin-top: 0% !important;
-	margin-bottom: 0% !important;
-	
+	margin-bottom: 0% !important;	
+}
+
+.TrainingCard .ant-card-body {
+	padding: 0px !important;
+}
+
+.TrainingCard .SelectedTitle {
+	padding: 1.5em;
+	font-size: 14px;
+	float: left;
+}
+
+@media screen and (max-height: 575px){
+	.TrainingCard .SelectedTitle {
+		padding: 1em 1.5em;
+		font-size: 14px;
+		float: left;
+	}
 }
 
 .NormalTitle {

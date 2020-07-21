@@ -8,7 +8,7 @@ import "../css/components/EditSetName.css"
 const { TextArea } = Input;
 
 // for all moves, there exists one moveDetail div that gets updated 
-class EditSetName extends React.Component {
+class EditCardName extends React.Component {
 
 	state = {
 		editingName: false,
@@ -17,26 +17,26 @@ class EditSetName extends React.Component {
 
 	saveNewName() {
 		var newName = this.state.currentName;
-		var newSetList = this.props.setList;
-		newSetList[this.props.selectedSetIdx].name = newName;
+		var newSetList = this.props.cardList;
+		newSetList[this.props.selectedIdx].name = newName;
 		this.setState({
 			editingName: false,
 		})
-		this.props.updateSetList(newSetList);
+		this.props.updateCardList(newSetList);
 	}
 
 	componentDidMount() {
-		if (this.props.selectedSetIdx != -1) {
+		if (this.props.selectedIdx != -1) {
 			this.setState({
-				currentName: this.props.setList[this.props.selectedSetIdx].name,
+				currentName: this.props.cardList[this.props.selectedIdx].name,
 			})
 		}
 	}
 
 	componentWillReceiveProps(newProps) {
-		if (newProps.selectedSetIdx != -1) {
+		if (newProps.selectedIdx != -1) {
 			this.setState({
-				currentName: newProps.setList[newProps.selectedSetIdx].name,
+				currentName: newProps.cardList[newProps.selectedIdx].name,
 			})
 		}
 	}
@@ -74,7 +74,7 @@ class EditSetName extends React.Component {
 					</Button>
 					</div>
 				:
-				<h4>{this.props.setList[this.props.selectedSetIdx].name}
+				<h4>{this.props.cardList[this.props.selectedIdx].name}
 					<EditOutlined onClick={() => this.setState({editingName:true})}/>
 				</h4>
 
@@ -92,4 +92,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default EditSetName;
+export default EditCardName;

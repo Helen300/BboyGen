@@ -24,13 +24,17 @@ class TrainingMove extends React.Component {
 
 
 	render() {
-			var cardWidth = this.props.move.length * 15
+		    // render shorter width for backlog list
+		    // default 20 width per second for horizontal
+		    // for non-horizontal = 10 width per second
+			var factor = this.props.horizontalMobileView ? 20 : 12
+			var cardWidth = this.props.move.length * factor
 			cardWidth = cardWidth.toString() + "%"
 			return(
 					<Card 
 						hoverable 
 						className={"NormalCard TrainingCard"}
-						style={{width: cardWidth, backgroundColor: this.getCardColor()}}
+						style={{flexBasis: cardWidth, backgroundColor: this.getCardColor()}}
 					>
 						<Meta 
 							title={<div className={"SelectedTitle"}>

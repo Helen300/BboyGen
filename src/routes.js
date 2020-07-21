@@ -13,7 +13,7 @@ class BaseRouter extends React.Component {
 	render() {
 		return(
 
-			<div>
+			<div id="mainViewContainer" style={{ height: "100%" }}>
 				{/* for the path localhost/ displays MoveList */}
 				{
 					this.props.isAuthenticated ?

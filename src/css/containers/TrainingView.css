@@ -4,17 +4,24 @@
 	margin-right: 3%;
 }
 
-.SlidingContainer {
-	height: 15vh;
+.ButtonContainer-Train{
+	margin-right: 3%;
+	overflow: hidden;
+	flex: 1 0 0;
+}
+
+/* set min height and width to 0 bc they are set to auto by default of flex display*/
+.SlidingMovesContainer {
+	height: 100%;
 	border: 1px solid #d9d9d9;
 	border-radius: 0.2em;	
 	background-color: #ededed;
-	width: 100%;
-	display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow: hidden;
     padding: 0.75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-height: 0px;
+    min-width: 0px;
 }
 
 .ButtonsDiv {
@@ -22,4 +29,23 @@
 	margin-right: -3%;
 	margin-bottom: 2%;
 	display: flex;
+}
+
+.TrainingViewContainer{
+	height: 100%;
+}
+
+.TrainingViewRow{
+	height: 50%;
+}
+
+.HorizontalTrainSets {
+	display: flex !important;
+}
+
+/* fix offcenter columns */
+@media screen and (max-width: 575px), screen and (max-height: 575px){
+	.row {
+		margin-left: 0px !important
+	}
 }

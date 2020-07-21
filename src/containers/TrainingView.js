@@ -7,9 +7,11 @@ import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../c
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
 import RandomMove from '../RandomMove';
+import $ from 'jquery';
 import Slider from "react-slick";
 
 import "../css/containers/TrainingView.css"
+import "../css/containers/Column.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -18,17 +20,20 @@ class TrainingView extends React.Component {
 
 	state = {
 		currSet: [],
+		backlogSet: [],
+		currSetSize: 0,
+		backlogSetSize: 0,
 		probs: {},
 		allMoves: [],
-		currSetMoveList: [],
+		currMoveList: [],
 		playing: false,
-		moveBacklog: 0,
 		selectedSetIdx: -1,
 		trainingSetList: [],
 		durations: {},
 		voiceOn: true,
 		loading: true,
-		windowWidth: 0
+		mobileView: false, 
+		horizontalMobileView: false, 
 	}
 
 	updateProbs(newProbs) {
@@ -73,16 +78,16 @@ class TrainingView extends React.Component {
 		}
 	}
 
-	fillMoves() {
+	fillBacklog() {
 		const maxBacklog = 20
-		var fill = maxBacklog - this.state.moveBacklog
-		if(fill <= 0) {
+		var fill = maxBacklog - this.state.backlogSetSize
+		if (fill <= 0) {
 			return
 		}
 		var totalAdded = 0
 		var addedMoves = []
 		while(fill > 0) {
-			var nextMove = RandomMove.getRandomMove(this.state.currSet, this.state.currSetMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
+			var nextMove = RandomMove.getRandomMove(this.state.backlogSet, this.state.currMoveList, this.state.probs['typeProbs'], this.state.probs['reverseProb'])
 			if (nextMove === null) {
 				return; 
 			}
@@ -96,10 +101,41 @@ class TrainingView extends React.Component {
 			addedMoves.push(nextMove)
 		}
 		this.setState({
+			backlogSet: this.state.backlogSet.concat(addedMoves)
+		})
+		this.setState({
+			backlogSetSize: this.state.backlogSetSize + totalAdded
+		})
+	}
+
+	// similar to fillMoves but we fill currSet drawing from backlogSet instead
+	addMovesFromBacklog() {
+		const maxCurrSet = 11
+		var fill = maxCurrSet - this.state.currSetSize
+		if (fill <= 0) {
+			return
+		}
+		var totalAdded = 0
+		var addedMoves = []
+		var i;
+		for (i = 0; i < this.state.backlogSet.length && fill > 0; i++) {
+			var currMove = this.state.backlogSet[i]
+			fill -= currMove.length
+			totalAdded += currMove.length
+			addedMoves.push(currMove)
+		}
+		this.setState({
+			backlogSet: this.state.backlogSet.slice(i)
+		})
+		this.setState({
+			backlogSetSize: this.state.backlogSetSize - totalAdded
+		})
+
+		this.setState({
 			currSet: this.state.currSet.concat(addedMoves)
 		})
 		this.setState({
-			moveBacklog: this.state.moveBacklog + totalAdded
+			currSetSize: this.state.currSetSize + totalAdded
 		})
 	}
 
@@ -108,40 +144,43 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
-		if(this.state.currSetMoveList.length === 0) {
+		if (this.state.currMoveList.length === 0) {
 			return
 		}
 		// 40 fps
 		this.interval = setInterval(() => {
-			// if no moves yet, fill
-			if(this.state.currSet.length == 0) {
-				this.fillMoves()
+			// if no moves yet, fill backlog, then fill backlogSet with backlog, then refill backlog
+			if (this.state.backlogSet.length == 0) {
+				this.fillBacklog()
+				// this.addMovesFromBacklog()
+				// this.fillBacklog()
 				if(this.state.voiceOn) {
-					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
+					var textToSay = new SpeechSynthesisUtterance(this.state.backlogSet[0].name);
 					textToSay.rate = 1.5
 					synth.speak(textToSay)
 				}
 			}
 			// if first move is out of length, remove first and fill with more
-			else if(this.state.currSet[0].length <= 0) {
+			else if (this.state.backlogSet[0].length <= 0) {
 				this.setState({
-					moveBacklog: this.state.moveBacklog - this.state.currSet[0].originalLength,
-					currSet: this.state.currSet.slice(1),
+					backlogSetSize: this.state.backlogSetSize - this.state.backlogSet[0].originalLength,
+					backlogSet: this.state.backlogSet.slice(1),
 				})
-				this.fillMoves()
+				// this.addMovesFromBacklog()
+				this.fillBacklog()
 				if(this.state.voiceOn) {
 					// if moves are going too fast, then cut off previous speech midway
 					speechSynthesis.cancel()
-					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
+					var textToSay = new SpeechSynthesisUtterance(this.state.backlogSet[0].name);
 					textToSay.rate = 1.5
 					synth.speak(textToSay)
 				}
 			// otherwise, keep decreasing first move's length
 			} else {
-				var newList = this.state.currSet.slice()
+				var newList = this.state.backlogSet.slice()
 				newList[0].length -= 0.025
 				this.setState({
-					currSet: newList
+					backlogSet: newList
 				})
 			}
 		}, 25)
@@ -151,7 +190,7 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: false
 		})
-		if(this.state.currSetMoveList.length === 0) {
+		if(this.state.currMoveList.length === 0) {
 			return
 		}
 		clearInterval(this.interval)
@@ -162,32 +201,76 @@ class TrainingView extends React.Component {
 			selectedSetIdx: newIdx
 		})
 		// use all moves if no set selected
-		if(newIdx === -1) {
+		if (newIdx === -1) {
 			this.setState({
-				currSetMoveList: this.state.allMoves
+				currMoveList: this.state.allMoves
 			})
 		} else {
 			this.setState({
-				currSetMoveList: this.state.trainingSetList[newIdx].moves
+				currMoveList: this.state.trainingSetList[newIdx].moves
 			})
 		}
 		// clear current playing and pause
-		if(this.state.playing) {
+		if (this.state.playing) {
 			this.stopPlaying()
 		}
 		this.setState({
 			currSet: [],
-			moveBacklog: 0
+			backlogSet: [],
+			currSetSize: 0,
+			backlogSetSize: 0
 		})
+
+		// slide to set move list when selecting a set
+		// if unselect current card, should not slide to move list 
+		if (this.state.mobileView && newIdx !== -1){
+			this.slider.slickGoTo(2)
+		}
+
+
 	}
 
 	updateWindowWidth() {
-	  this.setState({ windowWidth: window.innerWidth });
+		if (window.innerWidth < 576){
+			this.setState({
+				mobileView: true
+			})
+		} 
+		else {
+			this.setState({
+				mobileView: false
+			})
+		}
+		if (window.innerHeight < 576) {
+			this.setState({
+				horizontalMobileView: true
+			})
+		}
+		else {
+			this.setState({
+				horizontalMobileView: false
+			})
+		}
+		
 	}
 
 	constructor(props) {
 		super(props)
 		this.updateWindowWidth = this.updateWindowWidth.bind(this)
+	}
+
+	// set height of columns equal to view height, must do this here since Slider overrides columns inline styles
+	// this function runs after render so we write in the height after Slider writes its inline styles in
+	componentDidUpdate(){
+		const mainViewHeight = $("#mainViewContainer").height()
+		// stack cols for desktop view (2 rows, half height each)
+		if (this.state.mobileView || this.state.horizontalMobileView) {
+			// make space for slider dots if on mobile view
+			const slickDotsHeight = 25
+			$(".Column").height(mainViewHeight - slickDotsHeight)
+		} else {
+			$(".Column").height(mainViewHeight / 2)
+		}
 	}
 
 	componentDidMount() {
@@ -198,13 +281,13 @@ class TrainingView extends React.Component {
 			this.setState({
 				probs: res.data.probs,
 				allMoves: res.data.moveList,
-				currSetMoveList: res.data.moveList,
+				currMoveList: res.data.moveList,
 				trainingSetList: res.data.setList.filter(item => item.type === setTabNames[1]),
 				durations: res.data.durations,
 				loading: false
 			});
 			// if empty, initialize probabilities to uniform
-	        if(Object.keys(res.data.probs).length === 0) {
+	        if (Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
 	        	var uni = 1 / (tabNames.length - 1)
 		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
@@ -219,7 +302,7 @@ class TrainingView extends React.Component {
 	        	 this.updateProbs(newProbs)
 	        } */ 
 	        // if empty, initialize durations to uniform
-	        if(Object.keys(res.data.durations).length === 0) {
+	        if (Object.keys(res.data.durations).length === 0) {
 	        	var initDurations = {}
 	        	initDurations.types = {
 	        		[tabNames[1]]: 2,
@@ -240,7 +323,7 @@ class TrainingView extends React.Component {
 	}
 
 	componentWillUnmount() {
-		if(this.state.playing) {
+		if (this.state.playing) {
 			this.stopPlaying()
 		}
 		window.removeEventListener('resize', this.updateWindowWidth)
@@ -248,31 +331,53 @@ class TrainingView extends React.Component {
 
 	render() {
 		const panes = [
-					<div class="col-md-12">
+					<div class="col-sm-12 Column">
 						<h4>Training</h4>
-						<CardList
-							cardType={cardTypes.TRAINING_MOVE}
-							cardList={this.state.currSet}
-							enableDrag={false}
-							currentTab={tabNames[0]}
-						/>
+						<div class="SlidingMovesContainer">
+							<CardList
+								cardType={cardTypes.TRAINING_MOVE}
+								cardList={this.state.backlogSet}
+								enableDrag={false}
+								currentTab={tabNames[0]}
+								divClass={"SlidingContainer"}
+								horizontalMobileView={this.state.horizontalMobileView}
+							/>
+							{/*//dont show backlog on horizontal mobile view
+								this.state.horizontalMobileView ?
+								null
+								:
+								<CardList
+									cardType={cardTypes.TRAINING_MOVE}
+									cardList={this.state.backlogSet}
+									enableDrag={false}
+									currentTab={tabNames[0]}
+									divClass={"SlidingContainerBacklog"}
+								/>
+							*/}
+						</div>
 						<div class="ButtonsDiv">
+							<div className="ButtonContainer-Train">
 							{ this.state.playing ? 
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.stopPlaying()}><PauseOutlined /></Button>
 								:
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.startPlaying()}><CaretRightOutlined /></Button>
 							}
+							</div>
+							<div className="ButtonContainer-Train">
 							{ this.state.voiceOn ? 
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: false})}><AudioOutlined/></Button>
 								:
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: true})}><AudioMutedOutlined/></Button>
 							}
+							</div>
 							{Object.keys(this.state.probs).length !== 0 ? 
 								<EditValues
 									values={this.state.probs['typeProbs']}
 									reverseProb={this.state.probs['reverseProb']}
 									updateValues={this.updateProbs.bind(this)}
 									valueType={editValueTypes.PROBS}
+									buttonClass={"EditValuesContainer-Train"}
+									mobileView={this.state.mobileView}
 								/>
 								:
 								null
@@ -283,6 +388,8 @@ class TrainingView extends React.Component {
 									updateValues={this.updateDurations.bind(this)}
 									valueType={editValueTypes.DURATIONS}
 									allMoves={this.state.allMoves}
+									buttonClass={"EditValuesContainer-Train"}
+									mobileView={this.state.mobileView}
 								/>
 								:
 								null
@@ -290,7 +397,7 @@ class TrainingView extends React.Component {
 						</div>
 					</div>,
 
-					<div className="col-md-6 col-sm-12">
+					<div className="col-xs-12 col-sm-6 Column">
 						<h5>Training Sets</h5>
 						<div class="Pane">
 							<CardList
@@ -301,18 +408,20 @@ class TrainingView extends React.Component {
 								currentTab={setTabNames[1]}
 								updateSelectedIdx={this.updateSelectedSetIdx.bind(this)}
 								loading={this.state.loading}
+								showCardButtons={false}
 							/>
 						</div>
 					</div>,
 
-					<div className="col-md-6 col-sm-12">
-						<h5>Moves in Set</h5>
+					<div className="col-xs-12 col-sm-6 Column">
+						<h5>{this.state.selectedSetIdx !== -1 ? "Moves in Set" : "All Moves"}</h5>
 							<div class="Pane">
 							<CardList
 								cardType={cardTypes.SET_MOVE}
-								cardList={this.state.currSetMoveList}
+								cardList={this.state.currMoveList}
 								enableDrag={false}
 								currentTab={tabNames[0]}
+								showCardButtons={false}
 							/>
 							</div>
 					</div>
@@ -323,25 +432,36 @@ class TrainingView extends React.Component {
 	      slidesToShow: 1,
 	      slidesToScroll: 1,
 	      infinite: false,
-	      adaptiveHeight: true,
-	      draggable: true,
-	      swipe: true,
 	      dots: true
 	    };
-		// add slider for panes if window width is small (mobile)
-		if(this.state.windowWidth < 768) {
+		// add slider for panes if window width is small (mobile) vertical 
+		if (this.state.mobileView) {
 			return (
-				<Slider {...settings}>
+				<Slider ref={slider => (this.slider = slider)} {...settings}>
 					{panes}
 				</Slider>
 			)
-		} else {
+		} 
+		// detect for horizontal mobile view 
+		else if (this.state.horizontalMobileView) {
+			const horizontalPanes = 
+			[
+				panes[0], 
+				<div class="row HorizontalTrainSets">{panes[1]}{panes[2]}</div>
+			]
+			return (
+				<Slider {...settings}>
+					{horizontalPanes}
+				</Slider>
+			)
+		}
+		else {
 			return(
-				<div>
-					<div class="row h-40">
+				<div class="TrainingViewContainer">
+					<div class="row TrainingViewRow">
 						{panes[0]}
 					</div>
-					<div className="row h-60">
+					<div className="row TrainingViewRow">
 						{panes[1]}
 						{panes[2]}
 					</div>
@@ -349,7 +469,6 @@ class TrainingView extends React.Component {
 			)
 		}
 	}
-
 }
 
 
