@@ -12,7 +12,7 @@
 	display: flex;
 	flex-wrap: nowrap;
 	overflow: hidden;
-	height: 60%;
+	height: 100% !important;
 }
 
 .SlidingContainerBacklog{
@@ -22,13 +22,13 @@
 	height: 30%;
 }
 
-/* styles for mobile view <576px width*/
+/* styles for mobile view <576px width VERTICAL*/
 @media screen and (max-width: 575px){
 	.SlidingContainer{
 		display: flex;
 		flex-wrap: nowrap;
 		overflow: hidden;
-		height: 45%;
+		flex-direction: column;
 	}
 
 	.SlidingContainerBacklog{
@@ -38,13 +38,12 @@
 	}
 }
 
-/* styles for mobile view <576px height*/
+/* styles for mobile view <576px height HORIZONTAL*/
 @media screen and (max-height: 575px){
 	.SlidingContainer{
 		display: flex;
 		flex-wrap: nowrap;
 		overflow: hidden;
-		height: 100% !important;
 	}
 }
 

@@ -32,7 +32,7 @@ class TrainingMove extends React.Component {
 					<Card 
 						hoverable 
 						className={"NormalCard TrainingCard"}
-						style={{width: cardWidth, backgroundColor: this.getCardColor()}}
+						style={{flexBasis: cardWidth, backgroundColor: this.getCardColor()}}
 					>
 						<Meta 
 							title={<div className={"SelectedTitle"}>

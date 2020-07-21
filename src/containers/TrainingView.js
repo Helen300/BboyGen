@@ -149,38 +149,38 @@ class TrainingView extends React.Component {
 		}
 		// 40 fps
 		this.interval = setInterval(() => {
-			// if no moves yet, fill backlog, then fill currset with backlog, then refill backlog
-			if(this.state.currSet.length == 0) {
+			// if no moves yet, fill backlog, then fill backlogSet with backlog, then refill backlog
+			if(this.state.backlogSet.length == 0) {
 				this.fillBacklog()
-				this.addMovesFromBacklog()
-				this.fillBacklog()
+				// this.addMovesFromBacklog()
+				// this.fillBacklog()
 				if(this.state.voiceOn) {
-					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
+					var textToSay = new SpeechSynthesisUtterance(this.state.backlogSet[0].name);
 					textToSay.rate = 1.5
 					synth.speak(textToSay)
 				}
 			}
 			// if first move is out of length, remove first and fill with more
-			else if(this.state.currSet[0].length <= 0) {
+			else if(this.state.backlogSet[0].length <= 0) {
 				this.setState({
-					currSetSize: this.state.currSetSize - this.state.currSet[0].originalLength,
-					currSet: this.state.currSet.slice(1),
+					backlogSetSize: this.state.backlogSetSize - this.state.backlogSet[0].originalLength,
+					backlogSet: this.state.backlogSet.slice(1),
 				})
-				this.addMovesFromBacklog()
+				// this.addMovesFromBacklog()
 				this.fillBacklog()
 				if(this.state.voiceOn) {
 					// if moves are going too fast, then cut off previous speech midway
 					speechSynthesis.cancel()
-					var textToSay = new SpeechSynthesisUtterance(this.state.currSet[0].name);
+					var textToSay = new SpeechSynthesisUtterance(this.state.backlogSet[0].name);
 					textToSay.rate = 1.5
 					synth.speak(textToSay)
 				}
 			// otherwise, keep decreasing first move's length
 			} else {
-				var newList = this.state.currSet.slice()
+				var newList = this.state.backlogSet.slice()
 				newList[0].length -= 0.025
 				this.setState({
-					currSet: newList
+					backlogSet: newList
 				})
 			}
 		}, 25)
@@ -333,12 +333,12 @@ class TrainingView extends React.Component {
 						<div class="SlidingMovesContainer">
 							<CardList
 								cardType={cardTypes.TRAINING_MOVE}
-								cardList={this.state.currSet}
+								cardList={this.state.backlogSet}
 								enableDrag={false}
 								currentTab={tabNames[0]}
 								divClass={"SlidingContainer"}
 							/>
-							{//dont show backlog on horizontal mobile view
+							{/*//dont show backlog on horizontal mobile view
 								this.state.horizontalMobileView ?
 								null
 								:
@@ -349,7 +349,7 @@ class TrainingView extends React.Component {
 									currentTab={tabNames[0]}
 									divClass={"SlidingContainerBacklog"}
 								/>
-							}
+							*/}
 						</div>
 						<div class="ButtonsDiv">
 							<div className="ButtonContainer-Train">
