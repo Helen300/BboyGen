@@ -25,7 +25,9 @@ class TrainingMove extends React.Component {
 
 	render() {
 		    // render shorter width for backlog list
-			var factor = this.props.listType === "SlidingContainerBacklog" ? 7.5 : 10
+		    // default 20 width per second for horizontal
+		    // for non-horizontal = 10 width per second
+			var factor = this.props.horizontalMobileView ? 20 : 12
 			var cardWidth = this.props.move.length * factor
 			cardWidth = cardWidth.toString() + "%"
 			return(

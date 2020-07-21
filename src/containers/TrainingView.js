@@ -81,7 +81,7 @@ class TrainingView extends React.Component {
 	fillBacklog() {
 		const maxBacklog = 20
 		var fill = maxBacklog - this.state.backlogSetSize
-		if(fill <= 0) {
+		if (fill <= 0) {
 			return
 		}
 		var totalAdded = 0
@@ -112,7 +112,7 @@ class TrainingView extends React.Component {
 	addMovesFromBacklog() {
 		const maxCurrSet = 11
 		var fill = maxCurrSet - this.state.currSetSize
-		if(fill <= 0) {
+		if (fill <= 0) {
 			return
 		}
 		var totalAdded = 0
@@ -144,13 +144,13 @@ class TrainingView extends React.Component {
 		this.setState({
 			playing: true
 		})
-		if(this.state.currMoveList.length === 0) {
+		if (this.state.currMoveList.length === 0) {
 			return
 		}
 		// 40 fps
 		this.interval = setInterval(() => {
 			// if no moves yet, fill backlog, then fill backlogSet with backlog, then refill backlog
-			if(this.state.backlogSet.length == 0) {
+			if (this.state.backlogSet.length == 0) {
 				this.fillBacklog()
 				// this.addMovesFromBacklog()
 				// this.fillBacklog()
@@ -161,7 +161,7 @@ class TrainingView extends React.Component {
 				}
 			}
 			// if first move is out of length, remove first and fill with more
-			else if(this.state.backlogSet[0].length <= 0) {
+			else if (this.state.backlogSet[0].length <= 0) {
 				this.setState({
 					backlogSetSize: this.state.backlogSetSize - this.state.backlogSet[0].originalLength,
 					backlogSet: this.state.backlogSet.slice(1),
@@ -201,7 +201,7 @@ class TrainingView extends React.Component {
 			selectedSetIdx: newIdx
 		})
 		// use all moves if no set selected
-		if(newIdx === -1) {
+		if (newIdx === -1) {
 			this.setState({
 				currMoveList: this.state.allMoves
 			})
@@ -211,7 +211,7 @@ class TrainingView extends React.Component {
 			})
 		}
 		// clear current playing and pause
-		if(this.state.playing) {
+		if (this.state.playing) {
 			this.stopPlaying()
 		}
 		this.setState({
@@ -222,13 +222,16 @@ class TrainingView extends React.Component {
 		})
 
 		// slide to set move list when selecting a set
-		if(this.state.mobileView){
+		// if unselect current card, should not slide to move list 
+		if (this.state.mobileView && newIdx !== -1){
 			this.slider.slickGoTo(2)
 		}
+
+
 	}
 
 	updateWindowWidth() {
-		if(window.innerWidth < 576){
+		if (window.innerWidth < 576){
 			this.setState({
 				mobileView: true
 			})
@@ -238,7 +241,7 @@ class TrainingView extends React.Component {
 				mobileView: false
 			})
 		}
-		if(window.innerHeight < 576) {
+		if (window.innerHeight < 576) {
 			this.setState({
 				horizontalMobileView: true
 			})
@@ -284,7 +287,7 @@ class TrainingView extends React.Component {
 				loading: false
 			});
 			// if empty, initialize probabilities to uniform
-	        if(Object.keys(res.data.probs).length === 0) {
+	        if (Object.keys(res.data.probs).length === 0) {
 	        	var testProbs = {}
 	        	var uni = 1 / (tabNames.length - 1)
 		        testProbs[tabNames[1]] = [uni, uni, uni, uni]
@@ -337,6 +340,7 @@ class TrainingView extends React.Component {
 								enableDrag={false}
 								currentTab={tabNames[0]}
 								divClass={"SlidingContainer"}
+								horizontalMobileView={this.state.horizontalMobileView}
 							/>
 							{/*//dont show backlog on horizontal mobile view
 								this.state.horizontalMobileView ?

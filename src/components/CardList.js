@@ -189,6 +189,7 @@ class CardList extends React.Component {
 								<TrainingMove
 						          move={move}
 						          listType={this.props.divClass}
+						          horizontalMobileView={this.props.horizontalMobileView}
 						        />
 
 						)
