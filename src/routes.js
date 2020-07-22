@@ -14,17 +14,22 @@ import { withAuth0 } from '@auth0/auth0-react';
 class BaseRouter extends React.Component {
 
 	render() {
+
 		const { isAuthenticated } = this.props.auth0;
+		if (isAuthenticated && !this.props.userExists) {
+			this.props.checkUserProfile()
+		}
 		return(
 
 			<div>
-				{ isAuthenticated ? 
+				{ isAuthenticated && this.props.userExists ? 
 
 				<Route exact path='/' component={MoveListView} />
 				:
 				<Route exact path='/' component={Landing} />
 
 				}
+
 				{/*<Route exact path='/' component={this.loginPage()} /> */}
 
 				{/* : defines a parameter */}

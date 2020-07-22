@@ -3,6 +3,7 @@ import axios from 'axios'
 // STYLING AND COMPONENTS TYPE STUFF 
 import { Layout, Menu } from 'antd'
 import { menuKeys, tabNames } from "../constants"
+import BaseRouter from '../routes'
 
 import "../css/containers/CustomLayout.css"
 
@@ -71,11 +72,9 @@ class CustomLayout extends React.Component {
 
   authLogin () {
     const { user, error, isAuthenticated, loginWithRedirect } = this.props.auth0
-    if (user !== null && isAuthenticated) {
-      this.checkUserProfile()
-      this.changeMenuKey(menuKeys.LIST)
-    }
-  
+    console.log(user);
+    console.log(isAuthenticated);
+    console.log('before logggginnn')
     // call login 
     loginWithRedirect()
     console.log('afterr')
@@ -132,6 +131,7 @@ class CustomLayout extends React.Component {
   }
 
   checkUserProfile () {
+    console.log('calling check user')
     const { user, error, isAuthenticated } = this.props.auth0
     if (user === null) {
       return
@@ -144,15 +144,14 @@ class CustomLayout extends React.Component {
       this.setState({
         userExists: true
       })
-      return
     })
     .catch(error => {
       console.error(error)
       console.log('DOES NOT EXIST')
       this.createUserProfile(user)
+
     })
   }
-
 
   render () {
     const { user, error, isAuthenticated, logout } = this.props.auth0
@@ -168,7 +167,7 @@ class CustomLayout extends React.Component {
         <Menu id="Menu" theme="dark" mode="horizontal" selectedKeys={[this.state.menuKey]}>
         {
             // if authenticated = true we show logout 
-            isAuthenticated && this.state.userExists ? 
+            isAuthenticated ? 
             [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
               Hello, {user['given_name'] != null ? user['given_name'] : user['nickname']}
             </Menu.Item>,
@@ -196,7 +195,9 @@ class CustomLayout extends React.Component {
           <div className="site-layout-content"
           style={{ background: '#fff', padding: '24px', minHeight: '50em' }}>
             {/* class based takes this. */}
-            {this.props.children}
+            <BaseRouter 
+              userExists={this.state.userExists}
+              checkUserProfile={this.checkUserProfile.bind(this)}/>
           </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

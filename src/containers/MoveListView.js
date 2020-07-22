@@ -70,6 +70,7 @@ class MoveListView extends React.Component {
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
+		console.log(apiUrl)
 		axios.get(apiUrl)
 		.then(res => {
 			this.setState({

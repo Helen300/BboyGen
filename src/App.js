@@ -30,8 +30,8 @@ const App = () => {
   	 <div>
 	    <Router history={history}> 
 			{/* passes isAuthenticated down to CustomLayout component */}
-		    <CustomLayout>
-		    	<BaseRouter/>
+		    <CustomLayout >
+		    	<BaseRouter />
 		    </CustomLayout>
 		</Router>
 	</div>
