@@ -11,6 +11,7 @@ import "../css/containers/CustomLayout.css"
 import { getCookie } from "../utils/getCookie"
 import { withAuth0 } from '@auth0/auth0-react'
 import { Link, withRouter } from 'react-router-dom'
+import { Spin } from 'antd';
 // import { connect } from 'react-redux'
 // import * as actions from '../store/actions/auth'
 
@@ -72,18 +73,12 @@ class CustomLayout extends React.Component {
 
   authLogin () {
     const { user, error, isAuthenticated, loginWithRedirect } = this.props.auth0
-    console.log(user);
-    console.log(isAuthenticated);
-    console.log('before logggginnn')
     // call login 
     loginWithRedirect()
-    console.log('afterr')
-    
   }
 
   authLogout() {
     const { user, error, isAuthenticated, logout } = this.props.auth0
-    console.log('user id - ', localStorage.getItem('userId'))
     logout({
         returnTo: window.location.origin,
     });
@@ -92,7 +87,6 @@ class CustomLayout extends React.Component {
   }
 
   createUserProfile(user) {
-    console.log('CREATING USER')
     var testProbs = {}
     var uni = 1 / (tabNames.length - 1)
     testProbs[tabNames[1]] = [uni, uni, uni, uni]
@@ -127,11 +121,11 @@ class CustomLayout extends React.Component {
       this.setState({
         userExists: true
       })
+      localStorage.setItem('userId', user['sub'])
     })
   }
 
   checkUserProfile () {
-    console.log('calling check user')
     const { user, error, isAuthenticated } = this.props.auth0
     if (user === null) {
       return
@@ -140,27 +134,29 @@ class CustomLayout extends React.Component {
     apiUrl = apiUrl.concat('/')
     axios.get(apiUrl)
     .then(res => {
-      console.log(res.data)
       this.setState({
         userExists: true
       })
+      localStorage.setItem('userId', user['sub'])
     })
     .catch(error => {
-      console.error(error)
-      console.log('DOES NOT EXIST')
       this.createUserProfile(user)
 
     })
   }
 
   render () {
-    const { user, error, isAuthenticated, logout } = this.props.auth0
-    if (user != null) {
-      localStorage.setItem('userId', user['sub'])
+    const { user, error, isAuthenticated, logout, isLoading } = this.props.auth0
+    if (error) {
+      return <div>Oops... {error.message}</div>;
     }
-
+    if(isAuthenticated && !this.state.userExists) {
+      this.checkUserProfile()
+    }
+    if (isLoading || (isAuthenticated && !this.state.userExists)) {
+      return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
+    }
     return (
-
       <Layout className="layout">
       <Header>
       
@@ -195,9 +191,7 @@ class CustomLayout extends React.Component {
           <div className="site-layout-content"
           style={{ background: '#fff', padding: '24px', minHeight: '50em' }}>
             {/* class based takes this. */}
-            <BaseRouter 
-              userExists={this.state.userExists}
-              checkUserProfile={this.checkUserProfile.bind(this)}/>
+            {this.props.children}
           </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

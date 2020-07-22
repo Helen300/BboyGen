@@ -12,15 +12,7 @@ class Landing extends React.Component {
 	}
 
 	render() {
-		const { isAuthenticated } = this.props.auth0;
-		if (isAuthenticated) {
-			return <div className="centerSpin"></div>
-		}
-		else {
-			return <div>Hello, Dan</div>
-		}
-
-
+		return <div>Hello, Dan</div>
 	}
 
 }

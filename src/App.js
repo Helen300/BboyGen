@@ -16,16 +16,6 @@ import history from "./utils/history";
 
 const App = () => {
   const { isLoading, error } = useAuth0();
-
-  if (error) {
-    return <div>Oops... {error.message}</div>;
-  }
-
-  if (isLoading) {
-    return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
-  }
-
-
   return (
   	 <div>
 	    <Router history={history}> 

@@ -50,7 +50,6 @@ class GeneratorView extends React.Component {
 			setList: newList
 		})
 		const csrftoken = getCookie('csrftoken')
-		console.log(csrftoken)
 		axios.defaults.headers = {
 			"Content-Type": "application/json",
 			"X-CSRFToken": csrftoken

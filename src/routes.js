@@ -16,13 +16,10 @@ class BaseRouter extends React.Component {
 	render() {
 
 		const { isAuthenticated } = this.props.auth0;
-		if (isAuthenticated && !this.props.userExists) {
-			this.props.checkUserProfile()
-		}
 		return(
 
 			<div>
-				{ isAuthenticated && this.props.userExists ? 
+				{ isAuthenticated ? 
 
 				<Route exact path='/' component={MoveListView} />
 				:

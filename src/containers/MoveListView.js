@@ -38,7 +38,6 @@ class MoveListView extends React.Component {
 	updateMoveList(newList) {
 		// const { user, isAuthenticated } = this.props.auth0; 
 		const csrftoken = getCookie('csrftoken');
-		console.log(csrftoken)
 		this.setState({
 			moveList: newList
 		})
@@ -70,14 +69,12 @@ class MoveListView extends React.Component {
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
-		console.log(apiUrl)
 		axios.get(apiUrl)
 		.then(res => {
 			this.setState({
 				moveList: res.data.moveList,
 				loading: false
 			});
-			console.log('in component did mount')
 		})
         .catch(error => console.error(error));
 
