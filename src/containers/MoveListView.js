@@ -1,10 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import $ from 'jquery';
+import { Tabs } from 'antd';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
-import $ from 'jquery';
+import { tabNames, cardTypes, menuKeys } from "../constants"
 import Slider from "react-slick";
 import EditCardName from '../components/EditCardName';
 
@@ -15,9 +16,8 @@ import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { Tabs } from 'antd';
-import { tabNames, cardTypes } from "../constants"
-
+import { withAuth0 } from '@auth0/auth0-react'
+import { getCookie } from "../utils/getCookie"
 
 // contains List of Moves and Form to add moves 
 
@@ -42,24 +42,25 @@ class MoveListView extends React.Component {
 	}
 
 	updateMoveList(newList) {
+		// const { user, isAuthenticated } = this.props.auth0; 
+		const csrftoken = getCookie('csrftoken');
 		this.setState({
 			moveList: newList
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateMoves/')
-			axios.post(apiUrl, {
-		              username: localStorage.getItem("username"),
-		              moveList: newList,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+			
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
+		apiUrl = apiUrl.concat('/updateMoves/')
+		axios.post(apiUrl, {
+          userId: localStorage.getItem("userId"),
+          moveList: newList,
+      	})
+	    .then(res => {
+	    })
+	    .catch(error => console.error(error));
 	}
 
 	updateSelectedTab(newTab) {
@@ -79,7 +80,7 @@ class MoveListView extends React.Component {
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -90,6 +91,7 @@ class MoveListView extends React.Component {
 		})
         .catch(error => console.error(error));
 
+        localStorage.setItem('menuKey', menuKeys.LIST)
         // keep track of window width
         this.updateWindowWidth();
   		window.addEventListener('resize', this.updateWindowWidth);
@@ -97,22 +99,22 @@ class MoveListView extends React.Component {
 
 	// when new props arrive, component rerenders
 	componentWillReceiveProps(newProps) {
-		if (newProps.token) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: newProps.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/')
-			axios.get(apiUrl)
-			.then(res => {
-				this.setState({
-					moveList: res.data.moveList,
-					loading: false
-				});
-			})
-	        .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem('userId'))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				moveList: res.data.moveList,
+				loading: false
+			});
+		})
+        .catch(error => console.error(error));
 	}
 
 	componentWillUnmount() {
@@ -210,12 +212,5 @@ class MoveListView extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
-
-export default connect(mapStateToProps)(MoveListView);
+export default withAuth0(MoveListView);

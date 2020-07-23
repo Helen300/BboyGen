@@ -1,8 +1,8 @@
 import React from 'react';
 import { menuKeys } from "../constants";
 
-
-
+import { Spin } from 'antd';
+import { withAuth0 } from '@auth0/auth0-react';
 
 
 class Landing extends React.Component {
@@ -12,23 +12,10 @@ class Landing extends React.Component {
 	}
 
 	render() {
-
-		return(
-
-
-			<div> 
-
-				Hello, Dan 
-
-			</div>
-			)
-
+		return <div>Hello, Dan</div>
 	}
-
-
-
 
 }
 
 
-export default Landing;
+export default withAuth0(Landing);

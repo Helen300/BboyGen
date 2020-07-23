@@ -1,16 +1,16 @@
-import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
+import React from 'react'
+import axios from 'axios'
+import $ from 'jquery'
+
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetList from '../components/SetList';
 import EditCardName from '../components/EditCardName';
 import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
-import { Tabs } from 'antd';
-import { Button } from 'antd';
+import { Tabs, Button } from 'antd';
 import { tabNames, cardTypes, menuKeys, setTabNames, editValueTypes } from "../constants";
-import $ from 'jquery';
+
 import Slider from "react-slick";
 
 import "../css/containers/Pane.css"
@@ -19,6 +19,11 @@ import "../css/containers/GeneratorView.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+
+// CONNECTING AND REQUEST AUTH0, connect for store and react-redux 
+import { getCookie } from "../utils/getCookie"
+import { withAuth0 } from '@auth0/auth0-react';
 
 const { TabPane } = Tabs;
 
@@ -50,42 +55,43 @@ class GeneratorView extends React.Component {
 		this.setState({
 			setList: newList
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateSets/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
-		              setList: newList,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken')
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
+		apiUrl = apiUrl.concat('/updateSets/')
+		axios.post(apiUrl, {
+				  userId: localStorage.getItem("userId"),
+	              setList: newList,
+	    })
+	    .then(res => {
+	    })
+	    .catch(error => console.error(error));
 	}
 
 	updateProbs(newProbs) {
 		this.setState({
 			probs: newProbs
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateProbabilities/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
-		              probs: newProbs,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken')
+		// console.log(csrftoken)
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
+		apiUrl = apiUrl.concat('/updateProbabilities/')
+		axios.post(apiUrl, {
+		  userId: localStorage.getItem("userId"),
+          probs: newProbs,
+      	})
+      	.then(res => {
+      	})
+      	.catch(error => console.error(error));
+
 	}
 
 
@@ -214,7 +220,7 @@ class GeneratorView extends React.Component {
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -249,23 +255,23 @@ class GeneratorView extends React.Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		if (newProps.token) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: newProps.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/')
-			axios.get(apiUrl)
-			.then(res => {
-				this.setState({
-					setList: res.data.setList,
-					moveList: res.data.moveList,
-					loading: false,
-				});
-			})
-	        .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		apiUrl = apiUrl.concat('/')
+		axios.get(apiUrl)
+		.then(res => {
+			this.setState({
+				setList: res.data.setList,
+				moveList: res.data.moveList,
+				loading: false,
+			});
+		})
+        .catch(error => console.error(error));
+		
 	}
 
 	componentWillUnmount() {
@@ -363,12 +369,5 @@ class GeneratorView extends React.Component {
 }
 
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
-
-export default connect(mapStateToProps)(GeneratorView);
+export default withAuth0(GeneratorView);

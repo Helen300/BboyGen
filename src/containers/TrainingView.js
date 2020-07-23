@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
+
 import EditValues from '../components/EditValues';
 import CardList from '../components/CardList';
 import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../constants";
@@ -15,6 +15,9 @@ import "../css/containers/Column.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+import { withAuth0 } from '@auth0/auth0-react';
+import { getCookie } from "../utils/getCookie"
 
 class TrainingView extends React.Component {
 
@@ -40,42 +43,45 @@ class TrainingView extends React.Component {
 		this.setState({
 			probs: newProbs
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateProbabilities/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
-		              probs: newProbs,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
+		apiUrl = apiUrl.concat('/updateProbabilities/')
+		axios.post(apiUrl, {
+		  userId: localStorage.getItem("userId"),
+          probs: newProbs,
+      	})
+      	.then(res => {
+      	})
+      	.catch(error => console.error(error));
+
 	}
 
 	updateDurations(newDurations) {
 		this.setState({
 			durations: newDurations
 		})
-		if (this.props.token !== null) {
-			axios.defaults.headers = {
-				"Content-Type": "application/json",
-				Authorization: this.props.token
-			}
-			var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
-			apiUrl = apiUrl.concat('/updateDurations/')
-			axios.post(apiUrl, {
-					  username: localStorage.getItem("username"),
-		              durations: newDurations,
-		          })
-		          .then(res => {
-		          })
-		          .catch(error => console.error(error));
+
+		const csrftoken = getCookie('csrftoken');
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrftoken
 		}
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
+		apiUrl = apiUrl.concat('/updateDurations/')
+		axios.post(apiUrl, {
+		  userId: localStorage.getItem("userId"),
+          durations: newDurations,
+      	})
+      	.then(res => {
+      	})
+      	.catch(error => console.error(error));
+
 	}
 
 	fillBacklog() {
@@ -274,7 +280,7 @@ class TrainingView extends React.Component {
 	}
 
 	componentDidMount() {
-		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("username"))
+		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
 		.then(res => {
@@ -472,13 +478,5 @@ class TrainingView extends React.Component {
 }
 
 
-const mapStateToProps = state => {
-	return {
-		// whether or not token = null (isAuthenticated = False)
-		token: state.token
 
-	}
-}
-
-export default connect(mapStateToProps)(TrainingView);
-
+export default withAuth0(TrainingView);

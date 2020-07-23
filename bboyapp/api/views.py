@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from bboyapp.models import Move, UserProfile
+from bboyapp.models import UserProfile
 from .serializers import UserProfileSerializer
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -11,28 +11,28 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 	@action(methods=['post'], detail=True, url_path='updateMoves', url_name='updateMoves')
 	def updateMoves(self, request, *args, **kwargs):
-		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser = UserProfile.objects.get(pk=request.data.get("userId"))
 		currentUser.moveList = request.data.get("moveList")
 		currentUser.save()
 		return Response()
 
 	@action(methods=['post'], detail=True, url_path='updateSets', url_name='updateSets')
 	def updateSets(self, request, *args, **kwargs): 
-		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser = UserProfile.objects.get(pk=request.data.get("userId"))
 		currentUser.setList = request.data.get("setList")
 		currentUser.save()
 		return Response()
 
 	@action(methods=['post'], detail=True, url_path='updateProbabilities', url_name='updateProbabilities')
 	def updateProbabilities(self, request, *args, **kwargs): 
-		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser = UserProfile.objects.get(pk=request.data.get("userId"))
 		currentUser.probs = request.data.get("probs")
 		currentUser.save()
 		return Response()
 
 	@action(methods=['post'], detail=True, url_path='updateDurations', url_name='updateDurations')
 	def updateDurations(self, request, *args, **kwargs): 
-		currentUser = UserProfile.objects.get(pk=request.data.get("username"))
+		currentUser = UserProfile.objects.get(pk=request.data.get("userId"))
 		currentUser.durations = request.data.get("durations")
 		currentUser.save()
 		return Response()

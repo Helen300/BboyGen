@@ -154,7 +154,7 @@ class EditValues extends React.Component {
 	saveNewValues() {
 		if(this.props.valueType === editValueTypes.PROBS) {
 			this.saveNewProbs()
-		} else if (this.props.valueType == editValueTypes.DURATIONS) {
+		} else if (this.props.valueType === editValueTypes.DURATIONS) {
 			this.saveNewDurations()
 		}
 	}

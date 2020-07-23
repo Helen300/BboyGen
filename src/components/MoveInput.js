@@ -1,11 +1,12 @@
 import React from 'react';
+import $ from 'jquery';
 
-import 'antd/dist/antd.css';
 import { Select, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { tabNames } from "../constants";
-import $ from 'jquery';
 
+
+import 'antd/dist/antd.css';
 import "../css/components/MoveInput.css"
 
 const { Search } = Input;

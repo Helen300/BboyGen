@@ -46,12 +46,12 @@ INSTALLED_APPS = [
     # django rest framework auth 
     # DEMO shows you all urls included and the views that take care of them
     # if have time go through and see how its actually done 
-    'rest_auth',
-    'rest_auth.registration',
+    #'rest_auth',
+    #'rest_auth.registration',
     
     # django rest framework app 
     'rest_framework',
-    'rest_framework.authtoken',
+    #'rest_framework.authtoken',
     
     'bboyapp',
 
@@ -165,17 +165,17 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         # this allows any read, write access permission, unrestricted access
-        #'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.AllowAny',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ]
+    #'DEFAULT_AUTHENTICATION_CLASSES': [
+    #    'rest_framework.authentication.TokenAuthentication',
+    #]
 }
 
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+#ACCOUNT_EMAIL_VERIFICATION = 'none'
+#ACCOUNT_EMAIL_REQUIRED = False
+#ACCOUNT_AUTHENTICATION_METHOD = 'username'

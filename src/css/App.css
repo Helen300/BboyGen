@@ -1,0 +1,10 @@
+.centerSpin {
+/*  margin-left: 50%;
+  
+  width: 60%;
+  display: block; */ 
+  margin-top: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
