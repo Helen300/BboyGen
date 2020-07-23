@@ -1,22 +1,40 @@
-.MoveName {
-	background-color: #939BCB;
-	color: white;
-	width: 33%;
-	border-radius: 0.3em;
-	padding:0.5em;
-
+/* set min height and width to 0 bc they are set to auto by default of flex display*/
+.MoveDetailContainer{
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	min-height: 0px;
+	min-width: 0px
 }
 
-.MoveDescription {
-	margin-top:0.7em;
+#moveDescription{
+	height: 100%;
 }
 
 .Reversible {
 	background-color:#939BCB !important;
 	color: white !important;
 	border-color: white !important;
+	width: 50% !important;
+	margin-bottom: 2%;
 }
 
 .NotReversible {
-	background-color:pink;
+	background-color: white;
+	width: 50% !important;
+	margin-bottom: 2%;
+}
+
+@media screen and (max-width: 575px), screen and (max-height: 575px) {
+	.ColumnTitle {
+		font-size: 20px !important;
+	}
+
+}
+
+.MoveDetailType {
+	flex: 1 0 0;
+	margin-right: 3%;
+	width: 50% !important;
+	margin-bottom: 2%;
 }

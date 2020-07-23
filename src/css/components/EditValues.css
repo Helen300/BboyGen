@@ -5,11 +5,46 @@
 
 .EditValuesButton {
 	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.EditValuesContainer {
-	flex: 1 0 0;
+/* styling for mobile small 575 and less */ 
+@media screen and (max-width: 575px) {
+	.ant-table-cell {
+		padding: 5px !important;
+	}
+	.modal-content {
+		font-size: 10px !important;
+	}
+	.ant-table-container {
+		font-size: 10px !important;
+	}
+	.modal-content .ant-tabs-nav-container {
+		font-size: 10px !important;
+	}
+	.modal-content .ant-input-number-input {
+		height: 15px;
+		width: auto;
+		font-size: 10px !important;
+	}
+	.ReverseProbs { 
+		margin-left: 0% !important;
+		margin-top: 0% !important;
+
+	}
+}
+
+.EditValuesContainer-Gen{
 	margin-right: 3%;
+	overflow: hidden;
+	flex: 3 0 0;
+}
+
+.EditValuesContainer-Train{
+	margin-right: 3%;
+	overflow: hidden;
+	flex: 1 0 0;
 }
 
 .Warning {

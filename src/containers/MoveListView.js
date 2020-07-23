@@ -7,10 +7,12 @@ import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
 import { tabNames, cardTypes, menuKeys } from "../constants"
 import Slider from "react-slick";
+import EditCardName from '../components/EditCardName';
 
+import "../css/containers/Pane.css"
+import "../css/containers/Column.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
-import "../css/containers/Pane.css"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -26,13 +28,17 @@ class MoveListView extends React.Component {
 		selectedMoveIdx: -1,
 		currentTab:tabNames[0],
 		loading: true,
-		windowWidth: 0
+		mobileView: false,
 	}
 
 	updateSelectedMoveIdx(newIdx) {
 		this.setState({
 			selectedMoveIdx: newIdx
 		})
+		// slide to move detail when selecting a card
+		if(this.state.mobileView){
+			this.slider.slickGoTo(1)
+		}
 	}
 
 	updateMoveList(newList) {
@@ -63,9 +69,16 @@ class MoveListView extends React.Component {
 		})
 	}
 
+	// set height of columns equal to view height, must do this here since Slider overrides columns inline styles
+	// this function runs after render so we write in the height after Slider writes its inline styles in
+	componentDidUpdate(){
+		const mainViewHeight = $("#mainViewContainer").height()
+		// make space for slider dots if on mobile view
+		const slickDotsHeight = this.state.mobileView ? 25 : 0
+		$(".Column").height(mainViewHeight - slickDotsHeight)
+	}
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
-
 	componentDidMount() {
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
@@ -109,7 +122,15 @@ class MoveListView extends React.Component {
 	}
 
 	updateWindowWidth() {
-	  this.setState({ windowWidth: window.innerWidth });
+		if(window.innerWidth < 576){
+			this.setState({
+				mobileView: true
+			})
+		} else {
+			this.setState({
+				mobileView: false
+			})
+		}
 	}
 
 	constructor(props) {
@@ -125,7 +146,7 @@ class MoveListView extends React.Component {
 
 	render() {
 		const panes = [
-					<div className="col-sm-12 col-md-4 h-100">
+					<div className="col-xs-12 col-sm-4 Column">
 						<MoveList
 							updateSelectedMoveIdx={this.updateSelectedMoveIdx.bind(this)}
 							updateMoveList={this.updateMoveList.bind(this)}
@@ -133,7 +154,7 @@ class MoveListView extends React.Component {
 							moveList={this.state.moveList}
 							selectedMoveIdx={this.state.selectedMoveIdx}
 							currentTab={this.state.currentTab}
-							enableDrag={true}
+							enableDrag={!this.state.mobileView}
 							cardType={cardTypes.MOVE}
 							loading={this.state.loading}
 						/>
@@ -146,7 +167,12 @@ class MoveListView extends React.Component {
 					</div>,
 
 					this.state.selectedMoveIdx !== -1 ?
-					<div className="col-sm-12 col-md-8 h-100">
+					<div className="col-xs-12 col-sm-8 Column">
+							<EditCardName
+								selectedIdx={this.state.selectedMoveIdx}
+								updateCardList={this.updateMoveList.bind(this)}
+								cardList={this.state.moveList}
+							/>
 						   	<MoveDetail 
 						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
 						    	moveList={this.state.moveList}
@@ -163,15 +189,15 @@ class MoveListView extends React.Component {
 	      slidesToShow: 1,
 	      slidesToScroll: 1,
 	      infinite: false,
-	      adaptiveHeight: true,
 	      draggable: true,
 	      swipe: true,
-	      dots: true
+	      dots: true,
+	      initialSlide: 1
 	    };
 		// add slider for panes if window width is small (mobile)
-		if(this.state.windowWidth < 768) {
+		if(this.state.mobileView) {
 			return (
-				<Slider {...settings}>
+				<Slider ref={slider => (this.slider = slider)} {...settings}>
 					{panes}
 				</Slider>
 			)

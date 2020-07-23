@@ -133,7 +133,7 @@ class CardList extends React.Component {
 				          selectedMoveIdx={this.props.selectedIdx}
 				          showReverseIcon={false}
 				          enableDrag={this.props.enableDrag}
-				          showButtons={true}
+				          showCardButtons={true}
 				        />
 					)
 				)
@@ -148,6 +148,7 @@ class CardList extends React.Component {
 				          selectedSetIdx={this.props.selectedIdx}
 				          shouldRender={this.cardFilter(moveSet)}
 				          enableDrag={this.props.enableDrag}
+				          showCardButtons={this.props.showCardButtons}
 				        />
 					)
 				)
@@ -176,7 +177,7 @@ class CardList extends React.Component {
 						          toggleReverse={this.props.toggleReverseIcon}
 						          showReverseIcon={move.reversible}
 						          enableDrag={this.props.enableDrag}
-						          showButtons={false}
+						          showCardButtons={this.props.showCardButtons}
 						        />
 						)
 					})
@@ -187,6 +188,8 @@ class CardList extends React.Component {
 						return (
 								<TrainingMove
 						          move={move}
+						          listType={this.props.divClass}
+						          horizontalMobileView={this.props.horizontalMobileView}
 						        />
 
 						)
@@ -221,7 +224,7 @@ class CardList extends React.Component {
 				</DragDropContext>
 			);
 		} else {
-			var containerClass = this.props.cardType === cardTypes.TRAINING_MOVE ? "SlidingContainer" : "MoveListDiv"
+			var containerClass = this.props.cardType === cardTypes.TRAINING_MOVE ? this.props.divClass : "MoveListDiv"
 			if(this.props.loading) {
 				containerClass = "CenteredLoading"
 			}

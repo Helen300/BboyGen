@@ -1,9 +1,10 @@
 import React from 'react';
 import $ from 'jquery';
 
-
 import { Select, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { tabNames } from "../constants";
+
 
 import 'antd/dist/antd.css';
 import "../css/components/MoveInput.css"
@@ -88,10 +89,10 @@ class MoveInput extends React.Component {
 				    }
 				    className="SelectType"
 				  >
-				    <Option value="Toprock">Toprock</Option>
-				    <Option value="Footwork">Footwork</Option>
-				    <Option value="Freezes">Freezes</Option>
-				    <Option value="Power">Power</Option>
+				    <Option value={tabNames[1]}>{tabNames[1]}</Option>
+				    <Option value={tabNames[2]}>{tabNames[2]}</Option>
+				    <Option value={tabNames[3]}>{tabNames[3]}</Option>
+				    <Option value={tabNames[4]}>{tabNames[4]}</Option>
 				  </Select>
 
 					<Search 

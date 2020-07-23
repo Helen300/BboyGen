@@ -1,5 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
+import { tabNames } from "../constants";
+
+import "../css/containers/Column.css"
 
 
 import { Input, Select, Button } from 'antd';
@@ -20,15 +23,6 @@ class MoveDetail extends React.Component {
 		// make copy of array
 		var newList = this.props.moveList.slice()
 		newList[this.props.selectedMoveIdx].description = newDescription
-		this.props.updateMoveList(newList);
-	}
-
-
-	updateName() {
-		var newName = $("#moveName").val()
-		// make copy of array
-		var newList = this.props.moveList.slice()
-		newList[this.props.selectedMoveIdx].name = newName;
 		this.props.updateMoveList(newList);
 	}
 
@@ -66,52 +60,41 @@ class MoveDetail extends React.Component {
 	render() {
 			return (
 				// since we need to return one div
-				<div>
-				<h4 className="MoveDescription">Move Description</h4>
-				<div className="MoveName">Name of Move: 
-					<TextArea id="moveName"
-							  rows={1}
-							  value={this.props.move.name}
-							  onChange={() => this.updateName()}
-					/>
-				</div>
-				<div>
-					<Select
-				  	id="selectType"
-				    showSearch
-				    optionFilterProp="children"
-				    onChange={this.updateType}
-				    onFocus={this.onTypeFocus}
-				    onBlur={this.onTypeBlur}
-				    onSearch={this.onTypeSearch}
-				    // defaultValue={this.state.selectedMoveType}
-				    value={this.props.move.type}
-				    filterOption={(input, option) =>
-				      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-				    }
-				    className="SelectType"
-				  >
-				    <Option value="Toprock">Toprock</Option>
-				    <Option value="Footwork">Footwork</Option>
-				    <Option value="Freezes">Freezes</Option>
-				    <Option value="Power">Power</Option>
-				  </Select>
-				 </div>
-				 <div>
-				  	<br/>
-						<Button
-							id="ReversibleButton"
-							className={this.props.move.reversible ? "Reversible" : null }
-							onClick={(e) => this.toggleReverse(e)}>
-							{this.props.move.reversible ? "Reversible" :"Not Reversible"}
-						</Button>
-				</div>
-				<br/>
-				<TextArea id="moveDescription" 
-						  rows={4} 
-						  value={this.props.move.description} 
-						  onChange={() => this.updateDescription()}
-			    />
+				<div class="MoveDetailContainer">
+					<div>
+						<Select
+					  	id="selectType"
+					    showSearch
+					    optionFilterProp="children"
+					    onChange={this.updateType}
+					    onFocus={this.onTypeFocus}
+					    onBlur={this.onTypeBlur}
+					    onSearch={this.onTypeSearch}
+					    // defaultValue={this.state.selectedMoveType}
+					    value={this.props.move.type}
+					    filterOption={(input, option) =>
+					      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					    }
+					    className="MoveDetailType"
+					  >
+					    <Option value={tabNames[1]}>{tabNames[1]}</Option>
+					    <Option value={tabNames[2]}>{tabNames[2]}</Option>
+					    <Option value={tabNames[3]}>{tabNames[3]}</Option>
+					    <Option value={tabNames[4]}>{tabNames[4]}</Option>
+					  </Select>
+					 </div>
+					 <div>
+							<Button
+								id="ReversibleButton"
+								className={this.props.move.reversible ? "Reversible" : "NotReversible" }
+								onClick={(e) => this.toggleReverse(e)}>
+								{this.props.move.reversible ? "Reversible" :"Not Reversible"}
+							</Button>
+					</div>
+					<TextArea id="moveDescription"  
+							  value={this.props.move.description} 
+							  onChange={() => this.updateDescription()}
+				    />
 				</div>
 			);
 	}

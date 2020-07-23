@@ -17,7 +17,7 @@ class BaseRouter extends React.Component {
 
 		const { isAuthenticated } = this.props.auth0;
 		return(
-
+			
 			<div>
 				{ isAuthenticated ? 
 
