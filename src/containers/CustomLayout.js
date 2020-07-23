@@ -121,7 +121,6 @@ class CustomLayout extends React.Component {
       this.setState({
         userExists: true
       })
-      localStorage.setItem('userId', user['sub'])
     })
   }
 
@@ -137,7 +136,6 @@ class CustomLayout extends React.Component {
       this.setState({
         userExists: true
       })
-      localStorage.setItem('userId', user['sub'])
     })
     .catch(error => {
       this.createUserProfile(user)
@@ -152,6 +150,7 @@ class CustomLayout extends React.Component {
     }
     if(isAuthenticated && !this.state.userExists) {
       this.checkUserProfile()
+      localStorage.setItem('userId', user['sub'])
     }
     if (isLoading || (isAuthenticated && !this.state.userExists)) {
       return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
