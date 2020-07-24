@@ -159,7 +159,7 @@ class CardList extends React.Component {
 				          move={move}
 				          shouldRender={this.cardFilter(move)}
 				          addMove={this.props.addToSetMoveList}
-
+				          mobileView={this.props.mobileView}
 				        />
 					)
 				)
