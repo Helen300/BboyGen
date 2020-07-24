@@ -18,7 +18,7 @@ class BaseRouter extends React.Component {
 		const { isAuthenticated } = this.props.auth0;
 		return(
 			
-			<div>
+			<div id="mainViewContainer" style={{ height: "100%" }}>
 				{ isAuthenticated ? 
 
 				<Route exact path='/' component={MoveListView} />
