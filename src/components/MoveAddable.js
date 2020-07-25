@@ -17,18 +17,23 @@ class MoveAddable extends React.Component {
 							hoverable 
 							className={"NormalCard"}
 							onClick={() => {this.props.addMove(this.props.move)}}
-							data-tip="Move Added!"
+							data-tip 
+							data-for="addedMoveTip"
 						>
 							{this.props.mobileView ?
 								<ReactTooltip 
-									event="click"
-									eventOff="click"
-									isCapture={true} // allows onClick to propagate down and add move as well as trigger tooltip
-									delayHide={500}
+									event="mousedown"
+									eventOff="mouseup"
+									delayHide={750}
 									backgroundColor="rgba(0,0,0,0)" // transparent background
 									textColor="#5f6bb2"
-									place="right"
-								/>
+									place="top"
+									id="addedMoveTip"
+									effect="solid"
+									offset={{top: "-45%", right: "95%"}}
+								>
+								Move Added!
+								</ReactTooltip>
 								:
 								null
 							}
