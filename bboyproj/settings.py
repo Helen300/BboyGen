@@ -174,7 +174,8 @@ REST_FRAMEWORK = {
 
 
 CORS_ORIGIN_ALLOW_ALL = True
-
+# redirects from http -> https
+SECURE_SSL_REDIRECT = True
 
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 #ACCOUNT_EMAIL_REQUIRED = False
