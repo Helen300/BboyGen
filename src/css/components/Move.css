@@ -17,6 +17,8 @@
 	margin-right: 0.5% !important;
 	margin-top: 0% !important;
 	margin-bottom: 0% !important;	
+	display: flex; 
+	align-items: center;
 }
 
 .TrainingCard .ant-card-body {
