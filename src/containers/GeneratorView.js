@@ -46,7 +46,7 @@ class GeneratorView extends React.Component {
 			selectedSetIdx: selectedSetIdx,
 		})
 		// slide to set move list when selecting a set
-		if(this.state.mobileView){
+		if (this.state.mobileView){
 			this.slider.slickGoTo(1)
 		}
 	}
@@ -133,6 +133,11 @@ class GeneratorView extends React.Component {
 				}])
 		this.updateSetList(newList);
 		this.scrollSetsToBottom();
+
+		// slide to set move list when selecting a set
+		if (this.state.mobileView){
+			this.slider.slickGoTo(0)
+		}
 	}
 
 	// adds a new move to a selected set 
