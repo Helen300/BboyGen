@@ -43,6 +43,7 @@ class MoveList extends React.Component {
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 				  		loading={this.props.loading}
+				  		mobileView={this.props.mobileView}
 				    	/>
 			 	</TabPane>
 		  		<TabPane className="Pane" tab={tabNames[1]} key={tabNames[1]}>
@@ -56,7 +57,7 @@ class MoveList extends React.Component {
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 				    	loading={this.props.loading}
-
+				    	mobileView={this.props.mobileView}
 			    	/>
 			 	</TabPane>
 
@@ -71,6 +72,7 @@ class MoveList extends React.Component {
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 				    	loading={this.props.loading}
+				    	mobileView={this.props.mobileView}
 			    	/>
 			 	</TabPane>
 
@@ -85,6 +87,7 @@ class MoveList extends React.Component {
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 				    	loading={this.props.loading}
+				    	mobileView={this.props.mobileView}
 			    	/>
 			 	</TabPane>
 
@@ -100,6 +103,7 @@ class MoveList extends React.Component {
 				    	addToSetMoveList={this.props.addToSetMoveList}
 				    	enableDrag={this.props.enableDrag}
 				    	loading={this.props.loading}
+				    	mobileView={this.props.mobileView}
 			    	/>
 			 	</TabPane>
 			</Tabs>

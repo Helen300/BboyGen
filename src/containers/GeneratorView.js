@@ -330,6 +330,7 @@ class GeneratorView extends React.Component {
 							enableDrag={false}
 							cardType={cardTypes.MOVE_ADDABLE}
 							addToSetMoveList={this.addToSetMoveList.bind(this)}
+							mobileView={this.state.mobileView}
 						/>
 						<div class="ButtonsContainer">
 							<Button type="primary" className={"AddMoveButton"} onClick={() => this.addRandom()}>Add Random Move</Button>

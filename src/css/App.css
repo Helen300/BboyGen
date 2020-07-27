@@ -1,10 +1,6 @@
 .centerSpin {
-/*  margin-left: 50%;
-  
-  width: 60%;
-  display: block; */ 
-  margin-top: 25%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	right: 50%;
+    bottom: 50%;
+    transform: translate(50%,50%);
+    position: absolute;
 }
