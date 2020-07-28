@@ -5,11 +5,13 @@ import { Tabs } from 'antd';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
+import HelpMessages from '../components/HelpMessages';
 import { tabNames, cardTypes, menuKeys } from "../constants"
 import Slider from "react-slick";
 import EditCardName from '../components/EditCardName';
 
 import "../css/containers/Pane.css"
+import "../css/containers/MoveListView.css"
 import "../css/containers/Column.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
@@ -168,21 +170,26 @@ class MoveListView extends React.Component {
 
 					this.state.selectedMoveIdx !== -1 ?
 					<div className="col-xs-12 col-sm-8 Column">
-							<EditCardName
-								selectedIdx={this.state.selectedMoveIdx}
-								updateCardList={this.updateMoveList.bind(this)}
-								cardList={this.state.moveList}
-							/>
-						   	<MoveDetail 
-						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
-						    	moveList={this.state.moveList}
-						    	selectedMoveIdx={this.state.selectedMoveIdx}
-						    	currentTab={this.state.currentTab}
-						    	updateMoveList={this.updateMoveList.bind(this)}
-					    	/>
+						<EditCardName
+							selectedIdx={this.state.selectedMoveIdx}
+							updateCardList={this.updateMoveList.bind(this)}
+							cardList={this.state.moveList}
+						/>
+					   	<MoveDetail 
+					    	move={this.state.moveList[this.state.selectedMoveIdx]} 
+					    	moveList={this.state.moveList}
+					    	selectedMoveIdx={this.state.selectedMoveIdx}
+					    	currentTab={this.state.currentTab}
+					    	updateMoveList={this.updateMoveList.bind(this)}
+				    	/>
 					</div>
 					:
-					null
+					<div className="col-xs-12 col-sm-8 Column HelpMsg">
+						<div>
+							<HelpMessages />
+						</div>
+
+					</div>
 				]
 	    var settings = {
 	      speed: 500,

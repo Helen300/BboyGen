@@ -162,7 +162,7 @@ class TrainingView extends React.Component {
 				// this.fillBacklog()
 				if(this.state.voiceOn) {
 					var textToSay = new SpeechSynthesisUtterance(this.state.backlogSet[0].name);
-					textToSay.rate = 1.5
+					textToSay.rate = 1
 					synth.speak(textToSay)
 				}
 			}
@@ -178,7 +178,7 @@ class TrainingView extends React.Component {
 					// if moves are going too fast, then cut off previous speech midway
 					speechSynthesis.cancel()
 					var textToSay = new SpeechSynthesisUtterance(this.state.backlogSet[0].name);
-					textToSay.rate = 1.5
+					textToSay.rate = 1
 					synth.speak(textToSay)
 				}
 			// otherwise, keep decreasing first move's length
@@ -365,13 +365,13 @@ class TrainingView extends React.Component {
 							<div className="ButtonContainer-Train">
 							{ this.state.playing ? 
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.stopPlaying()}>
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pause" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pause" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 								  <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
 								</svg>
 								</Button>
 								:
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.startPlaying()}>
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-play" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-play" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 								 	<path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
 								</svg>
 								</Button>
@@ -380,7 +380,7 @@ class TrainingView extends React.Component {
 							<div className="ButtonContainer-Train">
 							{ this.state.voiceOn ? 
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: false})}>
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-volume-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<svg width="1.4em" height="1.4em" viewBox="0 0 16 16" class="bi bi-volume-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									  <path fill-rule="evenodd" d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04L4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04z"/>
 									  <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
 									  <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
@@ -389,7 +389,7 @@ class TrainingView extends React.Component {
 								</Button>
 								:
 								<Button type="primary" className={"TrainingButtons"} onClick={() => this.setState({voiceOn: true})}>
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-volume-mute" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<svg width="1.4em" height="1.4em" viewBox="0 0 16 16" class="bi bi-volume-mute" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 								  <path fill-rule="evenodd" d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04L4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04zm7.854.606a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708l4-4a.5.5 0 0 1 .708 0z"/>
 								  <path fill-rule="evenodd" d="M9.146 5.646a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0z"/>
 								</svg>
