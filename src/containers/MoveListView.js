@@ -185,7 +185,7 @@ class MoveListView extends React.Component {
 					</div>
 					:
 					<div className="col-xs-12 col-sm-8 Column">
-						<div style={{ height: "100%", width: "100%" }} > 
+						<div className="Image"> 
 							<img src={ require('../img/dan.png') } width="100%" height="100%"/>
 						</div>
 						<div className="HelpMsg">
