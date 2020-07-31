@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHandRock, faEdit, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
+import { faHandRock, faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import EditValues from '../components/EditValues';
 import CardList from '../components/CardList';
@@ -15,6 +16,7 @@ import Slider from "react-slick";
 
 import "../css/containers/TrainingView.css"
 import "../css/containers/Column.css"
+import "../css/components/HelpMessages.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -342,63 +344,88 @@ class TrainingView extends React.Component {
 		const messages = [
 		    {
 		      title: <center>
-		      		 	<FontAwesomeIcon
-					        icon={faEdit}
-					     />
+						<svg width="1.25em" height="1.25em" viewBox="0 0 16 16" class="bi bi-play" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+						 	<path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+						</svg>
 					 </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     Select a move to <span style={{ fontWeight: "1000" }}>edit</span> details 
-					     (reversability, type, description)
+		      content: <div>
+					     Press play to start <span>training</span> on random moves based on probabilities
 					   </div>,
 		    },
 		    {
 		      title: <center>
-		      			<FontAwesomeIcon
-					        icon={faHandRock}
-					     />
+						<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+						  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+						</svg>
 				     </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     <span style={{ fontWeight: "1000" }}>Drag and drop</span> moves to reorder them
+		      content: <div>
+					     Select a set to <span>filter</span> moves to this set (unselect to train on all moves)
 					   </div>,
 		    },
 		    {
 		      title: <center>
-		      		 	<FontAwesomeIcon
-					        icon={faPlusSquare}
-					     />
+		  				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-dice-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M13 1H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+							<circle cx="4" cy="4" r="1.5"/>
+							<circle cx="12" cy="12" r="1.5"/>
+							<circle cx="8" cy="8" r="1.5"/>
+						</svg>
 					 </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     Select type and input name to 
-					     <span style={{ fontWeight: "1000" }}> add</span> new moves
+		      content: <div>
+					     <span>Edit probabilities</span> to customize
+					     transitions between move types when adding random moves 
 					   </div>,
+		    },
+		    {
+			    title: <center>
+			  				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z"/>
+								<path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5a.5.5 0 0 1 .5-.5zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"/>
+								<path d="M7 1h2v2H7V1z"/>
+							</svg>
+						</center>,
+		     	content: <div>
+						     <span>Edit durations</span> to customize length of move types
+						     or individual moves
+					   	</div>,
 		    },
 		  ];
 
 		const panes = [
 					<div class="col-sm-12 Column">
 						<h4>Training</h4>
-						<div class="SlidingMovesContainer">
-							<CardList
-								cardType={cardTypes.TRAINING_MOVE}
-								cardList={this.state.backlogSet}
-								enableDrag={false}
-								currentTab={tabNames[0]}
-								divClass={"SlidingContainer"}
-								horizontalMobileView={this.state.horizontalMobileView}
-							/>
-							{/*//dont show backlog on horizontal mobile view
-								this.state.horizontalMobileView ?
-								null
-								:
+						{this.state.playing ?
+							<div class="SlidingMovesContainer">
 								<CardList
 									cardType={cardTypes.TRAINING_MOVE}
 									cardList={this.state.backlogSet}
 									enableDrag={false}
 									currentTab={tabNames[0]}
-									divClass={"SlidingContainerBacklog"}
+									divClass={"SlidingContainer"}
+									horizontalMobileView={this.state.horizontalMobileView}
 								/>
-							*/}
-						</div>
+								{/*//dont show backlog on horizontal mobile view
+									this.state.horizontalMobileView ?
+									null
+									:
+									<CardList
+										cardType={cardTypes.TRAINING_MOVE}
+										cardList={this.state.backlogSet}
+										enableDrag={false}
+										currentTab={tabNames[0]}
+										divClass={"SlidingContainerBacklog"}
+									/>
+								*/}
+							</div>
+							:
+							<div className="HelpMsg SlidingMovesContainer">
+								<HelpMessages 
+									data={messages}
+									// add 3% bottom margin to col-xs-12 if mobile view
+									columnClass={this.state.mobileView ? "col-md-3 col-xs-12" : "col-md-3"}
+								/>
+							</div>
+						}
 						<div class="ButtonsDiv">
 							<div className="ButtonContainer-Train">
 							{ this.state.playing ? 

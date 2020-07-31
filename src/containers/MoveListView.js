@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHandRock, faEdit, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
+import { faHandRock, faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import $ from 'jquery';
 import { Tabs } from 'antd';
@@ -15,6 +16,7 @@ import EditCardName from '../components/EditCardName';
 import "../css/containers/Pane.css"
 import "../css/containers/MoveListView.css"
 import "../css/containers/Column.css"
+import "../css/components/HelpMessages.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
@@ -156,9 +158,20 @@ class MoveListView extends React.Component {
 					        icon={faEdit}
 					     />
 					 </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     Select a move to <span style={{ fontWeight: "1000" }}>edit</span> details 
+		      content: <div>
+					     Select a move to <span>edit</span> details 
 					     (reversability, type, description)
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faPlus}
+					     />
+					 </center>,
+		      content: <div>
+					     Select type and input name to 
+					     <span> add</span> new moves
 					   </div>,
 		    },
 		    {
@@ -167,19 +180,13 @@ class MoveListView extends React.Component {
 					        icon={faHandRock}
 					     />
 				     </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     <span style={{ fontWeight: "1000" }}>Drag and drop</span> moves to reorder them
-					   </div>,
-		    },
-		    {
-		      title: <center>
-		      		 	<FontAwesomeIcon
-					        icon={faPlusSquare}
-					     />
-					 </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     Select type and input name to 
-					     <span style={{ fontWeight: "1000" }}> add</span> new moves
+		      content: this.state.mobileView ?
+		      		   <div>
+		      			 	<span>Drag and drop</span> {"moves to reorder them (disabled on mobile view)"}			     
+					   </div>
+					   :
+					   <div>
+					   		<span>Drag and drop</span> {"moves to reorder them"}
 					   </div>,
 		    },
 		  ];
@@ -221,12 +228,19 @@ class MoveListView extends React.Component {
 					</div>
 					:
 					<div className="col-xs-12 col-sm-8 Column">
-						<div className="Image"> 
-							<img src={ require('../img/dan.png') } width="auto" height="100%"/>
-						</div>
+						{this.state.mobileView ?
+							null
+							:
+							<div className="Image"> 
+								<img src={ require('../img/dan.png') } width="auto" height="100%"/>
+							</div>
+						}
 						<div className="HelpMsg">
 							<HelpMessages 
 								data={messages}
+								// add 3% bottom margin to col-xs-12 if mobile view
+								// stack help messages if md threshold so the text doesnt get too scrunched up
+								columnClass={this.state.mobileView ? "col-md-4 col-xs-12" : "col-md-4"}
 							/>
 						</div>
 

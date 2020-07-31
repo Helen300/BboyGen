@@ -1,0 +1,29 @@
+.HelpMsg {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: flex-end !important;
+	height: 100%;
+	flex: 1 0 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.HelpMsg .ant-card-bordered {
+	height: 100%;
+}
+
+.HelpMsg .ant-card-body {
+	padding: 1em !important;
+}
+
+.HelpMsg div {
+	overflow-wrap: anywhere;
+}
+
+.HelpMsg span {
+	font-weight: 1000;
+}
+
+.HelpMsg .col-xs-12 {
+	margin-bottom: 3%;
+}

@@ -1,23 +1,8 @@
-.HelpMsg {
-	display: flex !important;
-	flex-direction: row !important;
-	align-items: flex-end !important;
-	height: 50%;
-}
-
-
 .Image {
 	height: 50%;
 	width: 100%;
 	text-align: center;
+	flex: 1 0 0;
+	overflow: hidden;
 }
 
-.HelpMsg .ant-list, .HelpMsg .ant-spin-nested-loading, 
-.HelpMsg .ant-spin-container, .HelpMsg .ant-row, .HelpMsg .ant-list-item, .HelpMsg .ant-card {
-	height: 100% !important;
-
-}
-
-.HelpMsg .ant-list {
-	width: 100%;
-}

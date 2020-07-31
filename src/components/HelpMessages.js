@@ -1,22 +1,22 @@
 import React from 'react';
-import { List, Card } from 'antd';
+import { Card } from 'antd';
 
 
 class HelpMessages extends React.Component {
-
+  renderCards = () => {
+    return(
+      this.props.data.map(message =>
+          <div class={this.props.columnClass}>
+            <Card title={message.title}>{message.content}</Card>
+          </div>
+      )
+    )
+  }
   render() {
-
-
     return (
-      <List
-        grid={{ gutter: 16, column: this.props.data.length }}
-        dataSource={this.props.data}
-        renderItem={item => (
-          <List.Item style={{ marginBottom: 0}} >
-            <Card title={item.title}>{item.content}</Card>
-          </List.Item>
-        )}
-      />
+      <div class="row h-100">
+        {this.renderCards()}
+      </div>
     )
   }
 

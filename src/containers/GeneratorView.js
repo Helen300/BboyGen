@@ -2,7 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import $ from 'jquery'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHandRock, faEdit, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
+import { faHandRock, faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faPlus, faQuestion } from '@fortawesome/free-solid-svg-icons'
 
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
@@ -19,6 +20,7 @@ import Slider from "react-slick";
 import "../css/containers/Pane.css"
 import "../css/containers/Column.css"
 import "../css/containers/GeneratorView.css"
+import "../css/components/HelpMessages.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -294,42 +296,44 @@ class GeneratorView extends React.Component {
 					        icon={faEdit}
 					     />
 					 </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     Select a set to <span style={{ fontWeight: "1000" }}>modify</span> set moves
+		      content: <div>
+					     Select a set to <span>modify</span> set moves
 					   </div>,
 		    },
 		    {
 		      title: <center>
 		      			<FontAwesomeIcon
-					        icon={faHandRock}
+					        icon={faPlus}
 					     />
 				     </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     Click on a move on the right to<span style={{ fontWeight: "1000" }}>add</span> 
-					     it to the current set
+		      content: <div>
+					     Click on a move on the right to <span>add</span> it 
+					     to the current set
 					   </div>,
 		    },
 		    {
 		      title: <center>
-		      		 	<FontAwesomeIcon
-					        icon={faPlusSquare}
-					     />
+		  				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-dice-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M13 1H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+							<circle cx="4" cy="4" r="1.5"/>
+							<circle cx="12" cy="12" r="1.5"/>
+							<circle cx="8" cy="8" r="1.5"/>
+						</svg>
 					 </center>,
-		      content: <div style={{ overflowWrap: "anywhere" }}>
-					     <span style={{ fontWeight: "1000" }}>Edit probabilities</span> to customize
+		      content: <div>
+					     <span>Edit probabilities</span> to customize
 					     transitions between move types when adding random moves 
 					   </div>,
 		    },
 		    {
 			    title: <center>
 			      		 	<FontAwesomeIcon
-						        icon={faPlusSquare}
+						        icon={faQuestion}
 						     />
 						</center>,
-		     	content: <div style={{ overflowWrap: "anywhere" }}>
-					     Adding
-					     <span style={{ fontWeight: "1000" }}> random move</span> transitions from the 
-					     last move based on probabilities
+		     	content: <div>
+						     Adding <span> random move</span> transitions from the 
+						     last move based on probabilities
 					   	</div>,
 		    },
 		  ];
@@ -396,12 +400,18 @@ class GeneratorView extends React.Component {
 					</div>
 					:
 					<div className="col-xs-12 col-sm-8 Column">
-						<div className="Image"> 
-							<img src={ require('../img/dan.png') } width="auto" height="100%"/>
-						</div>
+						{this.state.mobileView ? 
+							null
+							:
+							<div className="Image"> 
+								<img src={ require('../img/dan.png') } width="auto" height="100%"/>
+							</div>
+						}
 						<div className="HelpMsg">
 							<HelpMessages 
 								data={messages}
+								// add 3% bottom margin to col-xs-12 if mobile view
+								columnClass={this.state.mobileView ? "col-md-3 col-xs-12" : "col-md-3"}
 							/>
 						</div>
 
