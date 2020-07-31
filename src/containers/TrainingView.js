@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHandRock, faEdit, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 
 import EditValues from '../components/EditValues';
 import CardList from '../components/CardList';
+import HelpMessages from '../components/HelpMessages';
 import { tabNames, menuKeys, cardTypes, setTabNames, editValueTypes } from "../constants";
 import { Button } from 'antd';
 import { PauseOutlined, CaretRightOutlined, AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
@@ -336,6 +339,41 @@ class TrainingView extends React.Component {
 	}
 
 	render() {
+		const messages = [
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faEdit}
+					     />
+					 </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     Select a move to <span style={{ fontWeight: "1000" }}>edit</span> details 
+					     (reversability, type, description)
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      			<FontAwesomeIcon
+					        icon={faHandRock}
+					     />
+				     </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     <span style={{ fontWeight: "1000" }}>Drag and drop</span> moves to reorder them
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faPlusSquare}
+					     />
+					 </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     Select type and input name to 
+					     <span style={{ fontWeight: "1000" }}> add</span> new moves
+					   </div>,
+		    },
+		  ];
+
 		const panes = [
 					<div class="col-sm-12 Column">
 						<h4>Training</h4>

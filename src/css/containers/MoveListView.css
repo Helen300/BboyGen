@@ -9,10 +9,15 @@
 .Image {
 	height: 50%;
 	width: 100%;
+	text-align: center;
 }
 
 .HelpMsg .ant-list, .HelpMsg .ant-spin-nested-loading, 
 .HelpMsg .ant-spin-container, .HelpMsg .ant-row, .HelpMsg .ant-list-item, .HelpMsg .ant-card {
 	height: 100% !important;
 
+}
+
+.HelpMsg .ant-list {
+	width: 100%;
 }

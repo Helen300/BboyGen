@@ -2,43 +2,23 @@ import React from 'react';
 import { List, Card } from 'antd';
 
 
-
 class HelpMessages extends React.Component {
 
   render() {
 
-      const data = [
-    {
-      title: 'Title 1',
-    },
-    {
-      title: 'Title 2',
-    },
-    {
-      title: 'Title 3',
-    },
-    {
-      title: 'Title 4',
-    },
-  ];
+
     return (
       <List
-        grid={{ gutter: 16, column: 4 }}
-        dataSource={data}
+        grid={{ gutter: 16, column: this.props.data.length }}
+        dataSource={this.props.data}
         renderItem={item => (
           <List.Item style={{ marginBottom: 0}} >
-            <Card title={item.title}>Card content</Card>
+            <Card title={item.title}>{item.content}</Card>
           </List.Item>
         )}
       />
     )
   }
-
-
-
-
-
-
 
 }
 
@@ -47,4 +27,4 @@ class HelpMessages extends React.Component {
 
 
 
-export default HelpMessages
+export default HelpMessages;

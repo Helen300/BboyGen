@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHandRock, faEdit, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 import axios from 'axios';
 import $ from 'jquery';
 import { Tabs } from 'antd';
@@ -147,6 +149,40 @@ class MoveListView extends React.Component {
 	}	
 
 	render() {
+		   const messages = [
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faEdit}
+					     />
+					 </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     Select a move to <span style={{ fontWeight: "1000" }}>edit</span> details 
+					     (reversability, type, description)
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      			<FontAwesomeIcon
+					        icon={faHandRock}
+					     />
+				     </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     <span style={{ fontWeight: "1000" }}>Drag and drop</span> moves to reorder them
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faPlusSquare}
+					     />
+					 </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     Select type and input name to 
+					     <span style={{ fontWeight: "1000" }}> add</span> new moves
+					   </div>,
+		    },
+		  ];
 		const panes = [
 					<div className="col-xs-12 col-sm-4 Column">
 						<MoveList
@@ -186,10 +222,12 @@ class MoveListView extends React.Component {
 					:
 					<div className="col-xs-12 col-sm-8 Column">
 						<div className="Image"> 
-							<img src={ require('../img/dan.png') } width="100%" height="100%"/>
+							<img src={ require('../img/dan.png') } width="auto" height="100%"/>
 						</div>
 						<div className="HelpMsg">
-							<HelpMessages />
+							<HelpMessages 
+								data={messages}
+							/>
 						</div>
 
 					</div>

@@ -1,10 +1,13 @@
 import React from 'react'
 import axios from 'axios'
 import $ from 'jquery'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHandRock, faEdit, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 
 import CardList from '../components/CardList';
 import MoveList from '../components/MoveList';
 import SetList from '../components/SetList';
+import HelpMessages from '../components/HelpMessages';
 import EditCardName from '../components/EditCardName';
 import EditValues from '../components/EditValues';
 import RandomMove from '../RandomMove';
@@ -284,6 +287,53 @@ class GeneratorView extends React.Component {
 	}
 
 	render() {
+		const messages = [
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faEdit}
+					     />
+					 </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     Select a set to <span style={{ fontWeight: "1000" }}>modify</span> set moves
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      			<FontAwesomeIcon
+					        icon={faHandRock}
+					     />
+				     </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     Click on a move on the right to<span style={{ fontWeight: "1000" }}>add</span> 
+					     it to the current set
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faPlusSquare}
+					     />
+					 </center>,
+		      content: <div style={{ overflowWrap: "anywhere" }}>
+					     <span style={{ fontWeight: "1000" }}>Edit probabilities</span> to customize
+					     transitions between move types when adding random moves 
+					   </div>,
+		    },
+		    {
+			    title: <center>
+			      		 	<FontAwesomeIcon
+						        icon={faPlusSquare}
+						     />
+						</center>,
+		     	content: <div style={{ overflowWrap: "anywhere" }}>
+					     Adding
+					     <span style={{ fontWeight: "1000" }}> random move</span> transitions from the 
+					     last move based on probabilities
+					   	</div>,
+		    },
+		  ];
+
 	    const panes = [ 
 					<div className="col-xs-12 col-sm-4 Column">
 						<SetList
@@ -345,7 +395,17 @@ class GeneratorView extends React.Component {
 						</div>
 					</div>
 					:
-					null
+					<div className="col-xs-12 col-sm-8 Column">
+						<div className="Image"> 
+							<img src={ require('../img/dan.png') } width="auto" height="100%"/>
+						</div>
+						<div className="HelpMsg">
+							<HelpMessages 
+								data={messages}
+							/>
+						</div>
+
+					</div>
 					]
 	    var settings = {
 	      speed: 500,
