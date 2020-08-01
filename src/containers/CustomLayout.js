@@ -23,6 +23,7 @@ class CustomLayout extends React.Component {
   state = {
     menuKey: '', 
     userExists: false, 
+    hideFeedback: false
   }
 
   componentDidMount() {
@@ -37,13 +38,32 @@ class CustomLayout extends React.Component {
           menuKey: localStorage.getItem('menuKey')
         })
         window.addEventListener('storage', this.updateMenuKey)
+        window.addEventListener('resize', this.updateWindowWidth);
     }
   }
 
   componentWillUnmount(){
       if (typeof window !== 'undefined') {
           window.removeEventListener('storage', this.updateMenuKey)
+          window.removeEventListener('resize', this.updateWindowWidth)
       }
+  }
+
+  updateWindowWidth() {
+    if(window.innerWidth < 800){
+      this.setState({
+        hideFeedback: true
+      })
+    } else {
+      this.setState({
+        hideFeedback: false
+      })
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    this.updateWindowWidth = this.updateWindowWidth.bind(this)
   }
 
   updateMenuKey() {
@@ -170,9 +190,14 @@ class CustomLayout extends React.Component {
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.authLogout();}} style={{ float:'right' }}>
               <Link>Logout</Link>
             </Menu.Item>,
+            // don't show this button when width is too small
+            !this.state.hideFeedback ?
             <Menu.Item key={"Feedback"} onClick={() => window.open("https://forms.gle/3vdQAjVWtsxDVyvK6", "_blank")} style={{ float:'right' }}>
               <Link>Feedback / Report a bug</Link>
-            </Menu.Item>,
+            </Menu.Item>
+            :
+            null
+            ,
             <Menu.Item key={menuKeys.LIST} onClick={() => this.changeMenuKey(menuKeys.LIST)}>
               <Link to="/">List</Link>
             </Menu.Item>,
