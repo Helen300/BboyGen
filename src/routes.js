@@ -19,19 +19,14 @@ class BaseRouter extends React.Component {
 		return(
 			
 			<div id="mainViewContainer" style={{ height: "100%" }}>
-				{ isAuthenticated ? 
 
-				<Route exact path='/' component={MoveListView} />
-				:
-				<Route exact path='/' component={Landing} />
-
-				}
+				<Route exact path='/' component={isAuthenticated ? MoveListView : Landing} />
 
 				{/*<Route exact path='/' component={this.loginPage()} /> */}
 
 				{/* : defines a parameter */}
-				<Route exact path='/gen/' component={GeneratorView} />
-				<Route exact path='/training/' component={TrainingView} />
+				<Route exact path='/gen/' component={isAuthenticated ?  GeneratorView : Landing} />
+				<Route exact path='/training/' component={isAuthenticated ? TrainingView : Landing} />
 				{/* <Route exact path='/login/' component={Login} /> */}
 				{/* <Route exact path='/signup/' component={Signup} /> */}
 			</div>
