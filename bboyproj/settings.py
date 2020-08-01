@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5&cea=odq)1*h$b70c6m2j1jxrii7v4+solfucunp%-s)c0=vs'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -102,9 +102,9 @@ DATABASES = {
     #}
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'da9qfomjk63grq',  # *** change the name if you change the db name
-        'USER': 'dmuqranwsnqxst',
-        'PASSWORD': 'a59143b1a8f5053a81ab038a18e3c577718b23c662fa987d214a6691d480269e',
+        'NAME': os.getenv('DATABASE_NAME'),  # *** change the name if you change the db name
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'HOST': 'ec2-35-171-31-33.compute-1.amazonaws.com',
         'PORT': '5432'
     }
@@ -175,7 +175,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 # redirects from http -> https
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 #ACCOUNT_EMAIL_REQUIRED = False
