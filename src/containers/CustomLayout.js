@@ -13,7 +13,6 @@ import { withAuth0 } from '@auth0/auth0-react'
 import { Link, withRouter } from 'react-router-dom'
 import { Spin } from 'antd';
 
-import ReactGA from 'react-ga';
 // import { connect } from 'react-redux'
 // import * as actions from '../store/actions/auth'
 
@@ -156,13 +155,6 @@ class CustomLayout extends React.Component {
     if (isLoading || (isAuthenticated && !this.state.userExists)) {
       return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
     }
-
-    // if logged in, start google analytics
-    const trackingId = "UA-174149310-1"; // Replace with your Google Analytics tracking ID
-    ReactGA.initialize(trackingId);
-    ReactGA.set({
-      userId: localStorage.getItem('userId')
-    })
 
     return (
       <Layout className="layout">

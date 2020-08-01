@@ -23,6 +23,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { withAuth0 } from '@auth0/auth0-react';
 import { getCookie } from "../utils/getCookie"
+import ReactGA from 'react-ga';
 
 class TrainingView extends React.Component {
 
@@ -285,6 +286,7 @@ class TrainingView extends React.Component {
 	}
 
 	componentDidMount() {
+		ReactGA.pageview(window.location.pathname + window.location.search);
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)
