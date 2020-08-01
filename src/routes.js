@@ -30,8 +30,8 @@ class BaseRouter extends React.Component {
 				{/*<Route exact path='/' component={this.loginPage()} /> */}
 
 				{/* : defines a parameter */}
-				<Route exact path='/gen/' component={GeneratorView} />
-				<Route exact path='/training/' component={TrainingView} />
+				<Route exact path='/gen/' component={isAuthenticated ?  GeneratorView : Landing} />
+				<Route exact path='/training/' component={isAuthenticated ? TrainingView : Landing} />
 				{/* <Route exact path='/login/' component={Login} /> */}
 				{/* <Route exact path='/signup/' component={Signup} /> */}
 			</div>
