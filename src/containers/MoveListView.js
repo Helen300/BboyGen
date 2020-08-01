@@ -25,9 +25,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { withAuth0 } from '@auth0/auth0-react'
 import { getCookie } from "../utils/getCookie"
 
-// contains List of Moves and Form to add moves 
-
-
 class MoveListView extends React.Component {
 	state = {
 		moveList: [],

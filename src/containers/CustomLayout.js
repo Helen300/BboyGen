@@ -12,6 +12,8 @@ import { getCookie } from "../utils/getCookie"
 import { withAuth0 } from '@auth0/auth0-react'
 import { Link, withRouter } from 'react-router-dom'
 import { Spin } from 'antd';
+
+import ReactGA from 'react-ga';
 // import { connect } from 'react-redux'
 // import * as actions from '../store/actions/auth'
 
@@ -139,7 +141,6 @@ class CustomLayout extends React.Component {
     })
     .catch(error => {
       this.createUserProfile(user)
-
     })
   }
 
@@ -155,6 +156,14 @@ class CustomLayout extends React.Component {
     if (isLoading || (isAuthenticated && !this.state.userExists)) {
       return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
     }
+
+    // if logged in, start google analytics
+    const trackingId = "UA-174149310-1"; // Replace with your Google Analytics tracking ID
+    ReactGA.initialize(trackingId);
+    ReactGA.set({
+      userId: localStorage.getItem('userId')
+    })
+
     return (
       <Layout className="layout">
       <Header>
@@ -169,6 +178,9 @@ class CustomLayout extends React.Component {
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.authLogout();}} style={{ float:'right' }}>
               <Link>Logout</Link>
             </Menu.Item>,
+            <Menu.Item key={"Feedback"} onClick={() => window.open("https://forms.gle/3vdQAjVWtsxDVyvK6", "_blank")} style={{ float:'right' }}>
+              <Link>Feedback / Report a bug</Link>
+            </Menu.Item>,
             <Menu.Item key={menuKeys.LIST} onClick={() => this.changeMenuKey(menuKeys.LIST)}>
               <Link to="/">List</Link>
             </Menu.Item>,
@@ -177,7 +189,8 @@ class CustomLayout extends React.Component {
             </Menu.Item>,
             <Menu.Item key={menuKeys.TRAINING} onClick={() => this.changeMenuKey(menuKeys.TRAINING)}>
               <Link to="/training/">Training</Link>
-            </Menu.Item>]
+            </Menu.Item>,
+            ]
             :
             <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.authLogin();}}>
               <Link>Login/Signup</Link>
