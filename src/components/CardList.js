@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Move from '../components/Move';
 import MoveAddable from '../components/MoveAddable';
 import TrainingMove from '../components/TrainingMove';

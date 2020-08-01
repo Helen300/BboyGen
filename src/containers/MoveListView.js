@@ -1,16 +1,22 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHandRock, faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import $ from 'jquery';
 import { Tabs } from 'antd';
 import MoveDetail from '../components/MoveDetail';
 import MoveList from '../components/MoveList';
 import MoveInput from '../components/MoveInput';
+import HelpMessages from '../components/HelpMessages';
 import { tabNames, cardTypes, menuKeys } from "../constants"
 import Slider from "react-slick";
 import EditCardName from '../components/EditCardName';
 
 import "../css/containers/Pane.css"
+import "../css/containers/MoveListView.css"
 import "../css/containers/Column.css"
+import "../css/components/HelpMessages.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
@@ -145,6 +151,45 @@ class MoveListView extends React.Component {
 	}	
 
 	render() {
+		   const messages = [
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faEdit}
+					     />
+					 </center>,
+		      content: <div>
+					     Select a move to <span>edit</span> details 
+					     (reversability, type, description)
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faPlus}
+					     />
+					 </center>,
+		      content: <div>
+					     Select type and input name to 
+					     <span> add</span> new moves
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      			<FontAwesomeIcon
+					        icon={faHandRock}
+					     />
+				     </center>,
+		      content: this.state.mobileView ?
+		      		   <div>
+		      			 	<span>Drag and drop</span> {"moves to reorder them (disabled on mobile view)"}			     
+					   </div>
+					   :
+					   <div>
+					   		<span>Drag and drop</span> {"moves to reorder them"}
+					   </div>,
+		    },
+		  ];
 		const panes = [
 					<div className="col-xs-12 col-sm-4 Column">
 						<MoveList
@@ -168,21 +213,38 @@ class MoveListView extends React.Component {
 
 					this.state.selectedMoveIdx !== -1 ?
 					<div className="col-xs-12 col-sm-8 Column">
-							<EditCardName
-								selectedIdx={this.state.selectedMoveIdx}
-								updateCardList={this.updateMoveList.bind(this)}
-								cardList={this.state.moveList}
-							/>
-						   	<MoveDetail 
-						    	move={this.state.moveList[this.state.selectedMoveIdx]} 
-						    	moveList={this.state.moveList}
-						    	selectedMoveIdx={this.state.selectedMoveIdx}
-						    	currentTab={this.state.currentTab}
-						    	updateMoveList={this.updateMoveList.bind(this)}
-					    	/>
+						<EditCardName
+							selectedIdx={this.state.selectedMoveIdx}
+							updateCardList={this.updateMoveList.bind(this)}
+							cardList={this.state.moveList}
+						/>
+					   	<MoveDetail 
+					    	move={this.state.moveList[this.state.selectedMoveIdx]} 
+					    	moveList={this.state.moveList}
+					    	selectedMoveIdx={this.state.selectedMoveIdx}
+					    	currentTab={this.state.currentTab}
+					    	updateMoveList={this.updateMoveList.bind(this)}
+				    	/>
 					</div>
 					:
-					null
+					<div className="col-xs-12 col-sm-8 Column">
+						{this.state.mobileView ?
+							null
+							:
+							<div className="Image"> 
+								<img src={ require('../img/dan.png') } width="auto" height="100%"/>
+							</div>
+						}
+						<div className="HelpMsg">
+							<HelpMessages 
+								data={messages}
+								// add 3% bottom margin to col-xs-12 if mobile view
+								// stack help messages if md threshold so the text doesnt get too scrunched up
+								columnClass={this.state.mobileView ? "col-md-4 col-xs-12" : "col-md-4"}
+							/>
+						</div>
+
+					</div>
 				]
 	    var settings = {
 	      speed: 500,
