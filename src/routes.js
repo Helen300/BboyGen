@@ -19,13 +19,8 @@ class BaseRouter extends React.Component {
 		return(
 			
 			<div id="mainViewContainer" style={{ height: "100%" }}>
-				{ isAuthenticated ? 
 
-				<Route exact path='/' component={MoveListView} />
-				:
-				<Route exact path='/' component={Landing} />
-
-				}
+				<Route exact path='/' component={isAuthenticated ? MoveListView : Landing} />
 
 				{/*<Route exact path='/' component={this.loginPage()} /> */}
 
