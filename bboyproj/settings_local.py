@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+# TO RUN LOCALLY WITH THIS SETTINGS FILE
+# python manage.py runserver --settings=bboyproj.settings_local
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['bboygen.herokuapp.com', 'localhost', '*']
 
@@ -102,10 +103,10 @@ DATABASES = {
     #}
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME'),  # *** change the name if you change the db name
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
+        'NAME': #USER MUST FILL THIS OUT  # *** change the name if you change the db name
+        'USER': #USER MUST FILL THIS OUT
+        'PASSWORD': #USER MUST FILL THIS OUT
+        'HOST': #USER MUST FILL OUT
         'PORT': '5432'
     }
 }
@@ -175,7 +176,9 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 # redirects from http -> https
-SECURE_SSL_REDIRECT = True
+# set to false for local deployment
+# needs to be true for production
+SECURE_SSL_REDIRECT = False
 
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 #ACCOUNT_EMAIL_REQUIRED = False
