@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = True
 
 ALLOWED_HOSTS = ['bboygen.herokuapp.com', 'localhost', '*']
 
@@ -175,7 +175,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 # redirects from http -> https
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = False
 
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 #ACCOUNT_EMAIL_REQUIRED = False
