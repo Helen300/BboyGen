@@ -11,7 +11,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './store/reducers/auth';
-
+import ReactGA from 'react-ga';
 
 // checking if we have this extension installed, else uses redux compose 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -26,6 +26,10 @@ const onRedirectCallback = (appState) => {
       : window.location.pathname
   );
 };
+
+// start google analytics
+const trackingId = "UA-174149310-1"; // Replace with your Google Analytics tracking ID
+ReactGA.initialize(trackingId);
 
 // bring in provider 
 const app = (

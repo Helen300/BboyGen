@@ -24,7 +24,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { withAuth0 } from '@auth0/auth0-react'
 import { getCookie } from "../utils/getCookie"
-
+import ReactGA from 'react-ga';
 class MoveListView extends React.Component {
 	state = {
 		moveList: [],
@@ -83,6 +83,7 @@ class MoveListView extends React.Component {
 
 	// componentDidMount fixes a bug, but we can't check the token like componentWillReceiveProps. Figure this out later.
 	componentDidMount() {
+		ReactGA.pageview(window.location.pathname + window.location.search);
 		var apiUrl = '/api/userprofiles/'.concat(localStorage.getItem("userId"))
 		apiUrl = apiUrl.concat('/')
 		axios.get(apiUrl)

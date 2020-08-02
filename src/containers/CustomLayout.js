@@ -13,7 +13,6 @@ import { withAuth0 } from '@auth0/auth0-react'
 import { Link, withRouter } from 'react-router-dom'
 import { Spin } from 'antd';
 
-import ReactGA from 'react-ga';
 // import { connect } from 'react-redux'
 // import * as actions from '../store/actions/auth'
 
@@ -24,6 +23,7 @@ class CustomLayout extends React.Component {
   state = {
     menuKey: '', 
     userExists: false, 
+    hideFeedback: false
   }
 
   componentDidMount() {
@@ -38,13 +38,32 @@ class CustomLayout extends React.Component {
           menuKey: localStorage.getItem('menuKey')
         })
         window.addEventListener('storage', this.updateMenuKey)
+        window.addEventListener('resize', this.updateWindowWidth);
     }
   }
 
   componentWillUnmount(){
       if (typeof window !== 'undefined') {
           window.removeEventListener('storage', this.updateMenuKey)
+          window.removeEventListener('resize', this.updateWindowWidth)
       }
+  }
+
+  updateWindowWidth() {
+    if(window.innerWidth < 800){
+      this.setState({
+        hideFeedback: true
+      })
+    } else {
+      this.setState({
+        hideFeedback: false
+      })
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    this.updateWindowWidth = this.updateWindowWidth.bind(this)
   }
 
   updateMenuKey() {
@@ -157,13 +176,6 @@ class CustomLayout extends React.Component {
       return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
     }
 
-    // if logged in, start google analytics
-    const trackingId = "UA-174149310-1"; // Replace with your Google Analytics tracking ID
-    ReactGA.initialize(trackingId);
-    ReactGA.set({
-      userId: localStorage.getItem('userId')
-    })
-
     return (
       <Layout className="layout">
       <Header>
@@ -178,9 +190,14 @@ class CustomLayout extends React.Component {
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.authLogout();}} style={{ float:'right' }}>
               <Link>Logout</Link>
             </Menu.Item>,
+            // don't show this button when width is too small
+            !this.state.hideFeedback ?
             <Menu.Item key={"Feedback"} onClick={() => window.open("https://forms.gle/3vdQAjVWtsxDVyvK6", "_blank")} style={{ float:'right' }}>
               <Link>Feedback / Report a bug</Link>
-            </Menu.Item>,
+            </Menu.Item>
+            :
+            null
+            ,
             <Menu.Item key={menuKeys.LIST} onClick={() => this.changeMenuKey(menuKeys.LIST)}>
               <Link to="/">List</Link>
             </Menu.Item>,
