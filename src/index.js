@@ -21,7 +21,7 @@ const onRedirectCallback = (appState) => {
 };
 
 // start google analytics
-const trackingId = process.env.GA_TRACKING_ID; // Replace with your Google Analytics tracking ID
+const trackingId = process.env.REACT_APP_GA_TRACKING_ID; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
 
 // bring in provider 
