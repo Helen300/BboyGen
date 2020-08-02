@@ -175,6 +175,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 # redirects from http -> https
+# set to false for local deployment
+# needs to be true for production
 SECURE_SSL_REDIRECT = False
 
 #ACCOUNT_EMAIL_VERIFICATION = 'none'

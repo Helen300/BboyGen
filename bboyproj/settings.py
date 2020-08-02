@@ -105,7 +105,7 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME'),  # *** change the name if you change the db name
         'USER': os.getenv('DATABASE_USER'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': 'ec2-35-171-31-33.compute-1.amazonaws.com',
+        'HOST': os.getenv('DATABASE_HOST'),
         'PORT': '5432'
     }
 }
@@ -175,7 +175,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 # redirects from http -> https
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = True
 
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 #ACCOUNT_EMAIL_REQUIRED = False
