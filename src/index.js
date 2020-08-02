@@ -5,19 +5,12 @@ import * as serviceWorker from './serviceWorker';
 
 import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
-import config from "./auth_config.json";
+
 
 import { createStore, compose, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import reducer from './store/reducers/auth';
+
 import ReactGA from 'react-ga';
 
-// checking if we have this extension installed, else uses redux compose 
-const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducer, composeEnhances(
-	applyMiddleware(thunk)
-));
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -28,15 +21,14 @@ const onRedirectCallback = (appState) => {
 };
 
 // start google analytics
-const trackingId = "UA-174149310-1"; // Replace with your Google Analytics tracking ID
+const trackingId = process.env.GA_TRACKING_ID; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
 
 // bring in provider 
 const app = (
 	<Auth0Provider
-	    domain={config.domain}
-	    clientId={config.clientId}
-	    audience={config.audience}
+	    domain={process.env.REACT_APP_AUTH0_DOMAIN}
+	    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
 	    redirectUri={window.location.origin}
 	    onRedirectCallback={onRedirectCallback}
 	    useRefreshTokens={true}

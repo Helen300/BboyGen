@@ -11,7 +11,6 @@ import "./css/App.css"
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
-import ReactGA from 'react-ga';
 // grabs the store we created and allow us to access states 
 // import * as actions from './store/actions/auth';
 // import { connect } from 'react-redux';
