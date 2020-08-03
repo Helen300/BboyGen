@@ -173,7 +173,9 @@ class CustomLayout extends React.Component {
       localStorage.setItem('userId', user['sub'])
     }
     if (isLoading || (isAuthenticated && !this.state.userExists)) {
-      return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
+      return <div style={{ right: "50%", bottom: "50%", transform: "translate(50%,50%)", position: "absolute"}}>
+                <Spin tip="Bboy Generating..." size="large" />
+             </div>;
     }
 
     return (

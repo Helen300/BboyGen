@@ -1,6 +1,115 @@
-.centerSpin {
-	right: 50%;
-    bottom: 50%;
-    transform: translate(50%,50%);
-    position: absolute;
+/* Theme colors */
+:root {
+  --primaryBgColor: #939BCB;
+  --primaryTextColor: white;
+  --neutralBgColor: white;
+  --neutralTextColor: #5f6bb2;
+  --specialIconColor: #F2B5AF;
+  --selectedSpecialIconColor: lightblue;
+  --trainingCardColor1: #B0ABCA;
+  --trainingCardColor2: #E1C6AC;
+  --trainingCardColor3: #A3D6D4;
+  --trainingCardColor4: #E2A9BE;
+}
+
+/*MoveDetail.css*/
+.Reversible {
+	background-color: var(--primaryBgColor) !important;
+	color: var(--primaryTextColor)  !important;
+}
+
+.NotReversible {
+	background-color: var(--neutralBgColor) !important;
+}
+
+/* Move.css */
+.NormalCard {
+	background-color: var(--neutralBgColor);
+}
+
+.NormalTitle, .NormalDelete, .NormalReverse, .NormalAdd {
+	color: var(--neutralTextColor);
+}
+
+.ToggledReverse {
+	color: var(--specialIconColor);
+}
+
+.SelectedCard {
+	background-color: var(--primaryBgColor);
+}
+
+.SelectedTitle, .SelectedDelete, .SelectedReverse {
+	color: var(--primaryTextColor);
+}
+
+.SelectedToggledReverse {
+	color: ;
+}
+
+.CardColor1 {
+	background-color: var(--trainingCardColor1);
+}
+
+.CardColor2 {
+	background-color: var(--trainingCardColor2);
+}
+
+.CardColor3 {
+	background-color: var(--trainingCardColor3);
+}
+
+.CardColor4 {
+	background-color: var(--trainingCardColor4);
+}
+
+/* Menu Items */
+.ant-menu-item-selected {
+	background-color: var(--primaryBgColor) !important;
+}
+
+/* Loading spinners */
+.ant-spin-dot-item {
+	background-color: var(--primaryBgColor) !important;
+}
+
+.ant-spin-text {
+	color: var(--primaryBgColor) !important;
+}
+
+/* Buttons and inputs */
+
+/* don't set these to important, we want primary btn to override these styles*/
+.ant-btn:hover, .ant-btn:focus {
+	background-color: var(--neutralBgColor);
+	color: var(--neutralTextColor);
+	border-color: var(--neutralTextColor);
+}
+
+.ant-btn-primary {
+	background-color: var(--primaryBgColor) !important;
+	border-color: var(--primaryBgColor) !important;
+	color: var(--primaryTextColor) !important;
+}
+
+.ant-input:hover, .ant-input:focus {
+	border-color: var(--neutralTextColor) !important;
+}
+
+.ant-select-selector:hover, .ant-select-selector:focus, 
+.ant-input-wrapper:hover, .ant-input-wrapper:focus, 
+.ant-input-number:hover, .ant-input-number:focus {
+	border-color: var(--neutralTextColor) !important;
+}
+
+.ant-tabs-tab:hover, .ant-tabs-tab:focus{
+	color: var(--primaryBgColor) !important;
+}
+
+.ant-tabs-tab-active {
+	color: var(--neutralTextColor) !important;
+}
+
+.ant-tabs-ink-bar {
+	background-color: var(--primaryBgColor);
 }

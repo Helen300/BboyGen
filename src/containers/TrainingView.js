@@ -395,7 +395,7 @@ class TrainingView extends React.Component {
 
 		const panes = [
 					<div class="col-sm-12 Column">
-						{this.state.playing ?
+						{this.state.playing || this.state.backlogSet.length > 0 ?
 							<div class="SlidingMovesContainer">
 								<CardList
 									cardType={cardTypes.TRAINING_MOVE}

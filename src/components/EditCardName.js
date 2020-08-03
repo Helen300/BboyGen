@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { Input, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import "../css/components/EditSetName.css"
+import "../css/components/EditCardName.css"
 
 const { TextArea } = Input;
 
