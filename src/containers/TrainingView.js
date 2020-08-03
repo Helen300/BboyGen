@@ -395,7 +395,6 @@ class TrainingView extends React.Component {
 
 		const panes = [
 					<div class="col-sm-12 Column">
-						<h4>Training</h4>
 						{this.state.playing ?
 							<div class="SlidingMovesContainer">
 								<CardList

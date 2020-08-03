@@ -193,7 +193,7 @@ class CustomLayout extends React.Component {
             // don't show this button when width is too small
             !this.state.hideFeedback ?
             <Menu.Item key={"Feedback"} onClick={() => window.open("https://forms.gle/3vdQAjVWtsxDVyvK6", "_blank")} style={{ float:'right' }}>
-              <Link>Feedback / Report a bug</Link>
+              <Link>Feedback</Link>
             </Menu.Item>
             :
             null
@@ -210,7 +210,7 @@ class CustomLayout extends React.Component {
             ]
             :
             <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.authLogin();}}>
-              <Link>Login/Signup</Link>
+              <Link>Login</Link>
             </Menu.Item>
         }
 
