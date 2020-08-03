@@ -154,6 +154,7 @@ class MoveListView extends React.Component {
 		      title: <center>
 		      		 	<FontAwesomeIcon
 					        icon={faEdit}
+					        size="lg"
 					     />
 					 </center>,
 		      content: <div>
@@ -165,6 +166,7 @@ class MoveListView extends React.Component {
 		      title: <center>
 		      		 	<FontAwesomeIcon
 					        icon={faPlus}
+					        size="lg"
 					     />
 					 </center>,
 		      content: <div>
@@ -176,6 +178,7 @@ class MoveListView extends React.Component {
 		      title: <center>
 		      			<FontAwesomeIcon
 					        icon={faHandRock}
+					        size="lg"
 					     />
 				     </center>,
 		      content: this.state.mobileView ?
