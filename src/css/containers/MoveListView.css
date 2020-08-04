@@ -1,8 +1,6 @@
 .Image {
-	height: 50%;
+	height: auto;
 	width: 100%;
 	text-align: center;
-	flex: 1 0 0;
-	overflow: hidden;
 }
 

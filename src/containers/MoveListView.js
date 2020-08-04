@@ -232,9 +232,7 @@ class MoveListView extends React.Component {
 						{this.state.mobileView ?
 							null
 							:
-							<div className="Image"> 
-								<img src={ require('../img/dan.png') } width="auto" height="100%"/>
-							</div>
+							<img src={ require('../img/FreezeImages1.png') } class="Image"/>
 						}
 						<div className="HelpMsg">
 							<HelpMessages 

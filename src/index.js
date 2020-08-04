@@ -2,15 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
 import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
-
-
-import { createStore, compose, applyMiddleware } from 'redux';
-
 import ReactGA from 'react-ga';
-
 
 const onRedirectCallback = (appState) => {
   history.push(
