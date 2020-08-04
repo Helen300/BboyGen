@@ -361,7 +361,7 @@ class TrainingView extends React.Component {
 						</svg>
 				     </center>,
 		      content: <div>
-					     Select a set to <span>filter</span> moves to this set (unselect to train on all moves)
+					     Select a set to <span>filter</span> moves to that set (unselect to train on all moves)
 					   </div>,
 		    },
 		    {
