@@ -153,18 +153,6 @@ class MoveListView extends React.Component {
 		    {
 		      title: <center>
 		      		 	<FontAwesomeIcon
-					        icon={faEdit}
-					        size="lg"
-					     />
-					 </center>,
-		      content: <div>
-					     Select a move to <span>edit</span> details 
-					     (reversability, type, description)
-					   </div>,
-		    },
-		    {
-		      title: <center>
-		      		 	<FontAwesomeIcon
 					        icon={faPlus}
 					        size="lg"
 					     />
@@ -172,6 +160,18 @@ class MoveListView extends React.Component {
 		      content: <div>
 					     Select type and input name to 
 					     <span> add</span> new moves
+					   </div>,
+		    },
+		    {
+		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faEdit}
+					        size="lg"
+					     />
+					 </center>,
+		      content: <div>
+					     Select a move to <span>edit</span> details 
+					     (reversability, type, description)
 					   </div>,
 		    },
 		    {
