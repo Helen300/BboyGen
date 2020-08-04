@@ -4,7 +4,7 @@
   --primaryColorDarker: #5f6bb2; /* for text */
   --primaryColorLighter: #cbcfe6; /* for when you hover over primary buttons*/
   --secondaryColor: black; /* used for menu bar */ 
-  --tertiaryColor: lightgrey;
+  --tertiaryColor: #ededed;
   --neutralTextColor: white; /* for text on colored backgrounds */
   --neutralColor: white; /* non-selected backgrounds */
   --specialIconColor: #F2B5AF; /* reverse button */
@@ -65,6 +65,10 @@
 /* Background Colors, Side panels of Layout, CardList Backgrounds */ 
 /* default colors are light gray, these colors override them */ 
 .ant-layout {
+	background-color: var(--tertiaryColor) !important;
+}
+
+.ant-layout-footer {
 	background-color: var(--tertiaryColor) !important;
 }
 
