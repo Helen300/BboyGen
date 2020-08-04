@@ -186,7 +186,7 @@ class CustomLayout extends React.Component {
         {
             // if authenticated = true we show logout 
             isAuthenticated ? 
-            [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
+            [<Menu.Item key={menuKeys.GREETING} style={{cursor: "default"}}>
               Hello, {user['given_name'] != null ? user['given_name'] : user['nickname']}
             </Menu.Item>,
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.authLogout();}} style={{ float:'right' }}>

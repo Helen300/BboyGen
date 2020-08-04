@@ -3,6 +3,8 @@
   --primaryColor: #939BCB; /* for backgrounds/buttons */
   --primaryColorDarker: #5f6bb2; /* for text */
   --primaryColorLighter: #cbcfe6; /* for when you hover over primary buttons*/
+  --secondaryColor: black; /* used for menu bar */ 
+  --tertiaryColor: lightgrey;
   --neutralTextColor: white; /* for text on colored backgrounds */
   --neutralColor: white; /* non-selected backgrounds */
   --specialIconColor: #F2B5AF; /* reverse button */
@@ -60,9 +62,29 @@
 	background-color: var(--trainingCardColor4);
 }
 
-/* Menu Items */
+/* Background Colors, Side panels of Layout, CardList Backgrounds */ 
+/* default colors are light gray, these colors override them */ 
+.ant-layout {
+	background-color: var(--tertiaryColor) !important;
+}
+
+.MoveListDiv {
+}
+
+.Pane {
+}
+
+/* Menu Items, Menu Headers */
 .ant-menu-item-selected {
 	background-color: var(--primaryColor) !important;
+}
+
+.ant-layout-header, .ant-menu-dark {
+	background-color: var(--secondaryColor) !important;
+}
+
+.ant-menu-item, .ant-menu-item>a {
+	color: var(--neutralTextColor) !important;
 }
 
 /* Loading spinners */
@@ -114,3 +136,12 @@
 .ant-tabs-ink-bar {
 	background-color: var(--primaryColor);
 }
+
+/* HelpMessages */ 
+.HelpMsg svg, .HelpMsg span { 
+	color: var(--secondaryColor);
+ }
+
+
+
+
