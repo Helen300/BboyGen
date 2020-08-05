@@ -3,12 +3,15 @@
   --primaryColor: #7d7dd3; /* for backgrounds/buttons */
   --primaryColorDarker: #6E6EBA; /* for text */
   --primaryColorLighter: #9696FF; /* for when you hover over primary buttons*/
-  --secondaryColor: #2d283e; /* used for menu bar */ 
-  --tertiaryColor: #f3f0fa;
+  --accentColor: #E31488;
+  --helpIconsColor: white;
+  --helpBoldColor: #E31488;
+  --helpHeadColor: #7d7dd3;
+  --menuBarColor: #2d283e;
+  --lightBackgroundColor: #f3f0fa;
   --neutralTextColor: white; /* for text on colored backgrounds */
   --neutralColor: white; /* non-selected backgrounds */
-  --specialIconColor: #F2B5AF; /* reverse button */
-  --selectedSpecialIconColor: lightblue /* reverse button on colored background */;
+  --specialIconColor: #E31488; /* reverse button */
   --trainingCardColor1: #B0ABCA;
   --trainingCardColor2: #E1C6AC;
   --trainingCardColor3: #A3D6D4;
@@ -43,7 +46,6 @@
 }
 
 .SelectedToggledReverse {
-	color: var(--selectedSpecialIconColor);
 }
 
 .CardColor1 {
@@ -65,11 +67,11 @@
 /* Background Colors, Side panels of Layout, CardList Backgrounds */ 
 /* default colors are light gray, these colors override them */ 
 .ant-layout {
-	background-color: var(--tertiaryColor) !important;
+	background-color: var(--lightBackgroundColor) !important;
 }
 
 .ant-layout-footer {
-	background-color: var(--tertiaryColor) !important;
+	background-color: var(--lightBackgroundColor) !important;
 }
 
 .MoveListDiv {
@@ -84,7 +86,7 @@
 }
 
 .ant-layout-header, .ant-menu-dark {
-	background-color: var(--secondaryColor) !important;
+	background-color: var(--menuBarColor) !important;
 }
 
 .ant-menu-item, .ant-menu-item>a {
@@ -130,22 +132,30 @@
 }
 
 .ant-tabs-tab:hover, .ant-tabs-tab:focus{
-	color: var(--primaryColor) !important;
+	color: var(--accentColor) !important;
 }
 
 .ant-tabs-tab-active {
-	color: var(--primaryColorDarker) !important;
+	color: var(--accentColor) !important;
 }
 
 .ant-tabs-ink-bar {
-	background-color: var(--primaryColor);
+	background-color: var(--accentColor);
 }
 
 /* HelpMessages */ 
-.HelpMsg svg, .HelpMsg span { 
-	color: var(--secondaryColor);
+.HelpMsg svg { 
+	color: var(--helpIconsColor);
  }
 
+.HelpMsg span {
+	color: var(--helpBoldColor);
+}
 
+.HelpMsg .ant-card-bordered {
+	background-color: var(--lightBackgroundColor);
+}
 
-
+.HelpMsg .ant-card-head {
+	background-color: var(--helpHeadColor);
+}
