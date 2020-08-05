@@ -1,10 +1,10 @@
 /* Theme colors */
 :root {
-  --primaryColor: #939BCB; /* for backgrounds/buttons */
-  --primaryColorDarker: #5f6bb2; /* for text */
-  --primaryColorLighter: #cbcfe6; /* for when you hover over primary buttons*/
-  --secondaryColor: black; /* used for menu bar */ 
-  --tertiaryColor: #ededed;
+  --primaryColor: #7d7dd3; /* for backgrounds/buttons */
+  --primaryColorDarker: #6E6EBA; /* for text */
+  --primaryColorLighter: #9696FF; /* for when you hover over primary buttons*/
+  --secondaryColor: #2d283e; /* used for menu bar */ 
+  --tertiaryColor: #f3f0fa;
   --neutralTextColor: white; /* for text on colored backgrounds */
   --neutralColor: white; /* non-selected backgrounds */
   --specialIconColor: #F2B5AF; /* reverse button */
