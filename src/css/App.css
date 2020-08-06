@@ -12,10 +12,10 @@
   --neutralTextColor: white; /* for text on colored backgrounds */
   --neutralColor: white; /* non-selected backgrounds */
   --specialIconColor: #E31488; /* reverse button */
-  --trainingCardColor1: #B0ABCA;
-  --trainingCardColor2: #E1C6AC;
-  --trainingCardColor3: #A3D6D4;
-  --trainingCardColor4: #E2A9BE;
+  --trainingCardColor1: #3676A4;
+  --trainingCardColor2: #CC338C;
+  --trainingCardColor3: #1F9398;
+  --trainingCardColor4: #880088;
 }
 
 /*MoveDetail.css*/
