@@ -173,7 +173,9 @@ class CustomLayout extends React.Component {
       localStorage.setItem('userId', user['sub'])
     }
     if (isLoading || (isAuthenticated && !this.state.userExists)) {
-      return <div className="centerSpin"><Spin tip="Bboy Generating..." size="large" /></div>;
+      return <div style={{ right: "50%", bottom: "50%", transform: "translate(50%,50%)", position: "absolute"}}>
+                <Spin tip="Bboy Generating..." size="large" />
+             </div>;
     }
 
     return (
@@ -184,7 +186,7 @@ class CustomLayout extends React.Component {
         {
             // if authenticated = true we show logout 
             isAuthenticated ? 
-            [<Menu.Item key={menuKeys.GREETING} disabled style={{color:"white"}}>
+            [<Menu.Item key={menuKeys.GREETING} style={{cursor: "default"}}>
               Hello, {user['given_name'] != null ? user['given_name'] : user['nickname']}
             </Menu.Item>,
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.authLogout();}} style={{ float:'right' }}>
@@ -193,7 +195,7 @@ class CustomLayout extends React.Component {
             // don't show this button when width is too small
             !this.state.hideFeedback ?
             <Menu.Item key={"Feedback"} onClick={() => window.open("https://forms.gle/3vdQAjVWtsxDVyvK6", "_blank")} style={{ float:'right' }}>
-              <Link>Feedback / Report a bug</Link>
+              <Link>Feedback</Link>
             </Menu.Item>
             :
             null
@@ -210,7 +212,7 @@ class CustomLayout extends React.Component {
             ]
             :
             <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.authLogin();}}>
-              <Link>Login/Signup</Link>
+              <Link>Login</Link>
             </Menu.Item>
         }
 

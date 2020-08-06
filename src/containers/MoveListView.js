@@ -153,18 +153,8 @@ class MoveListView extends React.Component {
 		    {
 		      title: <center>
 		      		 	<FontAwesomeIcon
-					        icon={faEdit}
-					     />
-					 </center>,
-		      content: <div>
-					     Select a move to <span>edit</span> details 
-					     (reversability, type, description)
-					   </div>,
-		    },
-		    {
-		      title: <center>
-		      		 	<FontAwesomeIcon
 					        icon={faPlus}
+					        size="lg"
 					     />
 					 </center>,
 		      content: <div>
@@ -174,8 +164,21 @@ class MoveListView extends React.Component {
 		    },
 		    {
 		      title: <center>
+		      		 	<FontAwesomeIcon
+					        icon={faEdit}
+					        size="lg"
+					     />
+					 </center>,
+		      content: <div>
+					     Select a move to <span>edit</span> details 
+					     (reversability, type, description)
+					   </div>,
+		    },
+		    {
+		      title: <center>
 		      			<FontAwesomeIcon
 					        icon={faHandRock}
+					        size="lg"
 					     />
 				     </center>,
 		      content: this.state.mobileView ?
@@ -229,9 +232,7 @@ class MoveListView extends React.Component {
 						{this.state.mobileView ?
 							null
 							:
-							<div className="Image"> 
-								<img src={ require('../img/dan.png') } width="auto" height="100%"/>
-							</div>
+							<img src={ require('../img/FreezeImages1.png') } class="Image"/>
 						}
 						<div className="HelpMsg">
 							<HelpMessages 

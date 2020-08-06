@@ -361,7 +361,7 @@ class TrainingView extends React.Component {
 						</svg>
 				     </center>,
 		      content: <div>
-					     Select a set to <span>filter</span> moves to this set (unselect to train on all moves)
+					     Select a set to <span>filter</span> moves to that set (unselect to train on all moves)
 					   </div>,
 		    },
 		    {
@@ -395,8 +395,7 @@ class TrainingView extends React.Component {
 
 		const panes = [
 					<div class="col-sm-12 Column">
-						<h4>Training</h4>
-						{this.state.playing ?
+						{this.state.playing || this.state.backlogSet.length > 0 ?
 							<div class="SlidingMovesContainer">
 								<CardList
 									cardType={cardTypes.TRAINING_MOVE}

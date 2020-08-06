@@ -2,15 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
 import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
-
-
-import { createStore, compose, applyMiddleware } from 'redux';
-
 import ReactGA from 'react-ga';
-
+import Favicon from 'react-favicon';
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -33,6 +28,8 @@ const app = (
 	    onRedirectCallback={onRedirectCallback}
 	    useRefreshTokens={true}
 	>
+	{/*paste link to logo from github here*/}
+	<Favicon url="https://i.imgur.com/2qyUQEj.png" />
     <App />
   </Auth0Provider>
 )

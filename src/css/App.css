@@ -1,6 +1,161 @@
-.centerSpin {
-	right: 50%;
-    bottom: 50%;
-    transform: translate(50%,50%);
-    position: absolute;
+/* Theme colors */
+:root {
+  --primaryColor: #7d7dd3; /* for backgrounds/buttons */
+  --primaryColorDarker: #6E6EBA; /* for text */
+  --primaryColorLighter: #9696FF; /* for when you hover over primary buttons*/
+  --accentColor: #E31488;
+  --helpIconsColor: white;
+  --helpBoldColor: #E31488;
+  --helpHeadColor: #7d7dd3;
+  --menuBarColor: #2d283e;
+  --lightBackgroundColor: #f3f0fa;
+  --neutralTextColor: white; /* for text on colored backgrounds */
+  --neutralColor: white; /* non-selected backgrounds */
+  --specialIconColor: #E31488; /* reverse button */
+  --trainingCardColor1: #B0ABCA;
+  --trainingCardColor2: #E1C6AC;
+  --trainingCardColor3: #A3D6D4;
+  --trainingCardColor4: #E2A9BE;
+}
+
+/*MoveDetail.css*/
+.Reversible {
+	background-color: var(--primaryColor) !important;
+	color: var(--neutralTextColor)  !important;
+}
+
+/* Move.css */
+.NormalCard {
+	background-color: var(--neutralColor);
+}
+
+.NormalTitle, .NormalDelete, .NormalReverse, .NormalAdd {
+	color: var(--primaryColorDarker);
+}
+
+.ToggledReverse {
+	color: var(--specialIconColor);
+}
+
+.SelectedCard {
+	background-color: var(--primaryColor);
+}
+
+.SelectedTitle, .SelectedDelete, .SelectedReverse {
+	color: var(--neutralTextColor);
+}
+
+.SelectedToggledReverse {
+}
+
+.CardColor1 {
+	background-color: var(--trainingCardColor1);
+}
+
+.CardColor2 {
+	background-color: var(--trainingCardColor2);
+}
+
+.CardColor3 {
+	background-color: var(--trainingCardColor3);
+}
+
+.CardColor4 {
+	background-color: var(--trainingCardColor4);
+}
+
+/* Background Colors, Side panels of Layout, CardList Backgrounds */ 
+/* default colors are light gray, these colors override them */ 
+.ant-layout {
+	background-color: var(--lightBackgroundColor) !important;
+}
+
+.ant-layout-footer {
+	background-color: var(--lightBackgroundColor) !important;
+}
+
+.MoveListDiv {
+}
+
+.Pane {
+}
+
+/* Menu Items, Menu Headers */
+.ant-menu-item-selected {
+	background-color: var(--primaryColor) !important;
+}
+
+.ant-layout-header, .ant-menu-dark {
+	background-color: var(--menuBarColor) !important;
+}
+
+.ant-menu-item, .ant-menu-item>a {
+	color: var(--neutralTextColor) !important;
+}
+
+/* Loading spinners */
+.ant-spin-dot-item {
+	background-color: var(--primaryColor) !important;
+}
+
+.ant-spin-text {
+	color: var(--primaryColor) !important;
+}
+
+/* Buttons and inputs */
+
+/* don't set these to important, we want primary btn to override these styles*/
+.ant-btn:hover, .ant-btn:focus {
+	color: var(--primaryColorDarker);
+	border-color: var(--primaryColor);
+}
+
+.ant-btn-primary {
+	background-color: var(--primaryColor) !important;
+	border-color: var(--primaryColor) !important;
+	color: var(--neutralTextColor) !important;
+}
+
+.ant-btn-primary:hover {
+	background-color: var(--primaryColorLighter) !important;
+	border-color: var(--primaryColorLight) !important;
+}
+
+.ant-input:hover, .ant-input:focus {
+	border-color: var(--primaryColor) !important;
+}
+
+.ant-select-selector:hover, .ant-select-selector:focus, 
+.ant-input-wrapper:hover, .ant-input-wrapper:focus, 
+.ant-input-number:hover, .ant-input-number:focus {
+	border-color: var(--primaryColor) !important;
+}
+
+.ant-tabs-tab:hover, .ant-tabs-tab:focus{
+	color: var(--accentColor) !important;
+}
+
+.ant-tabs-tab-active {
+	color: var(--accentColor) !important;
+}
+
+.ant-tabs-ink-bar {
+	background-color: var(--accentColor);
+}
+
+/* HelpMessages */ 
+.HelpMsg svg { 
+	color: var(--helpIconsColor);
+ }
+
+.HelpMsg span {
+	color: var(--helpBoldColor);
+}
+
+.HelpMsg .ant-card-bordered {
+	background-color: var(--lightBackgroundColor);
+}
+
+.HelpMsg .ant-card-head {
+	background-color: var(--helpHeadColor);
 }

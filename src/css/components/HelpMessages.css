@@ -2,8 +2,7 @@
 	display: flex !important;
 	flex-direction: row !important;
 	align-items: flex-end !important;
-	height: 100%;
-	flex: 1 0 0;
+	flex: auto;
 	overflow-y: auto;
 	overflow-x: hidden;
 }

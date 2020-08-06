@@ -1,8 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
 import { Input, Button } from 'antd';
-import { EditOutlined } from '@ant-design/icons'
-import "../css/components/EditSetName.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import "../css/components/EditCardName.css"
 
 const { TextArea } = Input;
 
@@ -74,7 +75,11 @@ class EditCardName extends React.Component {
 					</div>
 				:
 				<h4>{this.props.cardList[this.props.selectedIdx].name}
-					<EditOutlined onClick={() => this.setState({editingName:true})}/>
+      		 		<FontAwesomeIcon
+				        icon={faPencilAlt}
+				        onClick={() => this.setState({editingName:true})}
+				        style={{ fontSize: "0.75em", cursor: "pointer", paddingLeft: "0.3em" }}
+			     	/>
 				</h4>
 
 				}
