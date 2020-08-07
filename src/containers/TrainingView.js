@@ -151,8 +151,7 @@ class TrainingView extends React.Component {
 		})
 	}
 
-	speakMove(move) {
-		var synth = window.speechSynthesis;
+	speakMove(move, synth) {
 		var textToSay = null
 		if(move.reverseEnabled) {
 			textToSay = new SpeechSynthesisUtterance(move.name + " reversed");
@@ -164,6 +163,7 @@ class TrainingView extends React.Component {
 	}
 
 	startPlaying() {
+		var synth = window.speechSynthesis;
 		this.setState({
 			playing: true
 		})
@@ -178,7 +178,7 @@ class TrainingView extends React.Component {
 				// this.addMovesFromBacklog()
 				// this.fillBacklog()
 				if(this.state.voiceOn) {
-					this.speakMove(this.state.backlogSet[0]);
+					this.speakMove(this.state.backlogSet[0], synth);
 				}
 			}
 			// if first move is out of length, remove first and fill with more
@@ -192,7 +192,7 @@ class TrainingView extends React.Component {
 				if(this.state.voiceOn) {
 					// if moves are going too fast, then cut off previous speech midway
 					speechSynthesis.cancel()
-					this.speakMove(this.state.backlogSet[0]);
+					this.speakMove(this.state.backlogSet[0], synth);
 				}
 			// otherwise, keep decreasing first move's length
 			} else {
