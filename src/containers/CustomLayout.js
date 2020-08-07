@@ -195,7 +195,7 @@ class CustomLayout extends React.Component {
             null
             ,
             !this.state.hideSomeButtons ?
-            <Menu.Item key={"Logo"} class="Logo" style={{cursor: "default", float:"left", paddingLeft: 0, paddingRight: 0}}>
+            <Menu.Item key={"Logo"} class="Logo" style={{cursor: "default", float:"left", paddingRight: 0}}>
               <img src={ require('../img/Logo.png') } style={{ height: 50, width:"auto" }}/>
             </Menu.Item>
             :
@@ -224,7 +224,7 @@ class CustomLayout extends React.Component {
             ]
             :
             [
-            <Menu.Item key={"Logo"} style={{cursor: "default", float:"left", paddingLeft: 0, paddingRight: 0}}>
+            <Menu.Item key={"Logo"} style={{cursor: "default", float:"left", paddingRight: 0}}>
               <img src={ require('../img/Logo.png') } style={{ height: 50, width:"auto" }}/>
             </Menu.Item>,
             <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.authLogin();}}>
