@@ -43,9 +43,12 @@
 	display: flex !important;
 }
 
-/* fix offcenter columns */
+/* fix offcenter columns and weird padding on help messages*/
 @media screen and (max-width: 575px), screen and (max-height: 575px){
 	.row {
 		margin-left: 0px !important
+	}
+	.HelpMsg .col-xs-12 {
+		padding-left: 0px;
 	}
 }

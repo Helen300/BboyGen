@@ -28,7 +28,7 @@ const app = (
 	    onRedirectCallback={onRedirectCallback}
 	>
 	{/*paste link to logo from github here*/}
-	<Favicon url="https://i.imgur.com/2qyUQEj.png" />
+	<Favicon url="https://raw.githubusercontent.com/Helen300/BboyGen/master/src/img/Logo.png" />
     <App />
   </Auth0Provider>
 )
