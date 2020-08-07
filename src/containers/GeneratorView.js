@@ -404,7 +404,7 @@ class GeneratorView extends React.Component {
 						{this.state.mobileView ? 
 							null
 							:
-							<img src={ require('../img/FreezeImages2.png') } class="Image"/>
+							<img src={ require('../img/FreezeImages2.png') } class="Image" style={{ paddingBottom: "3%" }}/>
 						}
 						<div className="HelpMsg">
 							<HelpMessages 
@@ -424,7 +424,7 @@ class GeneratorView extends React.Component {
 	      adaptiveHeight: true,
 	      draggable: true,
 	      swipe: true,
-	      dots: true
+	      dots: true,
 	    };
 		// add slider for panes if window width is small (mobile)
 		if(this.state.mobileView) {

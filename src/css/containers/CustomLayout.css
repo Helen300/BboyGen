@@ -20,10 +20,13 @@
 		padding: 0 0px;
 	}
 	.ant-layout-header{
-		padding: 0 0px;
+		padding: 0 10px;
 	}
-	/* Get rid of greeting menu item*/
+	/* Get rid of greeting menu item and logo*/
 	.ant-menu-item-disabled{
+		display: none !important;
+	}
+	.Logo{
 		display: none !important;
 	}
 	/* shrink menu buttons so they all show*/

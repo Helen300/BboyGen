@@ -23,7 +23,7 @@ class CustomLayout extends React.Component {
   state = {
     menuKey: '', 
     userExists: false, 
-    hideFeedback: false
+    hideSomeButtons: false
   }
 
   componentDidMount() {
@@ -52,11 +52,11 @@ class CustomLayout extends React.Component {
   updateWindowWidth() {
     if(window.innerWidth < 800){
       this.setState({
-        hideFeedback: true
+        hideSomeButtons: true
       })
     } else {
       this.setState({
-        hideFeedback: false
+        hideSomeButtons: false
       })
     }
   }
@@ -186,14 +186,26 @@ class CustomLayout extends React.Component {
         {
             // if authenticated = true we show logout 
             isAuthenticated ? 
-            [<Menu.Item key={menuKeys.GREETING} style={{cursor: "default"}}>
+            [
+            !this.state.hideSomeButtons ?
+            <Menu.Item key={menuKeys.GREETING} style={{cursor: "default"}}>
               Hello, {user['given_name'] != null ? user['given_name'] : user['nickname']}
-            </Menu.Item>,
+            </Menu.Item>
+            :
+            null
+            ,
+            !this.state.hideSomeButtons ?
+            <Menu.Item key={"Logo"} class="Logo" style={{cursor: "default", float:"left", paddingLeft: 0, paddingRight: 0}}>
+              <img src={ require('../img/Logo.png') } style={{ height: 50, width:"auto" }}/>
+            </Menu.Item>
+            :
+            null
+            ,
             <Menu.Item key={menuKeys.LOGOUT} onClick={() => {this.changeMenuKey(menuKeys.LOGOUT); this.authLogout();}} style={{ float:'right' }}>
               <Link>Logout</Link>
             </Menu.Item>,
             // don't show this button when width is too small
-            !this.state.hideFeedback ?
+            !this.state.hideSomeButtons ?
             <Menu.Item key={"Feedback"} onClick={() => window.open("https://forms.gle/3vdQAjVWtsxDVyvK6", "_blank")} style={{ float:'right' }}>
               <Link>Feedback</Link>
             </Menu.Item>
@@ -211,9 +223,14 @@ class CustomLayout extends React.Component {
             </Menu.Item>,
             ]
             :
+            [
+            <Menu.Item key={"Logo"} style={{cursor: "default", float:"left", paddingLeft: 0, paddingRight: 0}}>
+              <img src={ require('../img/Logo.png') } style={{ height: 50, width:"auto" }}/>
+            </Menu.Item>,
             <Menu.Item key={menuKeys.LOGIN} style={{ float:'right' }} onClick={() => {this.authLogin();}}>
               <Link>Login</Link>
             </Menu.Item>
+            ]
         }
 
         </Menu>

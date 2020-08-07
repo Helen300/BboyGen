@@ -229,11 +229,6 @@ class MoveListView extends React.Component {
 					</div>
 					:
 					<div className="col-xs-12 col-sm-8 Column">
-						{this.state.mobileView ?
-							null
-							:
-							<img src={ require('../img/FreezeImages1.png') } class="Image"/>
-						}
 						<div className="HelpMsg">
 							<HelpMessages 
 								data={messages}
@@ -242,7 +237,11 @@ class MoveListView extends React.Component {
 								columnClass={this.state.mobileView ? "col-md-4 col-xs-12" : "col-md-4"}
 							/>
 						</div>
-
+						{this.state.mobileView ?
+							null
+							:
+							<img src={ require('../img/FreezeImages1.png') } class="Image" style={{ paddingTop: "3%" }}/>
+						}
 					</div>
 				]
 	    var settings = {
@@ -253,7 +252,6 @@ class MoveListView extends React.Component {
 	      draggable: true,
 	      swipe: true,
 	      dots: true,
-	      initialSlide: 1
 	    };
 		// add slider for panes if window width is small (mobile)
 		if(this.state.mobileView) {

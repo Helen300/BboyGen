@@ -38,8 +38,7 @@ class TrainingMove extends React.Component {
 					>
 						<Meta 
 							title={<div className={"SelectedTitle"}>
-										{this.props.move.name}
-								   
+									<div>{this.props.move.name}</div>
 								   {this.props.move.reverseEnabled? 
 										<ReloadOutlined className={"SelectedReverse"}/>
 										:
