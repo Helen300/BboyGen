@@ -14,7 +14,7 @@ import Slider from "react-slick";
 import EditCardName from '../components/EditCardName';
 
 import "../css/containers/Pane.css"
-import "../css/containers/MoveListView.css"
+import "../css/components/Image.css"
 import "../css/containers/Column.css"
 import "../css/components/HelpMessages.css"
 import 'bootstrap/dist/css/bootstrap.css';
@@ -229,6 +229,11 @@ class MoveListView extends React.Component {
 					</div>
 					:
 					<div className="col-xs-12 col-sm-8 Column">
+						{this.state.mobileView ?
+							null
+							:
+							<img src={ require('../img/FreezeImages1.png') } class="Image"/>
+						}
 						<div className="HelpMsg">
 							<HelpMessages 
 								data={messages}
@@ -237,11 +242,6 @@ class MoveListView extends React.Component {
 								columnClass={this.state.mobileView ? "col-md-4 col-xs-12" : "col-md-4"}
 							/>
 						</div>
-						{this.state.mobileView ?
-							null
-							:
-							<img src={ require('../img/FreezeImages1.png') } class="Image" style={{ paddingTop: "3%" }}/>
-						}
 					</div>
 				]
 	    var settings = {

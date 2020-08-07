@@ -21,6 +21,7 @@ import "../css/containers/Pane.css"
 import "../css/containers/Column.css"
 import "../css/containers/GeneratorView.css"
 import "../css/components/HelpMessages.css"
+import "../css/components/Image.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -404,7 +405,7 @@ class GeneratorView extends React.Component {
 						{this.state.mobileView ? 
 							null
 							:
-							<img src={ require('../img/FreezeImages2.png') } class="Image" style={{ paddingBottom: "3%" }}/>
+							<img src={ require('../img/FreezeImages2.png') } class="Image"/>
 						}
 						<div className="HelpMsg">
 							<HelpMessages 

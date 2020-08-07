@@ -26,7 +26,6 @@ const app = (
 	    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
 	    redirectUri={window.location.origin}
 	    onRedirectCallback={onRedirectCallback}
-	    useRefreshTokens={true}
 	>
 	{/*paste link to logo from github here*/}
 	<Favicon url="https://raw.githubusercontent.com/Helen300/BboyGen/master/src/img/Logo.png" />
